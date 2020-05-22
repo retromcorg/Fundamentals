@@ -3,9 +3,9 @@ package com.johnymuffin.beta.fundamentals.playerdata;
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.johnymuffin.beta.fundamentals.simplejson.JSONObject;
+import com.johnymuffin.beta.fundamentals.simplejson.parser.JSONParser;
+import com.johnymuffin.beta.fundamentals.simplejson.parser.ParseException;
 
 import java.io.File;
 import java.io.FileReader;
@@ -31,7 +31,7 @@ public class FundamentalsPlayerFile {
         //Initialize Variables
         this.uuid = uuid;
         this.plugin = plugin;
-        playerDataFile = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + sanitizeFileName(uuid.toString()) + ".json");
+        playerDataFile = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + uuid.toString() + ".json");
         //Check for file existence, generate if file doesn't exist
         if(!playerDataFile.exists()) {
             playerDataFile.getParentFile().mkdirs();
@@ -71,7 +71,7 @@ public class FundamentalsPlayerFile {
                 break;
             }
         }
-        jsonData.put("uuid", uuid);
+        jsonData.put("uuid", uuid.toString());
         jsonData.put("firstJoin", System.currentTimeMillis() / 1000L);
         jsonData.put("lastSeen", System.currentTimeMillis() / 1000L);
         modified = true;
@@ -88,6 +88,7 @@ public class FundamentalsPlayerFile {
         try (FileWriter file = new FileWriter(playerDataFile)) { ;
             file.write(jsonData.toJSONString());
             file.flush();
+            modified = false;
         } catch (IOException e) {
             e.printStackTrace();
         }

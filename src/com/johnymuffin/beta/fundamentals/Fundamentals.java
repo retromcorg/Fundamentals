@@ -79,7 +79,7 @@ public class Fundamentals extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        FundamentalsPlayerMap.getInstance().serverShutdown();
     }
 
     public void logger(Level level, String message) {

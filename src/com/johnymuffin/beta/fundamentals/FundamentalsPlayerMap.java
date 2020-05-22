@@ -70,6 +70,20 @@ public class FundamentalsPlayerMap {
 
     }
 
+
+
+    public void serverShutdown() {
+        saveData();
+    }
+
+    public void saveData() {
+        for(UUID key: playerMap.keySet()) {
+            playerMap.get(key).saveIfModified();
+        }
+    }
+
+
+
     public static FundamentalsPlayerMap getInstance() {
         if (FundamentalsPlayerMap.singleton == null) {
             throw new RuntimeException("A instance of Fundamentals hasn't been passed into FundamentalsPlayerMap yet.");
