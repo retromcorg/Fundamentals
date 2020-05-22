@@ -1,0 +1,19 @@
+name: Fundamentals
+description: A Essentials like plugin for Beta 1.7.3 designed for Project Poseidon
+main: com.johnymuffin.beta.fundamentals.Fundamentals
+version: 1.0.0
+authors:
+  - JohnyMuffin
+softdepend:
+  - DiscordCore
+  - UUIDCore
+  - Multiverse
+  - Essentials
+
+commands:
+  heal:
+    description: Heals a player
+    usage: /<command> <player>
+  afk:
+    description: Set a plad
+    usage: /<command> <player>
