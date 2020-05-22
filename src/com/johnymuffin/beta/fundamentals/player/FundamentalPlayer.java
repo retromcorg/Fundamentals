@@ -107,4 +107,8 @@ public class FundamentalPlayer extends FundamentalsPlayerFile {
     public void setFirstJoin(boolean firstJoin) {
         isFirstJoin = firstJoin;
     }
+
+    public boolean isFirstJoin() {
+        return isFirstJoin;
+    }
 }
