@@ -1,10 +1,7 @@
 package com.johnymuffin.beta.fundamentals.listener;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
-import com.johnymuffin.beta.fundamentals.OnlinePlayer;
-import com.johnymuffin.beta.fundamentals.cache.OnlinePlayers;
-import com.johnymuffin.beta.fundamentals.cache.PlayerDataCache;
-import com.johnymuffin.beta.fundamentals.datafiles.FundamentalsPlayerData;
+import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -16,17 +13,15 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class FundamentalsPlayerListener implements Listener {
     private Fundamentals plugin;
-    private PlayerDataCache fundamentalsPlayerCache;
 
     public FundamentalsPlayerListener(Fundamentals plugin) {
         this.plugin = plugin;
-        //FundamentalsPlayerCache = PlayerDataCache.getInstance();
     }
 
     @EventHandler(priority = Event.Priority.Lowest)
     public void onPlayerLogin(final PlayerLoginEvent event) {
         //Check if player is actually allowed to join
-        if(event.getResult() != PlayerLoginEvent.Result.ALLOWED) {
+        if (event.getResult() != PlayerLoginEvent.Result.ALLOWED) {
             return;
         }
     }
@@ -34,22 +29,24 @@ public class FundamentalsPlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        if(event == null) {
+        if (event == null) {
             return;
         }
-        if(!event.getPlayer().isOnline()) {
+        if (!event.getPlayer().isOnline()) {
             return;
         }
 
         //Player Data File
-        //FundamentalsPlayerData fundamentalsPlayerData = PlayerDataCache.getInstance().getPlayerData(event.getPlayer().getUniqueId(), true);
+        boolean fistJoin = !FundamentalsPlayerMap.getInstance().isPlayerKnown(event.getPlayer().getUniqueId());
+        FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer());
+        FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).setFirstJoin(fistJoin);
+
         //Online Player
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            if(!event.getPlayer().isOnline()) {
+            if (!event.getPlayer().isOnline()) {
                 return;
             }
-            OnlinePlayer onlinePlayer = OnlinePlayers.getInstance().getPlayer(event.getPlayer());
-            onlinePlayer.updateActivity();
+            FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
 
         }, 20l);
 
@@ -58,13 +55,13 @@ public class FundamentalsPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onPlayerChat(final PlayerChatEvent event) {
         //Update activity
-        OnlinePlayers.getInstance().getPlayer(event.getPlayer()).updateActivity();
+        FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerMove(final PlayerMoveEvent event) {
         if (!((event.getFrom().getBlockX() == event.getTo().getBlockX()) && (event.getFrom().getBlockZ() == event.getTo().getBlockZ()))) {
-            OnlinePlayers.getInstance().getPlayer(event.getPlayer()).updateActivity();
+            FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
         }
     }
 

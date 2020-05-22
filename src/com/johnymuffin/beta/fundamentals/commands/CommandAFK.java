@@ -1,7 +1,6 @@
 package com.johnymuffin.beta.fundamentals.commands;
 
-import com.johnymuffin.beta.fundamentals.cache.OnlinePlayers;
-import org.bukkit.Bukkit;
+import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -28,15 +27,16 @@ public class CommandAFK implements CommandExecutor {
                 commandSender.sendMessage(ChatColor.RED + "Can't find a player called " + ChatColor.BLUE + strings[0]);
                 return true;
             }
-            OnlinePlayers.getInstance().getPlayer(player).toggleAFK();
-            commandSender.sendMessage(ChatColor.RED + "Healed a player called " + ChatColor.BLUE + player.getName());
+
+            FundamentalsPlayerMap.getInstance().getPlayer(player).toggleAFK();
+            commandSender.sendMessage(ChatColor.RED + "Set a player to AFK called " + ChatColor.BLUE + player.getName());
             return true;
         } else if (!(commandSender instanceof Player)) {
             commandSender.sendMessage("Sorry, console can't heal itself.");
             return true;
         }
         Player player = (Player) commandSender;
-        OnlinePlayers.getInstance().getPlayer(player).toggleAFK();
+        FundamentalsPlayerMap.getInstance().getPlayer(player).toggleAFK();
         return true;
     }
 }
