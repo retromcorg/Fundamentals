@@ -1,6 +1,6 @@
 package com.johnymuffin.beta.fundamentals;
 
-import com.johnymuffin.beta.fundamentals.player.FundamentalPlayer;
+import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class FundamentalsPlayerMap {
     private static FundamentalsPlayerMap singleton;
     private Fundamentals plugin;
-    private HashMap<UUID, FundamentalPlayer> playerMap = new HashMap<UUID, FundamentalPlayer>();
+    private HashMap<UUID, FundamentalsPlayer> playerMap = new HashMap<UUID, FundamentalsPlayer>();
     private ArrayList<UUID> knownPlayers = new ArrayList<UUID>();
 
 
@@ -46,7 +46,7 @@ public class FundamentalsPlayerMap {
         return knownPlayers.contains(uuid);
     }
 
-    public FundamentalPlayer getPlayer(UUID uuid) {
+    public FundamentalsPlayer getPlayer(UUID uuid) {
         //Save to isPlayerKnown
         if(!isPlayerKnown(uuid)) {
             knownPlayers.add(uuid);
@@ -55,12 +55,12 @@ public class FundamentalsPlayerMap {
         if (playerMap.containsKey(uuid)) {
             return playerMap.get(uuid);
         }
-        FundamentalPlayer fundamentalPlayer = new FundamentalPlayer(uuid, plugin);
+        FundamentalsPlayer fundamentalPlayer = new FundamentalsPlayer(uuid, plugin);
         playerMap.put(uuid, fundamentalPlayer);
         return playerMap.get(uuid);
     }
 
-    public FundamentalPlayer getPlayer(Player p) {
+    public FundamentalsPlayer getPlayer(Player p) {
         return getPlayer(p.getUniqueId());
     }
 
