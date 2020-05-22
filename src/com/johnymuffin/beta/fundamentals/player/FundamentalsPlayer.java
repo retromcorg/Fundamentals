@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class FundamentalPlayer extends FundamentalsPlayerFile {
+public class FundamentalsPlayer extends FundamentalsPlayerFile {
     //Fundamentals
     private Fundamentals plugin;
     //Player
@@ -16,7 +16,7 @@ public class FundamentalPlayer extends FundamentalsPlayerFile {
     private boolean isAFK = false;
     private boolean isFirstJoin = false;
 
-    public FundamentalPlayer(UUID uuid, Fundamentals plugin) {
+    public FundamentalsPlayer(UUID uuid, Fundamentals plugin) {
         super(uuid, plugin);
         this.uuid = uuid;
         this.plugin = plugin;
