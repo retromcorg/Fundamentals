@@ -67,6 +67,7 @@ public class FundamentalsPlayerFile {
 
     //Homes Start
     public boolean doesHomeExist(String name) {
+        name = name.toLowerCase();
         if (getPlayerHomeJsonData(name) == null) {
             return false;
         }
@@ -75,6 +76,7 @@ public class FundamentalsPlayerFile {
 
 
     public Location getPlayerHome(String name) {
+        name = name.toLowerCase();
         JSONObject home = getPlayerHomeJsonData(name);
         //Verify World
         String worldName = String.valueOf(home.get("world"));
@@ -94,6 +96,7 @@ public class FundamentalsPlayerFile {
     }
 
     public boolean isHomeInValidWorld(String name) {
+        name = name.toLowerCase();
         JSONObject homeData = getPlayerHomeJsonData(name);
         if (homeData == null) {
             return false;
@@ -107,6 +110,7 @@ public class FundamentalsPlayerFile {
     }
 
     public boolean removeHome(String name) {
+        name = name.toLowerCase();
         //Check home name is valid
         if (!verifyHomeName(name)) {
             return false;
@@ -130,6 +134,7 @@ public class FundamentalsPlayerFile {
     }
 
     public boolean setPlayerHome(String name, Location location) {
+        name = name.toLowerCase();
         if (!verifyHomeName(name)) {
             return false;
         }
@@ -169,6 +174,7 @@ public class FundamentalsPlayerFile {
     }
 
     private JSONObject getPlayerHomeJsonData(String name) {
+        name = name.toLowerCase();
         //Check home name is valid
         if (!verifyHomeName(name)) {
             return null;

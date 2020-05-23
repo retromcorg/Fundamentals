@@ -20,6 +20,7 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.message-file", "messages.yml");
         generateConfigOption("settings.auto-save-time", 300);
         generateConfigOption("settings.debug-level", 1);
+        generateConfigOption("settings.multiple-homes", 5);
 
 
     }
