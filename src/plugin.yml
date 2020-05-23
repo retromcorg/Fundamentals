@@ -17,3 +17,6 @@ commands:
   afk:
     description: Set a plad
     usage: /<command> <player>
+  home:
+    description: a home command
+    usage: /<command>
