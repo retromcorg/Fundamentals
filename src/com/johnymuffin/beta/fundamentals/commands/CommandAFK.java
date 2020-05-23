@@ -1,7 +1,7 @@
 package com.johnymuffin.beta.fundamentals.commands;
 
 import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
-import org.bukkit.ChatColor;
+import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,23 +13,26 @@ public class CommandAFK implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender.hasPermission("fundamentals.afk") || commandSender.isOp())) {
-            commandSender.sendMessage(ChatColor.RED + "Sorry, you don't have permission for this command.");
+            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
             return true;
         }
         //Check if user is trying to heal another user
         if (strings.length > 0) {
             if (!(commandSender.hasPermission("fundamentals.afk.others") || commandSender.isOp())) {
-                commandSender.sendMessage(ChatColor.RED + "Sorry, you don't have permission for this command.");
+                commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
                 return true;
             }
             Player player = getPlayerFromString(strings[0]);
             if (player == null) {
-                commandSender.sendMessage(ChatColor.RED + "Can't find a player called " + ChatColor.BLUE + strings[0]);
+                String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
+                message = message.replaceAll("%username%", strings[0]);
+                commandSender.sendMessage(message);
                 return true;
             }
-
             FundamentalsPlayerMap.getInstance().getPlayer(player).toggleAFK();
-            commandSender.sendMessage(ChatColor.RED + "Set a player to AFK called " + ChatColor.BLUE + player.getName());
+            String message = FundamentalsLanguage.getInstance().getMessage("set_player_afk");
+            message = message.replaceAll("%username%", player.getName());
+            commandSender.sendMessage(message);
             return true;
         } else if (!(commandSender instanceof Player)) {
             commandSender.sendMessage("Sorry, console can't heal itself.");

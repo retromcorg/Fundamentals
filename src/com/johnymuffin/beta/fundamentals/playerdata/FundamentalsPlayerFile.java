@@ -1,20 +1,22 @@
 package com.johnymuffin.beta.fundamentals.playerdata;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import com.johnymuffin.beta.fundamentals.simplejson.JSONObject;
 import com.johnymuffin.beta.fundamentals.simplejson.parser.JSONParser;
 import com.johnymuffin.beta.fundamentals.simplejson.parser.ParseException;
-
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.logging.Level;
 
-import static com.johnymuffin.beta.fundamentals.playerdata.Util.sanitizeFileName;
+import static com.johnymuffin.beta.fundamentals.CommandUtils.verifyHomeName;
 
 public class FundamentalsPlayerFile {
     //File
@@ -33,7 +35,7 @@ public class FundamentalsPlayerFile {
         this.plugin = plugin;
         playerDataFile = new File(plugin.getDataFolder() + File.separator + "userdata" + File.separator + uuid.toString() + ".json");
         //Check for file existence, generate if file doesn't exist
-        if(!playerDataFile.exists()) {
+        if (!playerDataFile.exists()) {
             playerDataFile.getParentFile().mkdirs();
             initializeData();
         } else {
@@ -51,7 +53,10 @@ public class FundamentalsPlayerFile {
     }
 
     protected void playerFileJoin(String username) {
-        jsonData.put("username", username);
+        if(jsonData.get("username") != username) {
+            jsonData.put("username", username);
+            modified = true;
+        }
     }
 
     protected void playerFileQuit(String username) {
@@ -59,14 +64,144 @@ public class FundamentalsPlayerFile {
     }
 
 
+    //Homes Start
+    public boolean doesHomeExist(String name) {
+        if (getPlayerHomeJsonData(name) == null) {
+            return false;
+        }
+        return true;
+    }
 
+
+    public Location getPlayerHome(String name) {
+        JSONObject home = getPlayerHomeJsonData(name);
+        //Verify World
+        String worldName = String.valueOf(home.get("world"));
+        if (Bukkit.getServer().getWorld(worldName) == null) {
+            return null;
+        }
+        //Create Location
+        World world = Bukkit.getWorld(worldName);
+        Long x = convertToLong(home.get("x"));
+        Long y = convertToLong(home.get("y"));
+        Long z = convertToLong(home.get("z"));
+        Long yaw = convertToLong(home.get("yaw"));
+        Long pitch = convertToLong(home.get("pitch"));
+
+        Location location = new Location(world, x, y, z, yaw, pitch);
+        return location;
+    }
+
+    public boolean isHomeInValidWorld(String name) {
+        JSONObject homeData = getPlayerHomeJsonData(name);
+        if (homeData == null) {
+            return false;
+        }
+        String worldName = String.valueOf(homeData.get("world"));
+        if (Bukkit.getServer().getWorld(worldName) == null) {
+            return false;
+        }
+        return true;
+
+    }
+
+    public boolean removeHome(String name) {
+        //Check home name is valid
+        if (!verifyHomeName(name)) {
+            return false;
+        }
+        //Check if user has set any homes
+        if (jsonData.get("homes") == null) {
+            return false;
+        }
+        //Get homes object
+        JSONObject homes = (JSONObject) jsonData.get("homes");
+        //Check if home exists
+        if (homes.get(name) == null) {
+            return false;
+        }
+        //Remove home object
+        homes.remove(name);
+        //Save home object to master json data
+        jsonData.put("homes", homes);
+        modified = true;
+        return true;
+    }
+
+    public boolean setPlayerHome(String name, Location location) {
+        if (!verifyHomeName(name)) {
+            return false;
+        }
+        JSONObject homes;
+        if (jsonData.get("homes") == null) {
+            homes = new JSONObject();
+        } else {
+            homes = (JSONObject) jsonData.get("homes");
+        }
+        JSONObject home = new JSONObject();
+        home.put("x", location.getX());
+        home.put("y", location.getY());
+        home.put("z", location.getZ());
+        home.put("yaw", location.getYaw());
+        home.put("pitch", location.getPitch());
+        homes.put(name, home);
+        jsonData.put("homes", homes);
+        modified = true;
+        return true;
+
+    }
+
+    public ArrayList<String> getPlayerHomes() {
+        ArrayList<String> homesList = new ArrayList<String>();
+        if (jsonData.get("homes") == null) {
+            return homesList;
+        }
+        //Get homes object
+        JSONObject homes = (JSONObject) jsonData.get("homes");
+        for(Object key: homes.keySet()) {
+            if(key instanceof String) {
+                homesList.add(String.valueOf(key));
+            }
+        }
+        return homesList;
+    }
+
+    private JSONObject getPlayerHomeJsonData(String name) {
+        //Check home name is valid
+        if (!verifyHomeName(name)) {
+            return null;
+        }
+        //Check if user has set any homes
+        if (jsonData.get("homes") == null) {
+            return null;
+        }
+        //Get homes object
+        JSONObject homes = (JSONObject) jsonData.get("homes");
+        //Check if home exists
+        if (homes.get(name) == null) {
+            return null;
+        }
+        JSONObject home = (JSONObject) homes.get(name);
+        return home;
+
+    }
+
+
+    //Homes End
+
+
+    //Util Start
+    public Long convertToLong(Object object) {
+        return Long.valueOf(String.valueOf(object));
+    }
+    //Util End
 
 
     private void initializeData() {
         jsonData = new JSONObject();
         //Save player name in data file if known
-        for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-            if(p.getUniqueId().equals(uuid)) {
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            if (p.getUniqueId().equals(uuid)) {
                 jsonData.put("username", p.getName());
                 break;
             }
@@ -79,13 +214,14 @@ public class FundamentalsPlayerFile {
 
 
     public void saveIfModified() {
-        if(modified) {
+        if (modified) {
             saveToJSON();
         }
     }
 
     private void saveToJSON() {
-        try (FileWriter file = new FileWriter(playerDataFile)) { ;
+        try (FileWriter file = new FileWriter(playerDataFile)) {
+            ;
             file.write(jsonData.toJSONString());
             file.flush();
             modified = false;
