@@ -18,7 +18,7 @@ public class CommandUtils {
     }
 
     public static boolean verifyHomeName(String name) {
-        return Pattern.matches("[a-zA-Z]+", name);
+        return Pattern.matches("^[a-zA-Z0-9]+$", name);
     }
 
     public static String formatColor(String s) {

@@ -3,6 +3,7 @@ package com.johnymuffin.beta.fundamentals;
 import com.johnymuffin.beta.fundamentals.commands.CommandAFK;
 import com.johnymuffin.beta.fundamentals.commands.CommandHeal;
 import com.johnymuffin.beta.fundamentals.commands.CommandHome;
+import com.johnymuffin.beta.fundamentals.commands.CommandSetHome;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsPlayerListener;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsConfig;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
@@ -71,6 +72,7 @@ public class Fundamentals extends JavaPlugin {
         Bukkit.getPluginCommand("heal").setExecutor(new CommandHeal());
         Bukkit.getPluginCommand("home").setExecutor(new CommandHome());
         Bukkit.getPluginCommand("afk").setExecutor(new CommandAFK());
+        Bukkit.getPluginCommand("sethome").setExecutor(new CommandSetHome());
 
 
         //Timer

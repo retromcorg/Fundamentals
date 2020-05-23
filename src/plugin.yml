@@ -20,3 +20,6 @@ commands:
   home:
     description: a home command
     usage: /<command>
+  sethome:
+    description: a home command
+    usage: /<command>

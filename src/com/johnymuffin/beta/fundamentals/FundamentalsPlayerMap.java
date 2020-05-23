@@ -48,7 +48,7 @@ public class FundamentalsPlayerMap {
 
     public FundamentalsPlayer getPlayer(UUID uuid) {
         //Save to isPlayerKnown
-        if(!isPlayerKnown(uuid)) {
+        if (!isPlayerKnown(uuid)) {
             knownPlayers.add(uuid);
         }
         //Generate Player Object
@@ -56,6 +56,7 @@ public class FundamentalsPlayerMap {
             return playerMap.get(uuid);
         }
         FundamentalsPlayer fundamentalPlayer = new FundamentalsPlayer(uuid, plugin);
+        plugin.debugLogger(Level.INFO, uuid + " has been added to the player map", 3);
         playerMap.put(uuid, fundamentalPlayer);
         return playerMap.get(uuid);
     }
@@ -65,11 +66,20 @@ public class FundamentalsPlayerMap {
     }
 
 
-
     public void runTimerTasks() {
+        //Scan for players who have left
+        for (UUID key : playerMap.keySet()) {
+            if (!playerMap.get(key).isPlayerOnline()) {
+                if (playerMap.get(key).getQuitTime() + 300 < (System.currentTimeMillis() / 1000L)) {
+                    plugin.debugLogger(Level.INFO, playerMap.get(key).getUuid() + " has been unloaded from memory", 3);
+                    playerMap.get(key).saveIfModified();
+                    playerMap.remove(key);
+                }
+            }
+        }
+
 
     }
-
 
 
     public void serverShutdown() {
@@ -77,11 +87,10 @@ public class FundamentalsPlayerMap {
     }
 
     public void saveData() {
-        for(UUID key: playerMap.keySet()) {
+        for (UUID key : playerMap.keySet()) {
             playerMap.get(key).saveIfModified();
         }
     }
-
 
 
     public static FundamentalsPlayerMap getInstance() {

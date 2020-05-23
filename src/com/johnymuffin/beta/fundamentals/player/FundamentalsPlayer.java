@@ -15,6 +15,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     private long lastActivity = System.currentTimeMillis() / 1000l;
     private boolean isAFK = false;
     private boolean isFirstJoin = false;
+    private long quitTime = 0L;
 
     public FundamentalsPlayer(UUID uuid, Fundamentals plugin) {
         super(uuid, plugin);
@@ -23,10 +24,9 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     }
 
 
-
     public boolean isPlayerOnline() {
-        for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-            if(p.getUniqueId().equals(uuid)) {
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            if (p.getUniqueId().equals(uuid)) {
                 return true;
             }
         }
@@ -34,8 +34,8 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     }
 
     public Player getBukkitPlayer() {
-        for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-            if(p.getUniqueId().equals(uuid)) {
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            if (p.getUniqueId().equals(uuid)) {
                 return p;
             }
         }
@@ -43,15 +43,14 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     }
 
 
-
     //AFK Logic
     public void updateActivity() {
         //Confirm Player Is Online
-        if(!isPlayerOnline()) {
+        if (!isPlayerOnline()) {
             return;
         }
         lastActivity = System.currentTimeMillis() / 1000l;
-        if(isAFK) {
+        if (isAFK) {
             toggleAFK();
         }
     }
@@ -59,7 +58,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     //AFK Start
     public boolean isAFK() {
         //Confirm Player Is Online
-        if(!isPlayerOnline()) {
+        if (!isPlayerOnline()) {
             return false;
         }
         return isAFK;
@@ -67,7 +66,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
 
     public void toggleAFK() {
         //Confirm Player Is Online
-        if(!isPlayerOnline()) {
+        if (!isPlayerOnline()) {
             return;
         }
         if (isAFK) {
@@ -82,7 +81,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
 
     public void setAFK(boolean b) {
         //Confirm Player Is Online
-        if(!isPlayerOnline()) {
+        if (!isPlayerOnline()) {
             return;
         }
         isAFK = b;
@@ -100,8 +99,17 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         this.playerFileJoin(username);
     }
 
-    protected void playerQuitUpdate(String username) {
+    public void playerQuitUpdate(String username) {
         this.playerFileQuit(username);
+        quitTime = System.currentTimeMillis() / 1000L;
+    }
+
+    public long getQuitTime() {
+        return quitTime;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     public void setFirstJoin(boolean firstJoin) {

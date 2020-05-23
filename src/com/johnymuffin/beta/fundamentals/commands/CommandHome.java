@@ -16,7 +16,7 @@ import static com.johnymuffin.beta.fundamentals.CommandUtils.formatColor;
 public class CommandHome implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (!(commandSender.hasPermission("fundamentals.afk") || commandSender.isOp())) {
+        if (!(commandSender.hasPermission("fundamentals.home") || commandSender.isOp())) {
             commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
             return true;
         }
