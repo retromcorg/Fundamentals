@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -53,7 +54,7 @@ public class FundamentalsPlayerFile {
     }
 
     protected void playerFileJoin(String username) {
-        if(jsonData.get("username") != username) {
+        if (jsonData.get("username") != username) {
             jsonData.put("username", username);
             modified = true;
         }
@@ -82,11 +83,11 @@ public class FundamentalsPlayerFile {
         }
         //Create Location
         World world = Bukkit.getWorld(worldName);
-        Long x = convertToLong(home.get("x"));
-        Long y = convertToLong(home.get("y"));
-        Long z = convertToLong(home.get("z"));
-        Long yaw = convertToLong(home.get("yaw"));
-        Long pitch = convertToLong(home.get("pitch"));
+        Double x = Double.valueOf(String.valueOf(home.get("x")));
+        Double y = Double.valueOf(String.valueOf(home.get("y")));
+        Double z = Double.valueOf(String.valueOf(home.get("z")));
+        Float yaw = Float.valueOf(String.valueOf(home.get("yaw")));
+        Float pitch = Float.valueOf(String.valueOf(home.get("pitch")));
 
         Location location = new Location(world, x, y, z, yaw, pitch);
         return location;
@@ -139,11 +140,12 @@ public class FundamentalsPlayerFile {
             homes = (JSONObject) jsonData.get("homes");
         }
         JSONObject home = new JSONObject();
-        home.put("x", location.getX());
-        home.put("y", location.getY());
-        home.put("z", location.getZ());
-        home.put("yaw", location.getYaw());
-        home.put("pitch", location.getPitch());
+        home.put("world", location.getWorld().getName());
+        home.put("x", Double.valueOf(String.valueOf(location.getX())));
+        home.put("y", Double.valueOf(String.valueOf(location.getY())));
+        home.put("z", Double.valueOf(String.valueOf(location.getZ())));
+        home.put("yaw", Float.valueOf(String.valueOf(location.getYaw())));
+        home.put("pitch", Float.valueOf(String.valueOf(location.getPitch())));
         homes.put(name, home);
         jsonData.put("homes", homes);
         modified = true;
@@ -158,8 +160,8 @@ public class FundamentalsPlayerFile {
         }
         //Get homes object
         JSONObject homes = (JSONObject) jsonData.get("homes");
-        for(Object key: homes.keySet()) {
-            if(key instanceof String) {
+        for (Object key : homes.keySet()) {
+            if (key instanceof String) {
                 homesList.add(String.valueOf(key));
             }
         }
@@ -188,13 +190,6 @@ public class FundamentalsPlayerFile {
 
 
     //Homes End
-
-
-    //Util Start
-    public Long convertToLong(Object object) {
-        return Long.valueOf(String.valueOf(object));
-    }
-    //Util End
 
 
     private void initializeData() {

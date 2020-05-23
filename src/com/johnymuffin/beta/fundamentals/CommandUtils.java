@@ -21,5 +21,10 @@ public class CommandUtils {
         return Pattern.matches("[a-zA-Z]+", name);
     }
 
+    public static String formatColor(String s) {
+        return s.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+
+    }
+
 
 }
