@@ -35,7 +35,7 @@ public class CommandAFK implements CommandExecutor {
             commandSender.sendMessage(message);
             return true;
         } else if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage("Sorry, console can't heal itself.");
+            commandSender.sendMessage( FundamentalsLanguage.getInstance().getMessage("unavailable_to_console"));
             return true;
         }
         Player player = (Player) commandSender;

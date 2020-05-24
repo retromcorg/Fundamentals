@@ -24,6 +24,8 @@ public class FundamentalsLanguage extends Configuration {
         map.put("player_not_found_full", "&4Can't find a player called &9%username%");
         //AFK
         map.put("set_player_afk", "&4Set a player to AFK called &9%username%");
+        map.put("afk_toggle_off", "%var1% is no longer afk");
+        map.put("afk_toggle_on", "%var1% is now afk");
         //Home
         map.put("home_non_recorded", "&6Sorry, you have no homes on record. Please set one with /sethome");
         map.put("home_not_on_record", "&6Sorry, we couldn't find a home with that name. Do /home for a list of homes");
