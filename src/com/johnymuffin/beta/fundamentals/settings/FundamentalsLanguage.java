@@ -31,6 +31,12 @@ public class FundamentalsLanguage extends Configuration {
         map.put("home_not_on_record", "&6Sorry, we couldn't find a home with that name. Do /home for a list of homes");
         map.put("home_in_invalid_world", "&4Sorry, your home is in an invalid world.");
         map.put("home_teleport_successfully", "&6You have been teleported to your home &b%var1%");
+        //Sethome
+        map.put("sethome_invalid_name", "&4Only alphanumeric characters can be used in a home name, A-Z,0-9");
+        map.put("sethome_full", "&4Sorry, you are already have a home set");
+        map.put("sethome_limit_reached", "&6Sorry, you are already at your limit of &4%var1% &6homes.");
+        map.put("sethome_already_exists", "&6Sorry, a home with the name &b%var1%&6 already exists. Please delete the existing home before creating another with the same name.");
+        map.put("sethome_set_successfully", "&6Your home &b%var1% &6has been set.");
         //Delhome
         map.put("delhome_info", "&6Please specify a home name \"/delhome (home)\". A list of homes can be obtained with /home.");
         map.put("delhome_unknown_home", "&6Sorry, we couldn't find a home with that name. Do /home to get a list of homes.");

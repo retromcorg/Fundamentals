@@ -9,7 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static com.johnymuffin.beta.fundamentals.CommandUtils.formatColor;
 import static com.johnymuffin.beta.fundamentals.CommandUtils.verifyHomeName;
 
 public class CommandSetHome implements CommandExecutor {
@@ -20,7 +19,7 @@ public class CommandSetHome implements CommandExecutor {
             return true;
         }
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage("Sorry, console can't run this command.");
+            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("unavailable_to_console"));
             return true;
         }
         Player player = (Player) commandSender;
@@ -30,7 +29,7 @@ public class CommandSetHome implements CommandExecutor {
         if (strings.length > 0) {
             homeName = strings[0];
             if (!verifyHomeName(homeName)) {
-                player.sendMessage(formatColor("&4Only letters can be used in home names A-Z"));
+                commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("sethome_invalid_name"));
                 return true;
             }
         }
@@ -41,23 +40,30 @@ public class CommandSetHome implements CommandExecutor {
         if (!(commandSender.hasPermission("fundamentals.sethome.unlimited") || commandSender.isOp())) {
             if (!(commandSender.hasPermission("fundamentals.sethome.multiple"))) {
                 if (homeCount >= 1) {
-                    commandSender.sendMessage(formatColor("&4Sorry, you are already have a home set"));
+                    commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("sethome_full"));
                     return true;
                 }
             } else {
                 if (homeCount < limit + 1) {
-                    commandSender.sendMessage(formatColor("&6Sorry, you are already at your limit of &4" + limit + " &6homes"));
+                    String msg = FundamentalsLanguage.getInstance().getMessage("sethome_limit_reached");
+                    msg = msg.replaceAll("%var1%", String.valueOf(limit));
+                    commandSender.sendMessage(msg);
                     return true;
                 }
             }
         }
         if (fundamentalsPlayerFile.doesHomeExist(homeName)) {
             //Home already exists
-            player.sendMessage(formatColor("&6Sorry, home \"&b" + homeName + "&6\" already exists. Please delete the existing home before creating a new one with the same name"));
+            String msg = FundamentalsLanguage.getInstance().getMessage("sethome_already_exists");
+            msg = msg.replaceAll("%var1%", homeName);
+            commandSender.sendMessage(msg);
             return true;
         }
         fundamentalsPlayerFile.setPlayerHome(homeName, player.getLocation());
-        commandSender.sendMessage(formatColor("&6Your home \"&b" + homeName + "\" &6has been set"));
+
+        String msg = FundamentalsLanguage.getInstance().getMessage("sethome_set_successfully");
+        msg = msg.replaceAll("%var1%", homeName);
+        commandSender.sendMessage(msg);
         return true;
 
     }
