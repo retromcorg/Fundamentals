@@ -70,7 +70,7 @@ public class FundamentalsPlayerMap {
         //Scan for players who have left
         for (UUID key : playerMap.keySet()) {
             if (!playerMap.get(key).isPlayerOnline()) {
-                if (playerMap.get(key).getQuitTime() + 300 < (System.currentTimeMillis() / 1000L)) {
+                if (playerMap.get(key).getQuitTime() + 600 < (System.currentTimeMillis() / 1000L)) {
                     plugin.debugLogger(Level.INFO, playerMap.get(key).getUuid() + " has been unloaded from memory", 3);
                     playerMap.get(key).saveIfModified();
                     playerMap.remove(key);

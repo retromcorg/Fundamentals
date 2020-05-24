@@ -31,7 +31,7 @@ public class CommandHome implements CommandExecutor {
             //List Homes
             ArrayList<String> homes = fundamentalsPlayer.getPlayerHomes();
             if (homes.size() == 0) {
-                commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("&6Sorry, you have no homes on record. Please set one with /sethome"));
+                commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("home_non_recorded"));
                 return true;
             }
             String msg = "&6Home List: ";
@@ -48,16 +48,18 @@ public class CommandHome implements CommandExecutor {
         } else {
             String homeName = strings[0];
             if (!fundamentalsPlayer.doesHomeExist(homeName)) {
-                commandSender.sendMessage(formatColor("&6We couldn't find a home with the name \"&b" + strings[0] + "&6\". Do /home to get a list of homes"));
+                commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("home_not_on_record"));
                 return true;
             }
             if(!fundamentalsPlayer.isHomeInValidWorld(homeName)) {
-                commandSender.sendMessage(formatColor("&4Sorry, your home is in a invalid world"));
+                commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("home_in_invalid_world"));
                 return true;
             }
-            Location home = fundamentalsPlayer.getPlayerHome(strings[0]);
+            Location home = fundamentalsPlayer.getPlayerHome(homeName);
             player.teleport(home);
-            commandSender.sendMessage(formatColor("&6You have been teleported to &b" + strings[0]));
+            String msg = FundamentalsLanguage.getInstance().getMessage("home_teleport_successfully");
+            msg = msg.replaceAll("%var1%", homeName);
+            commandSender.sendMessage(msg);
             return true;
         }
 
