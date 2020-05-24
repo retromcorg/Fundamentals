@@ -2,6 +2,7 @@ package com.johnymuffin.beta.fundamentals.player;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.playerdata.FundamentalsPlayerFile;
+import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -71,11 +72,15 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         }
         if (isAFK) {
             isAFK = false;
-            Bukkit.broadcastMessage(getBukkitPlayer().getDisplayName() + " is no longer afk");
+            String msg = FundamentalsLanguage.getInstance().getMessage("afk_toggle_off");
+            msg = msg.replaceAll("%var1%", getBukkitPlayer().getDisplayName());
+            Bukkit.broadcastMessage(msg);
 
         } else {
             isAFK = true;
-            Bukkit.broadcastMessage(getBukkitPlayer().getDisplayName() + " is now afk");
+            String msg = FundamentalsLanguage.getInstance().getMessage("afk_toggle_on");
+            msg = msg.replaceAll("%var1%", getBukkitPlayer().getDisplayName());
+            Bukkit.broadcastMessage(msg);
         }
     }
 
@@ -95,7 +100,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     }
     //AFK End
 
-    protected void playerJoinUpdate(String username) {
+    public void playerJoinUpdate(String username) {
         this.playerFileJoin(username);
     }
 

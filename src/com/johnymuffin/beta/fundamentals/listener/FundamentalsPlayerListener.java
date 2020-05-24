@@ -44,6 +44,7 @@ public class FundamentalsPlayerListener implements Listener {
                 return;
             }
             FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
+            FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).playerJoinUpdate(event.getPlayer().getName());
 
         }, 20L);
 
