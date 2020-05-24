@@ -23,3 +23,6 @@ commands:
   sethome:
     description: a home command
     usage: /<command>
+  delhome:
+    description: a home command
+    usage: /<command>

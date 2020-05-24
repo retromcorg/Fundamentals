@@ -44,13 +44,8 @@ public class FundamentalsPlayerListener implements Listener {
                 return;
             }
             FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
-            FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).setPlayerHome("main", event.getPlayer().getLocation());
-            if(FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).isFirstJoin()) {
-                event.getPlayer().sendMessage("Welcome to the server");
-            }
 
-
-        }, 20l);
+        }, 20L);
 
     }
 
@@ -61,7 +56,6 @@ public class FundamentalsPlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerChat(final PlayerChatEvent event) {
-        //Update activity
         FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
     }
 

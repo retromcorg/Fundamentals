@@ -1,18 +1,19 @@
 package com.johnymuffin.beta.fundamentals;
 
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class FundamentalPermission {
 
-    public static boolean isPlayerAuthorized(final Player p, final String permission) {
-        if (p instanceof OfflinePlayer) {
+    public static boolean isPlayerAuthorized(final CommandSender commandSender, final String permission) {
+        if (commandSender instanceof OfflinePlayer) {
             return false;
         }
-        if (p.isOp()) {
+        if (commandSender.isOp()) {
             return true;
         }
-        if (p.hasPermission(permission)) {
+        if (commandSender.hasPermission(permission)) {
             return true;
         }
 
