@@ -45,7 +45,8 @@ public class FundamentalsPlayerFile {
                 jsonData = (JSONObject) parser.parse(new FileReader(playerDataFile));
             } catch (ParseException e) {
                 plugin.logger(Level.WARNING, "Failed to Parse player data for " + uuid.toString() + " as it is most likely corrupt, resetting data.");
-                e.printStackTrace();
+                throw new RuntimeException("Parse Exception: " + e + " - " + e.getMessage());
+//                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

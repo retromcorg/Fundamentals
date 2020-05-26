@@ -76,6 +76,12 @@ public class FundamentalsPlayerMap {
         return getPlayer(p.getUniqueId());
     }
 
+    public void removePlayerFromMap(UUID uuid) {
+        if (playerMap.containsKey(uuid)) {
+            playerMap.remove(uuid);
+        }
+    }
+
 
     public void runTimerTasks() {
         Long currentUnix = System.currentTimeMillis() / 1000L;
