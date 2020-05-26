@@ -1,6 +1,7 @@
 package com.johnymuffin.beta.fundamentals;
 
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
+import com.johnymuffin.beta.fundamentals.settings.FundamentalsConfig;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -15,10 +16,13 @@ public class FundamentalsPlayerMap {
     private Fundamentals plugin;
     private HashMap<UUID, FundamentalsPlayer> playerMap = new HashMap<UUID, FundamentalsPlayer>();
     private ArrayList<UUID> knownPlayers = new ArrayList<UUID>();
+    private boolean cacheAllPlayers = false;
+    private int playersLoaded = 0;
 
 
     private FundamentalsPlayerMap(Fundamentals plugin) {
         this.plugin = plugin;
+        cacheAllPlayers = Boolean.valueOf(String.valueOf(FundamentalsConfig.getInstance(plugin).getConfigOption("settings.load-all-players-into-cache")));
 
         //Load Known List
         Pattern p = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
@@ -26,6 +30,8 @@ public class FundamentalsPlayerMap {
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
         }
+
+
         for (String string : dataFolder.list()) {
             if (!string.endsWith(".json")) {
                 continue;
@@ -37,6 +43,11 @@ public class FundamentalsPlayerMap {
             }
             UUID playerUUID = UUID.fromString(sanitizedUUID);
             knownPlayers.add(playerUUID);
+            if (cacheAllPlayers) {
+                //Add player data to cache if option is enabled
+                getPlayer(playerUUID);
+                playersLoaded = playersLoaded + 1;
+            }
         }
 
 
@@ -71,7 +82,7 @@ public class FundamentalsPlayerMap {
         for (UUID key : playerMap.keySet()) {
             if (!playerMap.get(key).isPlayerOnline()) {
                 //Scan for players who have left and are still in memory
-                if (playerMap.get(key).getQuitTime() + 600 < currentUnix) {
+                if (!cacheAllPlayers & playerMap.get(key).getQuitTime() + 600 < (System.currentTimeMillis() / 1000L)) {
                     plugin.debugLogger(Level.INFO, playerMap.get(key).getUuid() + " has been unloaded from memory", 3);
                     playerMap.get(key).saveIfModified();
                     playerMap.remove(key);
