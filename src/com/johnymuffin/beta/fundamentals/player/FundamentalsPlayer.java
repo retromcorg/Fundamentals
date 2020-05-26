@@ -22,6 +22,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         super(uuid, plugin);
         this.uuid = uuid;
         this.plugin = plugin;
+        this.quitTime = System.currentTimeMillis() / 1000L;
     }
 
 
@@ -93,7 +94,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     }
 
 
-    public void updateTimer() {
+    public void checkForAFK() {
         if (!isAFK && lastActivity + 60 * 5 < (System.currentTimeMillis() / 1000L)) {
             toggleAFK();
         }
