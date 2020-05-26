@@ -2,11 +2,16 @@ package com.johnymuffin.beta.fundamentals.listener;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
+import com.projectposeidon.api.PoseidonUUID;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
+
+import java.util.UUID;
+import java.util.logging.Level;
 
 public class FundamentalsPlayerListener implements Listener {
     private Fundamentals plugin;
@@ -65,6 +70,22 @@ public class FundamentalsPlayerListener implements Listener {
         if (!((event.getFrom().getBlockX() == event.getTo().getBlockX()) && (event.getFrom().getBlockZ() == event.getTo().getBlockZ()))) {
             FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
         }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerPreLogin(PlayerPreLoginEvent event) {
+        UUID uuid = PoseidonUUID.getPlayerGracefulUUID(event.getName());
+        //Ensure validity of player data before letting players join
+        if(FundamentalsPlayerMap.getInstance().isPlayerKnown(uuid)) {
+            try {
+                FundamentalsPlayerMap.getInstance().getPlayer(uuid);
+            } catch (Exception exception) {
+                plugin.logger(Level.WARNING, "Error loading player data for " + uuid + ", disconnecting player. \n" + exception.getMessage());
+                FundamentalsPlayerMap.getInstance().removePlayerFromMap(uuid);
+                event.cancelPlayerLogin(ChatColor.RED + "Sorry, an error occurred reading your data. Please contact staff!");
+            }
+        }
+
     }
 
 
