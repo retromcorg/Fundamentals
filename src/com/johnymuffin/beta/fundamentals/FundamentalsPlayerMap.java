@@ -67,14 +67,18 @@ public class FundamentalsPlayerMap {
 
 
     public void runTimerTasks() {
-        //Scan for players who have left
+        Long currentUnix = System.currentTimeMillis() / 1000L;
         for (UUID key : playerMap.keySet()) {
             if (!playerMap.get(key).isPlayerOnline()) {
-                if (playerMap.get(key).getQuitTime() + 600 < (System.currentTimeMillis() / 1000L)) {
+                //Scan for players who have left and are still in memory
+                if (playerMap.get(key).getQuitTime() + 600 < currentUnix) {
                     plugin.debugLogger(Level.INFO, playerMap.get(key).getUuid() + " has been unloaded from memory", 3);
                     playerMap.get(key).saveIfModified();
                     playerMap.remove(key);
                 }
+            } else {
+                //Check if user if AFK
+                playerMap.get(key).checkForAFK();
             }
         }
 
