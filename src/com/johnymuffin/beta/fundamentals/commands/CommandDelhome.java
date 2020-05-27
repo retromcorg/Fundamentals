@@ -15,7 +15,7 @@ import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAu
 public class CommandDelhome implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (isPlayerAuthorized(commandSender,"fundamentals.delhome")) {
+        if (!isPlayerAuthorized(commandSender,"fundamentals.delhome")) {
             commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
             return true;
         }
