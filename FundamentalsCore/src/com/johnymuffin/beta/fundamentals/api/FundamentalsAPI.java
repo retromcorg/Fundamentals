@@ -9,8 +9,6 @@ public class FundamentalsAPI {
     private FundamentalsAPI() {
     }
 
-    ;
-
     public static EconomyAPI getEconomy() {
         return fundamentals.getEconomyAPI();
     }

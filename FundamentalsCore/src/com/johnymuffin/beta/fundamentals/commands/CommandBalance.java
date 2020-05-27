@@ -1,6 +1,5 @@
 package com.johnymuffin.beta.fundamentals.commands;
 
-import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
 import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
