@@ -22,6 +22,7 @@ public class FundamentalsLanguage extends Configuration {
         map.put("no_permission", "&4Sorry, you don't have permission for this command.");
         map.put("unavailable_to_console", "&4Sorry, console can't run this command.");
         map.put("player_not_found_full", "&4Can't find a player called &9%username%");
+        map.put("generic_error", "&4Sorry, an error occurred running that command, please contact staff!");
         //AFK
         map.put("set_player_afk", "&4Set a player to AFK called &9%username%");
         map.put("afk_toggle_off", "%var1% is no longer afk");
@@ -42,6 +43,8 @@ public class FundamentalsLanguage extends Configuration {
         map.put("delhome_unknown_home", "&6Sorry, we couldn't find a home with that name. Do /home to get a list of homes.");
         map.put("delhome_unknown_successful", "&6You have successfully deleted a home");
         map.put("delhome_unknown_unsuccessful", "&4Sorry, an error was encountered when deleting that home. Please contact staff!");
+        //Balance
+        map.put("balance_successful", "&6Balance: $%var1%");
 
     }
 
