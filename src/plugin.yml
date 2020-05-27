@@ -29,3 +29,4 @@ commands:
   balance:
     description: a balance command
     usage: /<command>
+    aliases: [bal]
