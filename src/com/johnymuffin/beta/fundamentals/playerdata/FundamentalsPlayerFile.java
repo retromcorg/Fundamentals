@@ -28,6 +28,7 @@ public class FundamentalsPlayerFile {
     private Fundamentals plugin;
     //Player
     private UUID uuid;
+    private Double playerBalance = 0D;
 
 
     public FundamentalsPlayerFile(UUID uuid, Fundamentals plugin) {
@@ -64,6 +65,20 @@ public class FundamentalsPlayerFile {
     protected void playerFileQuit(String username) {
         jsonData.put("lastSeen", System.currentTimeMillis() / 1000L);
     }
+
+    //Economy Start
+    public Double getBalance() {
+        if (!jsonData.containsKey("balance")) {
+            return 0.00D;
+        }
+        return Double.valueOf(String.valueOf(jsonData.get("balance")));
+    }
+
+    public void setBalance(Double amount) {
+        jsonData.put("balance", amount);
+    }
+
+    //Economy End
 
 
     //Homes Start
