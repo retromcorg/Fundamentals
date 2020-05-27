@@ -1,7 +1,10 @@
 package com.johnymuffin.beta.fundamentals;
 
+import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
+import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
 import com.johnymuffin.beta.fundamentals.commands.*;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsPlayerListener;
+import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsConfig;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import org.bukkit.Bukkit;
@@ -23,7 +26,8 @@ public class Fundamentals extends JavaPlugin {
     private boolean essentialsHook = false;
     private boolean discordCoreHook = false;
     private Long lastAutoSaveTime = System.currentTimeMillis() / 1000l;
-
+    //API
+    private EconomyAPI economyAPI;
 
     @Override
     public void onEnable() {
@@ -47,6 +51,10 @@ public class Fundamentals extends JavaPlugin {
 
         this.logger(Level.INFO, "Initializing language map");
         FundamentalsLanguage.getInstance(plugin);
+
+        this.logger(Level.INFO, "Initializing API");
+        FundamentalsAPI.setFundamentals(plugin);
+        economyAPI = new EconomyAPI(plugin);
 
 
         //Listeners
@@ -112,5 +120,13 @@ public class Fundamentals extends JavaPlugin {
 
     private Long getUnix() {
         return System.currentTimeMillis() / 1000l;
+    }
+
+    public EconomyAPI getEconomyAPI() {
+        return economyAPI;
+    }
+
+    public FundamentalsPlayerMap getPlayerMap() {
+        return FundamentalsPlayerMap.getInstance(plugin);
     }
 }
