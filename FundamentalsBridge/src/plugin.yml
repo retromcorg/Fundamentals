@@ -1,0 +1,7 @@
+name: FundamentalsESSBridge
+description: Essentials data import for Funndamentals
+main: com.johnymuffin.fundamentals.essbridge.FundamentalsESSBridge
+version: 1.0.0
+authors:
+  - JohnyMuffin
+#depend: [Fundamentals, Essentials]
