@@ -23,6 +23,7 @@ public class FundamentalsLanguage extends Configuration {
         map.put("unavailable_to_console", "&4Sorry, console can't run this command.");
         map.put("player_not_found_full", "&4Can't find a player called &9%username%");
         map.put("generic_error", "&4Sorry, an error occurred running that command, please contact staff!");
+        map.put("generic_no_save_data", "&4Sorry, Fundamentals has no information on that player.");
         //AFK
         map.put("set_player_afk", "&4Set a player to AFK called &9%username%");
         map.put("afk_toggle_off", "%var1% is no longer afk");
@@ -45,6 +46,16 @@ public class FundamentalsLanguage extends Configuration {
         map.put("delhome_unknown_unsuccessful", "&4Sorry, an error was encountered when deleting that home. Please contact staff!");
         //Balance
         map.put("balance_successful", "&6Balance: $%var1%");
+        //Pay
+        map.put("pay_info", "&4You haven't provided enough arguments, /pay (username) (amount)");
+        map.put("pay_can't_pay_self", "&4Sorry, you can't send money to yourself!");
+        map.put("pay_not_enough_funds", "&4Sorry, you don't have enough funds to send that much money!");
+        map.put("pay_successful", "&6You have sent $%var1% to %var2%");
+        //Economy
+        map.put("economy_info","&4You haven't provided enough arguments, /economy (username) (set|give|take) (amount)");
+        map.put("economy_arg_1", "&4Please specify set, give or take");
+        map.put("economy_result_successful", "&bThe balance has been modified successfully");
+        map.put("economy_result_nofunds", "&4Sorry, that user doesn't have that much money to take. Maybe try set instead?");
 
     }
 
