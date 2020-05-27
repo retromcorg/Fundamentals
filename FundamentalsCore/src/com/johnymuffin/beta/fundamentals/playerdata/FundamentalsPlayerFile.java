@@ -75,6 +75,7 @@ public class FundamentalsPlayerFile {
     }
 
     public void setBalance(Double amount) {
+        modified = true;
         jsonData.put("balance", amount);
     }
 
