@@ -8,11 +8,7 @@ public class FundamentalPermission {
         if (commandSender.isOp()) {
             return true;
         }
-        if (commandSender.hasPermission(permission)) {
-            return true;
-        }
-
-        return false;
+        return commandSender.hasPermission(permission);
 
     }
 

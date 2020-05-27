@@ -85,10 +85,7 @@ public class FundamentalsPlayerFile {
     //Homes Start
     public boolean doesHomeExist(String name) {
         name = name.toLowerCase();
-        if (getPlayerHomeJsonData(name) == null) {
-            return false;
-        }
-        return true;
+        return getPlayerHomeJsonData(name) != null;
     }
 
 
@@ -119,10 +116,7 @@ public class FundamentalsPlayerFile {
             return false;
         }
         String worldName = String.valueOf(homeData.get("world"));
-        if (Bukkit.getServer().getWorld(worldName) == null) {
-            return false;
-        }
-        return true;
+        return Bukkit.getServer().getWorld(worldName) != null;
 
     }
 
@@ -239,7 +233,6 @@ public class FundamentalsPlayerFile {
 
     private void saveToJSON() {
         try (FileWriter file = new FileWriter(playerDataFile)) {
-            ;
             file.write(jsonData.toJSONString());
             file.flush();
             modified = false;

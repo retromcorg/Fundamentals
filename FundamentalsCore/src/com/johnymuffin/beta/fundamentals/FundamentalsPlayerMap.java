@@ -77,9 +77,7 @@ public class FundamentalsPlayerMap {
     }
 
     public void removePlayerFromMap(UUID uuid) {
-        if (playerMap.containsKey(uuid)) {
-            playerMap.remove(uuid);
-        }
+        playerMap.remove(uuid);
     }
 
 
