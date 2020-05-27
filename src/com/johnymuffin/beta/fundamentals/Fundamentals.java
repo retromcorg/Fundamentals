@@ -79,6 +79,7 @@ public class Fundamentals extends JavaPlugin {
         Bukkit.getPluginCommand("afk").setExecutor(new CommandAFK());
         Bukkit.getPluginCommand("sethome").setExecutor(new CommandSetHome());
         Bukkit.getPluginCommand("delhome").setExecutor(new CommandDelhome());
+        Bukkit.getPluginCommand("balance").setExecutor(new CommandBalance());
 
 
         //Timer

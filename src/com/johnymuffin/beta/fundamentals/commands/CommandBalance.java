@@ -19,7 +19,7 @@ import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAu
 public class CommandBalance implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (!isPlayerAuthorized(commandSender, "fundamentals.afk")) {
+        if (!isPlayerAuthorized(commandSender, "fundamentals.balance")) {
             commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
             return true;
         }
@@ -31,7 +31,7 @@ public class CommandBalance implements CommandExecutor {
             Player player = (Player) commandSender;
             printBalance(player.getName(), commandSender, FundamentalsAPI.getEconomy().getBalance(player.getUniqueId()));
         } else if (strings.length > 0) {
-            if (!isPlayerAuthorized(commandSender, "fundamentals.afk.others")) {
+            if (!isPlayerAuthorized(commandSender, "fundamentals.balance.others")) {
                 commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
                 return true;
             }
