@@ -208,6 +208,18 @@ public class FundamentalsPlayerFile {
 
     //Homes End
 
+    //God Mode Start
+    public boolean getFileGodModeStatus() {
+        return (boolean) jsonData.getOrDefault("god", false);
+    }
+
+    public void setFileGodModeStatus(boolean status) {
+        modified = true;
+        jsonData.put("god", status);
+    }
+
+    //God Mode End
+
 
     private void initializeData() {
         jsonData = new JSONObject();

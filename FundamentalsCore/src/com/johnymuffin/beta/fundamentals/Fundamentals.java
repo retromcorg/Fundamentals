@@ -3,6 +3,7 @@ package com.johnymuffin.beta.fundamentals;
 import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
 import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
 import com.johnymuffin.beta.fundamentals.commands.*;
+import com.johnymuffin.beta.fundamentals.listener.FundamentalsEntityListener;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsPlayerListener;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsConfig;
@@ -60,6 +61,8 @@ public class Fundamentals extends JavaPlugin {
         //Listeners
         final FundamentalsPlayerListener fundamentalsPlayerListener = new FundamentalsPlayerListener(plugin);
         Bukkit.getPluginManager().registerEvents(fundamentalsPlayerListener, plugin);
+        final FundamentalsEntityListener fundamentalsEntityListener = new FundamentalsEntityListener(plugin);
+        Bukkit.getPluginManager().registerEvents(fundamentalsEntityListener, plugin);
 
         //Hooks
         if (Bukkit.getPluginManager().isPluginEnabled("Essentials")) {

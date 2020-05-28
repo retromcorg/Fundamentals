@@ -56,6 +56,9 @@ public class FundamentalsLanguage extends Configuration {
         map.put("economy_arg_1", "&4Please specify set, give or take");
         map.put("economy_result_successful", "&bThe balance has been modified successfully");
         map.put("economy_result_nofunds", "&4Sorry, that user doesn't have that much money to take. Maybe try set instead?");
+        //God Mode
+        map.put("god_enable", "&6Godmode has been enabled");
+        map.put("god_disable", "&6Godmode has been disabled");
 
     }
 
