@@ -1,6 +1,7 @@
 package com.johnymuffin.beta.fundamentals.playerdata;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
+import com.johnymuffin.beta.fundamentals.simplejson.JSONArray;
 import com.johnymuffin.beta.fundamentals.simplejson.JSONObject;
 import com.johnymuffin.beta.fundamentals.simplejson.parser.JSONParser;
 import com.johnymuffin.beta.fundamentals.simplejson.parser.ParseException;
@@ -14,6 +15,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -98,6 +100,44 @@ public class FundamentalsPlayerFile {
 
     }
     //Nickname End
+
+    //Ignores start
+    public void addUserIgnore(UUID uuid) {
+        JSONArray ignores;
+        if (jsonData.containsKey("ignore")) {
+            ignores = (JSONArray) jsonData.get("ignore");
+        } else {
+            ignores = new JSONArray();
+        }
+        if (!ignores.contains(uuid)) {
+            ignores.add(uuid);
+            jsonData.put("ignore", ignores);
+        }
+    }
+
+    public void removeUserIgnore(UUID uuid) {
+        JSONArray ignores;
+        if (!jsonData.containsKey("ignore")) {
+            return;
+        }
+        ignores = (JSONArray) jsonData.get("ignore");
+        if (ignores.contains(uuid)) {
+            ignores.remove(uuid);
+        }
+    }
+
+    public List<String> getIgnoreList() {
+        List<String> list = new ArrayList<String>();
+        if (jsonData.containsKey("ignore")) {
+            JSONArray jsonArray = (JSONArray) jsonData.get("ignores");
+            for (int i = 0; i < jsonArray.size(); i++) {
+                list.add(jsonArray.get(i));
+            }
+        }
+        return list;
+    }
+
+    //Ignores End
 
     //Homes Start
     public boolean doesHomeExist(String name) {
