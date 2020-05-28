@@ -81,6 +81,23 @@ public class FundamentalsPlayerFile {
 
     //Economy End
 
+    //Nickname Start
+    public void setNickname(String nickname) {
+        if (nickname == null || nickname.isEmpty()) {
+            jsonData.remove("nickname");
+            return;
+        }
+        jsonData.put("nickname", nickname);
+    }
+
+    public String getNickname() {
+        if (jsonData.get("nickname") == null) {
+            return null;
+        }
+        return String.valueOf(jsonData.get("nickname"));
+
+    }
+    //Nickname End
 
     //Homes Start
     public boolean doesHomeExist(String name) {
@@ -119,6 +136,7 @@ public class FundamentalsPlayerFile {
         return Bukkit.getServer().getWorld(worldName) != null;
 
     }
+
 
     public boolean removeHome(String name) {
         name = name.toLowerCase();

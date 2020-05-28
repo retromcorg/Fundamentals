@@ -2,9 +2,11 @@ package com.johnymuffin.beta.fundamentals.listener;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
+import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.projectposeidon.api.PoseidonUUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,7 +30,6 @@ public class FundamentalsPlayerListener implements Listener {
         }
     }
 
-
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(final PlayerJoinEvent event) {
         if (event == null) {
@@ -51,6 +52,14 @@ public class FundamentalsPlayerListener implements Listener {
             FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
             FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).playerJoinUpdate(event.getPlayer().getName());
 
+            //Nickname Start
+            String displayName = FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).getNickname();
+            if (displayName != null) {
+                event.getPlayer().setDisplayName("~" + displayName);
+            }
+            //Nickname End
+
+
         }, 20L);
 
     }
@@ -62,7 +71,20 @@ public class FundamentalsPlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerChat(final PlayerChatEvent event) {
-        FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
+        Player player = event.getPlayer();
+        FundamentalsPlayer fundamentalsPlayer = plugin.getPlayerMap().getPlayer(player);
+
+
+        fundamentalsPlayer.updateActivity(); //Update AFK timer
+
+        //Nickname Start
+        String displayName = fundamentalsPlayer.getNickname();
+        if (displayName != null) {
+            player.setDisplayName("~" + displayName);
+        }
+        //Nickname End
+
+
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -76,7 +98,7 @@ public class FundamentalsPlayerListener implements Listener {
     public void onPlayerPreLogin(PlayerPreLoginEvent event) {
         UUID uuid = PoseidonUUID.getPlayerGracefulUUID(event.getName());
         //Ensure validity of player data before letting players join
-        if(FundamentalsPlayerMap.getInstance().isPlayerKnown(uuid)) {
+        if (FundamentalsPlayerMap.getInstance().isPlayerKnown(uuid)) {
             try {
                 FundamentalsPlayerMap.getInstance().getPlayer(uuid);
             } catch (Exception exception) {
