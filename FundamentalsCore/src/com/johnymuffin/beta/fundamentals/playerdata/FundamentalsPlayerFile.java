@@ -85,6 +85,7 @@ public class FundamentalsPlayerFile {
 
     //Nickname Start
     public void setNickname(String nickname) {
+        modified = true;
         if (nickname == null || nickname.isEmpty()) {
             jsonData.remove("nickname");
             return;
@@ -131,7 +132,7 @@ public class FundamentalsPlayerFile {
         if (jsonData.containsKey("ignore")) {
             JSONArray jsonArray = (JSONArray) jsonData.get("ignores");
             for (int i = 0; i < jsonArray.size(); i++) {
-                list.add(jsonArray.get(i));
+                list.add(String.valueOf(jsonArray.get(i)));
             }
         }
         return list;

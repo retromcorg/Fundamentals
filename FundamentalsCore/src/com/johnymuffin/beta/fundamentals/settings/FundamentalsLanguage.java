@@ -52,13 +52,19 @@ public class FundamentalsLanguage extends Configuration {
         map.put("pay_not_enough_funds", "&4Sorry, you don't have enough funds to send that much money!");
         map.put("pay_successful", "&6You have sent $%var1% to %var2%");
         //Economy
-        map.put("economy_info","&4You haven't provided enough arguments, /economy (username) (set|give|take) (amount)");
+        map.put("economy_info", "&4You haven't provided enough arguments, /economy (username) (set|give|take) (amount)");
         map.put("economy_arg_1", "&4Please specify set, give or take");
         map.put("economy_result_successful", "&bThe balance has been modified successfully");
         map.put("economy_result_nofunds", "&4Sorry, that user doesn't have that much money to take. Maybe try set instead?");
         //God Mode
         map.put("god_enable", "&6Godmode has been enabled");
         map.put("god_disable", "&6Godmode has been disabled");
+        //Nickname
+        map.put("nickname_info", "&4You haven't used this command correctly, /nick (nickname)");
+        map.put("nickname_remove", "&6Your nickname has been removed");
+        map.put("nickname_set", "&6Your nickname has been set to &f%var1%");
+        map.put("nickname_set_others", "&6The nickname for %var1% has been set to &f%var2%");
+        map.put("nickname_remove_others", "&4You have removed a nickname");
 
     }
 

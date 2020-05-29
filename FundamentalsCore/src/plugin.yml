@@ -37,3 +37,10 @@ commands:
     description: a economy command
     usage: /<command>
     aliases: [eco]
+  god:
+    description: a god command
+    usage: /<command>
+  nickname:
+    description: a nickname command
+    usage: /<command>
+    aliases: [nick]
