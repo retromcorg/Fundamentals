@@ -1,17 +1,16 @@
 package com.earth2me.essentials.api;
 
-import java.io.File;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
-import java.util.UUID;
-import java.util.logging.Logger;
-
+import com.johnymuffin.beta.fundamentals.CommandUtils;
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
 import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
 
-import static com.johnymuffin.beta.fundamentals.CommandUtils.getUUIDFromUsername;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -30,18 +29,18 @@ public final class Economy {
         ess = plugin;
     }
 
-    private static void createNPCFile(String name) {
-        File folder = new File(ess.getDataFolder(), "userdata");
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-
-        UUID uuid = getUUIDFromUsername(name);
-        if (uuid == null) {
-            throw new RuntimeException("A the UUID for the user " + name + " isn't known.");
-        }
-        ess.getPlayerMap().getPlayer(uuid);
-    }
+//    private static void createNPCFile(String name) {
+//        File folder = new File(ess.getDataFolder(), "userdata");
+//        if (!folder.exists()) {
+//            folder.mkdirs();
+//        }
+//
+//        UUID uuid = CommandUtils.getUUIDFromUsername(name);
+//        if (uuid == null) {
+//            throw new RuntimeException("A the UUID for the user " + name + " isn't known.");
+//        }
+//        ess.getPlayerMap().getPlayer(uuid);
+//    }
 
     /**
      * Returns the balance of a user
@@ -51,7 +50,7 @@ public final class Economy {
      * @throws UserDoesNotExistException
      */
     public static double getMoney(String name) throws UserDoesNotExistException {
-        UUID uuid = getUUIDFromUsername(name);
+        UUID uuid = CommandUtils.getUUIDFromUsername(name);
         if (uuid == null) {
             throw new UserDoesNotExistException(name);
         }
@@ -73,7 +72,7 @@ public final class Economy {
      * @throws NoLoanPermittedException  If the user is not allowed to have a negative balance
      */
     public static void setMoney(String name, double balance) throws UserDoesNotExistException, NoLoanPermittedException {
-        UUID uuid = getUUIDFromUsername(name);
+        UUID uuid = CommandUtils.getUUIDFromUsername(name);
 
         if (balance < 0.0) {
             throw new NoLoanPermittedException();
@@ -85,6 +84,7 @@ public final class Economy {
         if (economyResult != EconomyAPI.EconomyResult.successful) {
             throw new UserDoesNotExistException(name);
         }
+        ess.debugLogger(Level.INFO, "The balance of " + name + " has been set to " + balance, 2);
     }
 
     /**
@@ -219,7 +219,7 @@ public final class Economy {
      * @return true, if the user exists
      */
     public static boolean playerExists(String name) {
-        UUID uuid = getUUIDFromUsername(name);
+        UUID uuid = CommandUtils.getUUIDFromUsername(name);
         if (uuid == null) {
             return false;
         }

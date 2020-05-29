@@ -42,7 +42,7 @@ public class CommandNickname implements CommandExecutor {
             }
             fundamentalsPlayer.setNickname(strings[0]);
             String message = FundamentalsLanguage.getInstance().getMessage("nickname_set");
-            message = message.replaceAll("%var1%", formatColor(strings[0]));
+            message = message.replace("%var1%", formatColor(strings[0]));
             commandSender.sendMessage(message);
             return true;
         }
@@ -56,7 +56,7 @@ public class CommandNickname implements CommandExecutor {
             Player giveTo = getPlayerFromString(strings[0]);
             if (giveTo == null) {
                 String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
-                message = message.replaceAll("%username%", strings[0]);
+                message = message.replace("%username%", strings[0]);
                 commandSender.sendMessage(message);
                 return true;
             }
@@ -71,8 +71,8 @@ public class CommandNickname implements CommandExecutor {
 
             target.setNickname(strings[1]);
             String message = FundamentalsLanguage.getInstance().getMessage("nickname_set_others");
-            message = message.replaceAll("%var1%", giveTo.getName());
-            message = message.replaceAll("%var2%", formatColor(strings[1]));
+            message = message.replace("%var1%", giveTo.getName());
+            message = message.replace("%var2%", formatColor(strings[1]));
             commandSender.sendMessage(message);
             return true;
 

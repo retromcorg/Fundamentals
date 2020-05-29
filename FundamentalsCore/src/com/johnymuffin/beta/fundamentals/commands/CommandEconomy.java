@@ -27,7 +27,7 @@ public class CommandEconomy implements CommandExecutor {
         UUID giveTo = getUUIDFromUsername(strings[0]);
         if (giveTo == null) {
             String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
-            message = message.replaceAll("%username%", strings[0]);
+            message = message.replace("%username%", strings[0]);
             commandSender.sendMessage(message);
             return true;
         }

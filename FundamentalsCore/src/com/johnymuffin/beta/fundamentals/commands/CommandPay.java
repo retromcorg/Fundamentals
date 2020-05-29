@@ -50,7 +50,7 @@ public class CommandPay implements CommandExecutor {
         }
         if (uuid == null) {
             String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
-            message = message.replaceAll("%username%", username);
+            message = message.replace("%username%", username);
             commandSender.sendMessage(message);
             return true;
         }
@@ -84,8 +84,8 @@ public class CommandPay implements CommandExecutor {
                 return true;
             case successful:
                 String message = FundamentalsLanguage.getInstance().getMessage("pay_successful");
-                message = message.replaceAll("%var1%", strings[1]);
-                message = message.replaceAll("%var2%", username);
+                message = message.replace("%var1%", strings[1]);
+                message = message.replace("%var2%", username);
                 commandSender.sendMessage(message);
                 return true;
         }

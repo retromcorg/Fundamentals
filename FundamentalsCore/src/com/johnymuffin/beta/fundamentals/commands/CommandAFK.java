@@ -25,13 +25,13 @@ public class CommandAFK implements CommandExecutor {
             Player player = getPlayerFromString(strings[0]);
             if (player == null) {
                 String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
-                message = message.replaceAll("%username%", strings[0]);
+                message = message.replace("%username%", strings[0]);
                 commandSender.sendMessage(message);
                 return true;
             }
             FundamentalsPlayerMap.getInstance().getPlayer(player).toggleAFK();
             String message = FundamentalsLanguage.getInstance().getMessage("set_player_afk");
-            message = message.replaceAll("%username%", player.getName());
+            message = message.replace("%username%", player.getName());
             commandSender.sendMessage(message);
             return true;
         } else if (!(commandSender instanceof Player)) {

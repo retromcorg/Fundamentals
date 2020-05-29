@@ -31,7 +31,7 @@ public class CommandGod implements CommandExecutor {
             Player giveTo = getPlayerFromString(strings[0]);
             if (giveTo == null) {
                 String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
-                message = message.replaceAll("%username%", strings[0]);
+                message = message.replace("%username%", strings[0]);
                 commandSender.sendMessage(message);
                 return true;
             }
