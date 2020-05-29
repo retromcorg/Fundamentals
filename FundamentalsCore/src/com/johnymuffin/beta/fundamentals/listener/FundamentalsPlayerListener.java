@@ -3,13 +3,21 @@ package com.johnymuffin.beta.fundamentals.listener;
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
+import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import com.projectposeidon.api.PoseidonUUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.CraftChunk;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.block.CraftBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.*;
 
 import java.util.UUID;
@@ -121,7 +129,45 @@ public class FundamentalsPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onPlayerItemDrop(PlayerDropItemEvent event) {
         if (plugin.isPlayerInvSee(event.getPlayer().getUniqueId())) {
+            event.getPlayer().sendMessage(FundamentalsLanguage.getInstance().getMessage("invsee_deny"));
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerItemPickup(PlayerPickupItemEvent event) {
+        if (plugin.isPlayerInvSee(event.getPlayer().getUniqueId())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockPlaceEvent(BlockPlaceEvent event) {
+        if (plugin.isPlayerInvSee(event.getPlayer().getUniqueId())) {
+            event.getPlayer().sendMessage(FundamentalsLanguage.getInstance().getMessage("invsee_deny"));
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if (plugin.isPlayerInvSee(event.getPlayer().getUniqueId())) {
+            if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+                return;
+            }
+            Block clickedBlock = event.getClickedBlock();
+            Location location = clickedBlock.getLocation();
+            CraftWorld craftWorld = (CraftWorld) clickedBlock.getWorld();
+            CraftBlock craftBlock = new CraftBlock((CraftChunk) craftWorld.getChunkAt(location), location.getBlockX(), location.getBlockY(), location.getBlockZ());
+            craftBlock.setTypeId(craftWorld.getBlockTypeIdAt(location));
+            if (craftBlock.getState() instanceof org.bukkit.block.ContainerBlock) {
+                event.getPlayer().sendMessage(FundamentalsLanguage.getInstance().getMessage("invsee_deny"));
+
+
+                event.setCancelled(true);
+
+                return;
+            }
         }
     }
 
