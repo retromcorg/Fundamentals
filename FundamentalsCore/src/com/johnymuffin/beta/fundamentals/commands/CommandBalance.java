@@ -49,7 +49,7 @@ public class CommandBalance implements CommandExecutor {
             //Did we get a UUID?
             if (playerUUID == null) {
                 String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
-                message = message.replaceAll("%username%", strings[0]);
+                message = message.replace("%username%", strings[0]);
                 commandSender.sendMessage(message);
             } else {
                 printBalance(strings[0], commandSender, FundamentalsAPI.getEconomy().getBalance(playerUUID));
@@ -61,11 +61,11 @@ public class CommandBalance implements CommandExecutor {
     private void printBalance(String playerName, CommandSender commandSender, EconomyAPI.BalanceWrapper balanceWrapper) {
         if (balanceWrapper.getEconomyResult() == EconomyAPI.EconomyResult.successful) {
             String message = FundamentalsLanguage.getInstance().getMessage("balance_successful");
-            message = message.replaceAll("%var1%", String.valueOf(balanceWrapper.getBalance()));
+            message = message.replace("%var1%", String.valueOf(balanceWrapper.getBalance()));
             commandSender.sendMessage(message);
         } else if (balanceWrapper.getEconomyResult() == EconomyAPI.EconomyResult.userNotKnown) {
             String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
-            message = message.replaceAll("%username%", playerName);
+            message = message.replace("%username%", playerName);
             commandSender.sendMessage(message);
         } else {
             String message = FundamentalsLanguage.getInstance().getMessage("generic_error");

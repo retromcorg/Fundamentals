@@ -1,4 +1,4 @@
-package com.johnymuffin.fundamentals.essbridge;
+package com.johnymuffin.fundamentals.importer;
 
 import com.earth2me.essentials.User;
 import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;

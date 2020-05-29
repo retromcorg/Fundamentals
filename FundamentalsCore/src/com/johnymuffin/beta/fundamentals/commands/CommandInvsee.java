@@ -49,7 +49,7 @@ public class CommandInvsee implements CommandExecutor {
             Player giveTo = getPlayerFromString(strings[0]);
             if (giveTo == null) {
                 String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
-                message = message.replaceAll("%username%", strings[0]);
+                message = message.replace("%username%", strings[0]);
                 commandSender.sendMessage(message);
                 return true;
             }
@@ -57,7 +57,7 @@ public class CommandInvsee implements CommandExecutor {
             player.getInventory().setContents(giveTo.getInventory().getContents());
 
             String message = FundamentalsLanguage.getInstance().getMessage("invsee_enable");
-            message = message.replaceAll("%var1%", giveTo.getName());
+            message = message.replace("%var1%", giveTo.getName());
             commandSender.sendMessage(message);
             return true;
 
