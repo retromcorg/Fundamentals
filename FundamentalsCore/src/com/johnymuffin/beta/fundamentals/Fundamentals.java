@@ -5,7 +5,6 @@ import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
 import com.johnymuffin.beta.fundamentals.commands.*;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsEntityListener;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsPlayerListener;
-import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsConfig;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import org.bukkit.Bukkit;
@@ -92,6 +91,7 @@ public class Fundamentals extends JavaPlugin {
         Bukkit.getPluginCommand("pay").setExecutor(new CommandPay());
         Bukkit.getPluginCommand("god").setExecutor(new CommandGod());
         Bukkit.getPluginCommand("nickname").setExecutor(new CommandNickname());
+        Bukkit.getPluginCommand("invsee").setExecutor(new CommandInvsee(plugin));
 
 
         //Timer
@@ -117,7 +117,7 @@ public class Fundamentals extends JavaPlugin {
         //Force Disable InvSee Start
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (invSee.containsKey(p.getUniqueId())) {
-                p.getInventory().setContents(invSee.get(p));
+                p.getInventory().setContents(invSee.get(p.getUniqueId()));
                 logger(Level.INFO, "Restored the inventory for " + p.getName() + " as they where using InvSee on plugin disable.");
             }
         }

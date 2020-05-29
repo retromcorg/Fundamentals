@@ -65,6 +65,12 @@ public class FundamentalsLanguage extends Configuration {
         map.put("nickname_set", "&6Your nickname has been set to &f%var1%");
         map.put("nickname_set_others", "&6The nickname for %var1% has been set to &f%var2%");
         map.put("nickname_remove_others", "&4You have removed a nickname");
+        //InvSee
+        map.put("invsee_deny", "&cSorry, you can't do that while you are in InvSee");
+        map.put("invsee_info", "&4You haven't provided enough arguments, /invsee (username)");
+        map.put("invsee_disable", "&bYou have disabled InvSee");
+        map.put("invsee_already", "&4Sorry, you are already in InvSee. Please do /invsee to disable");
+        map.put("invsee_enable", "&bYou have enabled InvSee for %var1%");
 
     }
 
