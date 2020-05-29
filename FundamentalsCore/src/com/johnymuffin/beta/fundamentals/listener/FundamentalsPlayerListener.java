@@ -110,5 +110,12 @@ public class FundamentalsPlayerListener implements Listener {
 
     }
 
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerItemDrop(PlayerDropItemEvent event) {
+        if (plugin.isPlayerInvSee(event.getPlayer().getUniqueId())) {
+            event.setCancelled(true);
+        }
+    }
+
 
 }
