@@ -10,9 +10,12 @@ import com.johnymuffin.beta.fundamentals.settings.FundamentalsConfig;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashMap;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,6 +32,8 @@ public class Fundamentals extends JavaPlugin {
     private Long lastAutoSaveTime = System.currentTimeMillis() / 1000l;
     //API
     private EconomyAPI economyAPI;
+    //Invsee Comamnd
+    private HashMap<UUID, ItemStack[]> invSee = new HashMap<UUID, ItemStack[]>();
 
     @Override
     public void onEnable() {
@@ -109,6 +114,16 @@ public class Fundamentals extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        //Force Disable InvSee Start
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (invSee.containsKey(p.getUniqueId())) {
+                p.getInventory().setContents(invSee.get(p));
+                logger(Level.INFO, "Restored the inventory for " + p.getName() + " as they where using InvSee on plugin disable.");
+            }
+        }
+        //Force Disable InvSee End
+
+        //Save Player Data
         FundamentalsPlayerMap.getInstance().serverShutdown();
     }
 
@@ -137,4 +152,30 @@ public class Fundamentals extends JavaPlugin {
     public FundamentalsPlayerMap getPlayerMap() {
         return FundamentalsPlayerMap.getInstance(plugin);
     }
+
+    //InvSee Start
+    public boolean isPlayerInvSee(UUID uuid) {
+        return invSee.containsKey(uuid);
+    }
+
+    public boolean enableInvSee(UUID uuid, ItemStack[] itemStacks) {
+        if (invSee.containsKey(uuid)) {
+            return false;
+        }
+        invSee.put(uuid, itemStacks);
+        return true;
+    }
+
+    public ItemStack[] disableInvSee(UUID uuid) {
+        if (invSee.containsKey(uuid)) {
+            ItemStack[] itemStacks = invSee.get(uuid);
+            invSee.remove(uuid);
+            return itemStacks;
+        }
+        return null;
+    }
+
+
+    //InvSee End
+
 }
