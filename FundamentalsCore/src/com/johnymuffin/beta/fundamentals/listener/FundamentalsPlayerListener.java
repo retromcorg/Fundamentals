@@ -15,6 +15,8 @@ import org.bukkit.event.player.*;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import static com.johnymuffin.beta.fundamentals.CommandUtils.formatColor;
+
 public class FundamentalsPlayerListener implements Listener {
     private Fundamentals plugin;
 
@@ -55,7 +57,10 @@ public class FundamentalsPlayerListener implements Listener {
             //Nickname Start
             String displayName = FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).getNickname();
             if (displayName != null) {
-                event.getPlayer().setDisplayName("~" + displayName);
+                if (event.getPlayer().hasPermission("fundamentals.nickname.color") || event.getPlayer().isOp()) {
+                    displayName = formatColor(displayName);
+                }
+                event.getPlayer().setDisplayName("~" + displayName + "&f");
             }
             //Nickname End
 
@@ -80,6 +85,9 @@ public class FundamentalsPlayerListener implements Listener {
         //Nickname Start
         String displayName = fundamentalsPlayer.getNickname();
         if (displayName != null) {
+            if (player.hasPermission("fundamentals.nickname.color") || player.isOp()) {
+                displayName = formatColor(displayName + "&f");
+            }
             player.setDisplayName("~" + displayName);
         }
         //Nickname End
