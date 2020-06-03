@@ -32,7 +32,6 @@ public class FundamentalsPlayerFile {
     private UUID uuid;
     private Double playerBalance = 0D;
 
-
     public FundamentalsPlayerFile(UUID uuid, Fundamentals plugin) {
         //Initialize Variables
         this.uuid = uuid;
@@ -301,6 +300,20 @@ public class FundamentalsPlayerFile {
             saveToJSON();
         }
     }
+
+    //Raw Storage Start
+    public void saveInformation(String pluginName, String fieldName, Object value) {
+        modified = true;
+        jsonData.put("plugins." + pluginName + "." + fieldName, value);
+    }
+
+    public Object getInformation(String pluginName, String fieldName) {
+        return jsonData.get("plugins." + pluginName + "." + fieldName);
+    }
+
+
+    //Raw Storage End
+
 
     private void saveToJSON() {
         try (FileWriter file = new FileWriter(playerDataFile)) {
