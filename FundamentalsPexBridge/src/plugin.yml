@@ -4,7 +4,7 @@ main: com.johnymuffin.fundamentals.pexbridge.FundamentalsPexBridge
 version: 1.0.0
 authors:
   - JohnyMuffin
-depend: [Fundamentals, PermissionsEX]
+depend: [Fundamentals, PermissionsEx]
 #softdepend:
 #  - Fundamentals
 #  - PermissionsEX
