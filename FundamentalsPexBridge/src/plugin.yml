@@ -1,0 +1,10 @@
+name: FundamentalsPexBridge
+description: Automatic transfering of ranks when a user changes their username
+main: com.johnymuffin.fundamentals.pexbridge.FundamentalsPexBridge
+version: 1.0.0
+authors:
+  - JohnyMuffin
+depend: [Fundamentals, PermissionsEX]
+#softdepend:
+#  - Fundamentals
+#  - PermissionsEX
