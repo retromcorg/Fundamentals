@@ -1,6 +1,5 @@
 package com.johnymuffin.fundamentals.pexbridge;
 
-import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -8,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.permissions.Permission;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
@@ -27,24 +25,22 @@ public class FEBPlayerListener implements Listener {
         //Placeholder, check if username is different
         Player player = event.getPlayer();
         FundamentalsPlayer fundamentalsPlayer = plugin.getFundamentals().getPlayerMap().getPlayer(player);
-
-        String rawUsername = String.valueOf(fundamentalsPlayer.getInformation(plugin.getDescription().getName(), "username"));
-        //Is user known
-        if (rawUsername == null) {
-            fundamentalsPlayer.saveInformation(plugin.getDescription().getName(), "username", player.getName());
-            return;
-        }
-
-        if(rawUsername.equalsIgnoreCase(player.getName())) {
-            //Username is the same
-
-
-            return;
-        }
-
-
-        String oldUsername = "";
         String newUsername = player.getName();
+        if (fundamentalsPlayer.getInformation(plugin.getDescription().getName(), "username") == null) {
+            fundamentalsPlayer.saveInformation(plugin.getDescription().getName(), "username", player.getName());
+            plugin.getFundamentals().debugLogger(Level.INFO, newUsername + " has joined for the first time since PexBridge was added.", 2);
+            return;
+        }
+        String oldUsername = String.valueOf(fundamentalsPlayer.getInformation(plugin.getDescription().getName(), "username"));
+        //Is user known
+
+        if (oldUsername.equalsIgnoreCase(player.getName())) {
+            plugin.getFundamentals().debugLogger(Level.INFO, newUsername + " hasn't had a name change recently detected by PexBridge.", 3);
+            //Username is the same
+            return;
+        }
+        plugin.getFundamentals().logger(Level.INFO, newUsername + " has joined with a new username. Transferring data from their old username: " + oldUsername);
+
 
         PermissionUser newUser = PermissionsEx.getPermissionManager().getUser(newUsername);
         PermissionUser oldUser = PermissionsEx.getPermissionManager().getUser(oldUsername);
@@ -71,7 +67,8 @@ public class FEBPlayerListener implements Listener {
         }
 
         //Delete stats for old user
-        PermissionsEx.getPermissionManager().resetUser(oldUsername);
+        PermissionsEx.getPermissionManager().getUser(oldUsername).remove();
+        fundamentalsPlayer.saveInformation(plugin.getDescription().getName(), "username", player.getName());
 
 
     }
