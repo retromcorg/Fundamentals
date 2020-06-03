@@ -304,14 +304,12 @@ public class FundamentalsPlayerFile {
     //Raw Storage Start
     public void saveInformation(String pluginName, String fieldName, Object value) {
         modified = true;
-        jsonData.put("plugins." + pluginName + "." + fieldName, value);
+        jsonData.put("plugins." + pluginName.toLowerCase() + "." + fieldName.toLowerCase(), value);
     }
 
     public Object getInformation(String pluginName, String fieldName) {
-        return jsonData.get("plugins." + pluginName + "." + fieldName);
+        return jsonData.get("plugins." + pluginName.toLowerCase() + "." + fieldName.toLowerCase());
     }
-
-
     //Raw Storage End
 
 
