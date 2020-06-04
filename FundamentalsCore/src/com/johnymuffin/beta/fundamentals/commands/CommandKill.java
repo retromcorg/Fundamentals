@@ -8,8 +8,8 @@
 //import org.bukkit.command.CommandSender;
 //import org.bukkit.entity.Player;
 //
-//import static com.johnymuffin.beta.fundamentals.CommandUtils.formatColor;
-//import static com.johnymuffin.beta.fundamentals.CommandUtils.getPlayerFromString;
+//import static com.johnymuffin.beta.fundamentals.util.CommandUtils.formatColor;
+//import static com.johnymuffin.beta.fundamentals.util.CommandUtils.getPlayerFromString;
 //import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
 //
 //public class CommandKill implements CommandExecutor {

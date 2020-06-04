@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static com.johnymuffin.beta.fundamentals.CommandUtils.getPlayerFromString;
+import static com.johnymuffin.beta.fundamentals.util.CommandUtils.getPlayerFromString;
 
 public class CommandHeal implements CommandExecutor {
     @Override

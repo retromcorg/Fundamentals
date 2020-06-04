@@ -1,6 +1,6 @@
 package com.earth2me.essentials.api;
 
-import com.johnymuffin.beta.fundamentals.CommandUtils;
+import com.johnymuffin.beta.fundamentals.util.CommandUtils;
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
 import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;

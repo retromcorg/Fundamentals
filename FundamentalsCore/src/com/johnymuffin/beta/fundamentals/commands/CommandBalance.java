@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-import static com.johnymuffin.beta.fundamentals.CommandUtils.getPlayerFromString;
+import static com.johnymuffin.beta.fundamentals.util.CommandUtils.getPlayerFromString;
 import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
 
 public class CommandBalance implements CommandExecutor {

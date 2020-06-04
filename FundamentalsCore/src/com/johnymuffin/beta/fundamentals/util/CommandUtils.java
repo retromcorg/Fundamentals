@@ -1,4 +1,4 @@
-package com.johnymuffin.beta.fundamentals;
+package com.johnymuffin.beta.fundamentals.util;
 
 import com.projectposeidon.api.PoseidonUUID;
 import com.projectposeidon.api.UUIDType;
