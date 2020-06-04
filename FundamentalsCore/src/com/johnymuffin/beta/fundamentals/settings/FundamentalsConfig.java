@@ -22,9 +22,14 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.debug-level", 1);
         generateConfigOption("settings.multiple-homes", 5);
         generateConfigOption("settings.load-all-players-into-cache", false);
+        generateConfigOption("settings.afk.enabled", true);
+        generateConfigOption("settings.afk.time", 60 * 5);
+        generateConfigOption("settings.afk.kick.enabled", true);
+        generateConfigOption("settings.afk.kick.time", 60 * 25);
 
 
     }
+
     private void generateConfigOption(String key, Object defaultValue) {
         if (this.getProperty(key) == null) {
             this.setProperty(key, defaultValue);
@@ -34,12 +39,38 @@ public class FundamentalsConfig extends Configuration {
         this.setProperty(key, value);
     }
 
+
+    //Getters Start
     public Object getConfigOption(String key) {
         return this.getProperty(key);
     }
 
+    public String getConfigString(String key) {
+        return String.valueOf(getConfigOption(key));
+    }
+
+    public Integer getConfigInteger(String key) {
+        return Integer.valueOf(getConfigString(key));
+    }
+
+    public Long getConfigLong(String key) {
+        return Long.valueOf(getConfigString(key));
+    }
+
+    public Double getConfigDouble(String key) {
+        return Double.valueOf(getConfigString(key));
+    }
+
+    public Boolean getConfigBoolean(String key) {
+        return Boolean.valueOf(getConfigString(key));
+    }
+
+
+    //Getters End
+
+
     public Long getConfigLongOption(String key) {
-        if(this.getConfigOption(key) == null) {
+        if (this.getConfigOption(key) == null) {
             return null;
         }
         return Long.valueOf(String.valueOf(this.getProperty(key)));
@@ -60,7 +91,6 @@ public class FundamentalsConfig extends Configuration {
         return true;
 
     }
-
 
 
     private void reload() {

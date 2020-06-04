@@ -28,6 +28,7 @@ public class FundamentalsLanguage extends Configuration {
         map.put("set_player_afk", "&4Set a player to AFK called &9%username%");
         map.put("afk_toggle_off", "%var1% is no longer afk");
         map.put("afk_toggle_on", "%var1% is now afk");
+        map.put("afk_kick_message", "&4You have been kicked for inactivity");
         //Home
         map.put("home_non_recorded", "&6Sorry, you have no homes on record. Please set one with /sethome");
         map.put("home_not_on_record", "&6Sorry, we couldn't find a home with that name. Do /home for a list of homes");
@@ -71,6 +72,8 @@ public class FundamentalsLanguage extends Configuration {
         map.put("invsee_disable", "&bYou have disabled InvSee");
         map.put("invsee_already", "&4Sorry, you are already in InvSee. Please do /invsee to disable");
         map.put("invsee_enable", "&bYou have enabled InvSee for %var1%");
+
+
 
     }
 
