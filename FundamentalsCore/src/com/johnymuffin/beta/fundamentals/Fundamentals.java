@@ -92,6 +92,7 @@ public class Fundamentals extends JavaPlugin {
         Bukkit.getPluginCommand("god").setExecutor(new CommandGod());
         Bukkit.getPluginCommand("nickname").setExecutor(new CommandNickname());
         Bukkit.getPluginCommand("invsee").setExecutor(new CommandInvsee(plugin));
+        Bukkit.getPluginCommand("clearinventory").setExecutor(new CommandClearInventory(plugin));
 
 
         //Timer
@@ -155,6 +156,10 @@ public class Fundamentals extends JavaPlugin {
 
     public FundamentalsConfig getFundamentalConfig() {
         return FundamentalsConfig.getInstance(plugin);
+    }
+
+    public FundamentalsLanguage getFundamentalsLanguageConfig() {
+        return FundamentalsLanguage.getInstance(plugin);
     }
 
     //InvSee Start
