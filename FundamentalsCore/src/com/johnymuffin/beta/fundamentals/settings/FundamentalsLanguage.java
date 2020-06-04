@@ -24,6 +24,7 @@ public class FundamentalsLanguage extends Configuration {
         map.put("player_not_found_full", "&4Can't find a player called &9%username%");
         map.put("generic_error", "&4Sorry, an error occurred running that command, please contact staff!");
         map.put("generic_no_save_data", "&4Sorry, Fundamentals has no information on that player.");
+        map.put("generic_invalid_world", "&cSorry, a world with that name couldn't be located");
         //AFK
         map.put("set_player_afk", "&4Set a player to AFK called &9%username%");
         map.put("afk_toggle_off", "%var1% is no longer afk");
@@ -75,6 +76,9 @@ public class FundamentalsLanguage extends Configuration {
         //Clear Inventory
         map.put("clearinventory_notice", "&9Your inventory has been cleared");
         map.put("clearinventory_successfully", "&9Inventory cleared successfully");
+        //Time Command
+        map.put("time_info", "/time [day|night|dawn|17:30|4pm|4000ticks] [worldname|all]");
+        map.put("time_change_successful", "The time has been changed");
 
 
     }

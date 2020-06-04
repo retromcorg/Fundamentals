@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-import static com.johnymuffin.beta.fundamentals.CommandUtils.formatColor;
+import static com.johnymuffin.beta.fundamentals.util.CommandUtils.formatColor;
 
 public class CommandHome implements CommandExecutor {
     @Override

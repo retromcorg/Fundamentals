@@ -1,18 +1,13 @@
 package com.johnymuffin.beta.fundamentals.commands;
 
 import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
-import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
-import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
-import static com.johnymuffin.beta.fundamentals.CommandUtils.getPlayerFromString;
-import static com.johnymuffin.beta.fundamentals.CommandUtils.getUUIDFromUsername;
+import static com.johnymuffin.beta.fundamentals.util.CommandUtils.getPlayerFromString;
 import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
 
 public class CommandGod implements CommandExecutor {

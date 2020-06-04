@@ -23,7 +23,7 @@ import org.bukkit.event.player.*;
 import java.util.UUID;
 import java.util.logging.Level;
 
-import static com.johnymuffin.beta.fundamentals.CommandUtils.formatColor;
+import static com.johnymuffin.beta.fundamentals.util.CommandUtils.formatColor;
 
 public class FundamentalsPlayerListener implements Listener {
     private Fundamentals plugin;

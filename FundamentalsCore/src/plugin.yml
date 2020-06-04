@@ -50,3 +50,7 @@ commands:
     description: Clear all items in your inventory.
     usage: /<command>
     aliases: [ci]
+  time:
+    description: time change command
+    usage: /<command> [day|night|dawn|17:30|4pm|4000ticks] [worldname|all]
+    aliases: [day, night]

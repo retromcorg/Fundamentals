@@ -93,7 +93,7 @@ public class Fundamentals extends JavaPlugin {
         Bukkit.getPluginCommand("nickname").setExecutor(new CommandNickname());
         Bukkit.getPluginCommand("invsee").setExecutor(new CommandInvsee(plugin));
         Bukkit.getPluginCommand("clearinventory").setExecutor(new CommandClearInventory(plugin));
-
+        Bukkit.getPluginCommand("time").setExecutor(new CommandTime(plugin));
 
         //Timer
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, () -> {

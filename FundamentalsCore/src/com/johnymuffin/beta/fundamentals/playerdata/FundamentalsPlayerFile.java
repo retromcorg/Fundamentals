@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
-import static com.johnymuffin.beta.fundamentals.CommandUtils.verifyHomeName;
+import static com.johnymuffin.beta.fundamentals.util.CommandUtils.verifyHomeName;
 
 public class FundamentalsPlayerFile {
     //File
