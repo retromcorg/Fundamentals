@@ -26,12 +26,12 @@ public class FEBPlayerListener implements Listener {
         Player player = event.getPlayer();
         FundamentalsPlayer fundamentalsPlayer = plugin.getFundamentals().getPlayerMap().getPlayer(player);
         String newUsername = player.getName();
-        if (fundamentalsPlayer.getInformation(plugin.getDescription().getName(), "username") == null) {
-            fundamentalsPlayer.saveInformation(plugin.getDescription().getName(), "username", player.getName());
+        if (fundamentalsPlayer.getInformation("pexbridge.username") == null) {
+            fundamentalsPlayer.saveInformation("pexbridge.username", player.getName());
             plugin.getFundamentals().debugLogger(Level.INFO, newUsername + " has joined for the first time since PexBridge was added.", 2);
             return;
         }
-        String oldUsername = String.valueOf(fundamentalsPlayer.getInformation(plugin.getDescription().getName(), "username"));
+        String oldUsername = String.valueOf(fundamentalsPlayer.getInformation("pexbridge.username"));
         //Is user known
 
         if (oldUsername.equalsIgnoreCase(player.getName())) {
@@ -68,7 +68,7 @@ public class FEBPlayerListener implements Listener {
 
         //Delete stats for old user
         PermissionsEx.getPermissionManager().getUser(oldUsername).remove();
-        fundamentalsPlayer.saveInformation(plugin.getDescription().getName(), "username", player.getName());
+        fundamentalsPlayer.saveInformation("pexbridge.username", player.getName());
 
 
     }

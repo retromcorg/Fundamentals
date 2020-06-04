@@ -302,15 +302,33 @@ public class FundamentalsPlayerFile {
     }
 
     //Raw Storage Start
-    public void saveInformation(String pluginName, String fieldName, Object value) {
+    public void saveInformation(String fieldName, Object value) {
         modified = true;
-        jsonData.put("plugins." + pluginName.toLowerCase() + "." + fieldName.toLowerCase(), value);
+        jsonData.put(fieldName.toLowerCase(), value);
     }
 
-    public Object getInformation(String pluginName, String fieldName) {
-        return jsonData.get("plugins." + pluginName.toLowerCase() + "." + fieldName.toLowerCase());
+    public Object getInformation(String fieldName) {
+        return jsonData.get(fieldName.toLowerCase());
     }
     //Raw Storage End
+
+    //Mute Start
+    public void setMuteTimer(Long expiry) {
+        if (expiry == null) {
+            jsonData.remove("mute");
+        } else {
+            jsonData.put("mute", expiry);
+        }
+    }
+
+    public Long getMuteStatus() {
+        if (jsonData.containsKey("mute")) {
+            return Long.valueOf(String.valueOf(jsonData.get("mute")));
+        }
+        return null;
+    }
+
+    //Mute End
 
 
     private void saveToJSON() {
