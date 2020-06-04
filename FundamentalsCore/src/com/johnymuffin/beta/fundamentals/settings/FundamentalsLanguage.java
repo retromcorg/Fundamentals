@@ -72,7 +72,9 @@ public class FundamentalsLanguage extends Configuration {
         map.put("invsee_disable", "&bYou have disabled InvSee");
         map.put("invsee_already", "&4Sorry, you are already in InvSee. Please do /invsee to disable");
         map.put("invsee_enable", "&bYou have enabled InvSee for %var1%");
-
+        //Clear Inventory
+        map.put("clearinventory_notice", "&9Your inventory has been cleared");
+        map.put("clearinventory_successfully", "&9Inventory cleared successfully");
 
 
     }
