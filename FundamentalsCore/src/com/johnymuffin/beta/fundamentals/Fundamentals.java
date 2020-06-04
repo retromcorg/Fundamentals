@@ -153,6 +153,10 @@ public class Fundamentals extends JavaPlugin {
         return FundamentalsPlayerMap.getInstance(plugin);
     }
 
+    public FundamentalsConfig getFundamentalConfig() {
+        return FundamentalsConfig.getInstance(plugin);
+    }
+
     //InvSee Start
     public boolean isPlayerInvSee(UUID uuid) {
         return invSee.containsKey(uuid);

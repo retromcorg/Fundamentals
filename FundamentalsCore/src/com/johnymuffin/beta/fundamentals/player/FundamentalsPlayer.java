@@ -95,8 +95,14 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
 
 
     public void checkForAFK() {
-        if (!isAFK && lastActivity + 60 * 5 < (System.currentTimeMillis() / 1000L)) {
-            toggleAFK();
+        if (plugin.getFundamentalConfig().getConfigBoolean("settings.afk.enabled")) {
+            if (!isAFK && lastActivity + plugin.getFundamentalConfig().getConfigInteger("settings.afk.time") < (System.currentTimeMillis() / 1000L)) {
+                toggleAFK();
+            }
+            if (isAFK && plugin.getFundamentalConfig().getConfigBoolean("settings.afk.kick.enabled") && lastActivity + plugin.getFundamentalConfig().getConfigInteger("settings.afk.kick.time") < (System.currentTimeMillis() / 1000L)) {
+                getBukkitPlayer().kickPlayer(FundamentalsLanguage.getInstance().getMessage("afk_kick_message"));
+
+            }
         }
     }
     //AFK End
