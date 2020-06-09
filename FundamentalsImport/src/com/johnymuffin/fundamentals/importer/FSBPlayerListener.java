@@ -1,9 +1,8 @@
 package com.johnymuffin.fundamentals.importer;
 
 import com.earth2me.essentials.User;
-import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
+import com.earth2me.essentials.UserData;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,13 +19,14 @@ public class FSBPlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            if (!event.getPlayer().isOnline()) {
-                return;
-            }
-            User user = plugin.getEssentials().getUser(event.getPlayer()); //Essentials Player
-            FundamentalsPlayer fundamentalsPlayer = plugin.getFundamentals().getPlayerMap().getPlayer(event.getPlayer()); //Fundamental Player
+        if (!event.getPlayer().isOnline()) {
+            return;
+        }
 
+        User user = plugin.getEssentials().getUser(event.getPlayer()); //Essentials Player
+        FundamentalsPlayer fundamentalsPlayer = plugin.getFundamentals().getPlayerMap().getPlayer(event.getPlayer()); //Fundamental Player
+
+        if (fundamentalsPlayer.isFirstJoin()) {
             //Home Import Start
             List<String> homes = user.getHomes();
             int importCount = 0;
@@ -45,10 +45,16 @@ public class FSBPlayerListener implements Listener {
             //Home Import End
 
             //Balance Import Start
-            FundamentalsAPI.getEconomy().setBalance(event.getPlayer().getUniqueId(), user.getMoney());
+            UserData userData = user;
+            fundamentalsPlayer.setBalance(userData.getMoney());
             //Balance Import End
+            fundamentalsPlayer.setFileGodModeStatus(user.isGodModeEnabled()); // God Mode Import
+            fundamentalsPlayer.setNickname(user.getNickname()); // Import Nickname
+        }
 
-        }, 5L);
+        user.setGodModeEnabled(false); //Reset Essentials God
+
+
     }
 
 }
