@@ -1,6 +1,6 @@
 name: FundamentalsESSBridge
 description: Essentials data import for Funndamentals
-main: com.johnymuffin.fundamentals.essbridge.FundamentalsESSBridge
+main: com.johnymuffin.fundamentals.importer.FundamentalsESSBridge
 version: 1.0.0
 authors:
   - JohnyMuffin
