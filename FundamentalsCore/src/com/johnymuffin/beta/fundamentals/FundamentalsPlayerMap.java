@@ -44,9 +44,15 @@ public class FundamentalsPlayerMap {
             UUID playerUUID = UUID.fromString(sanitizedUUID);
             knownPlayers.add(playerUUID);
             if (cacheAllPlayers) {
-                //Add player data to cache if option is enabled
-                getPlayer(playerUUID);
-                playersLoaded = playersLoaded + 1;
+                try {
+                    //Add player data to cache if option is enabled
+                    getPlayer(playerUUID);
+                    playersLoaded = playersLoaded + 1;
+                } catch (Exception exception) {
+                    knownPlayers.remove(playerUUID);
+                    plugin.logger(Level.WARNING, "Error loading player data for " + playerUUID + "into cache.");
+                    removePlayerFromMap(playerUUID);
+                }
             }
         }
 
@@ -83,20 +89,21 @@ public class FundamentalsPlayerMap {
 
     public void runTimerTasks() {
         Long currentUnix = System.currentTimeMillis() / 1000L;
-        for (UUID key : playerMap.keySet()) {
-            if (!playerMap.get(key).isPlayerOnline()) {
+        playerMap.keySet().removeIf(key -> {
+            FundamentalsPlayer player = playerMap.get(key);
+            if (!player.isPlayerOnline()) {
                 //Scan for players who have left and are still in memory
-                if (!cacheAllPlayers & playerMap.get(key).getQuitTime() + 600 < (System.currentTimeMillis() / 1000L)) {
+                if (!cacheAllPlayers && player.getQuitTime() + 600 < currentUnix) {
                     plugin.debugLogger(Level.INFO, playerMap.get(key).getUuid() + " has been unloaded from memory", 3);
-                    playerMap.get(key).saveIfModified();
-                    playerMap.remove(key);
+                    player.saveIfModified();
+                    return true;
                 }
             } else {
-                //Check if user if AFK
-                playerMap.get(key).checkForAFK();
+                //Check if user is AFK
+                player.checkForAFK();
             }
-        }
-
+            return false;
+        });
 
     }
 
