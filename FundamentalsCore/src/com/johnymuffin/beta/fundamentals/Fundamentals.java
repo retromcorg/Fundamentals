@@ -47,7 +47,11 @@ public class Fundamentals extends JavaPlugin {
         FundamentalsPlayerMap.getInstance(plugin);
         for (Player p : Bukkit.getOnlinePlayers()) {
             logger(Level.INFO, "Regenerating data for a player already online: " + p.getName());
-            FundamentalsPlayerMap.getInstance(plugin).getPlayer(p);
+            try {
+                FundamentalsPlayerMap.getInstance(plugin).getPlayer(p);
+            } catch (Exception e) {
+                p.kickPlayer("");
+            }
         }
         this.logger(Level.INFO, "Initializing settings map");
         FundamentalsConfig.getInstance(plugin);
