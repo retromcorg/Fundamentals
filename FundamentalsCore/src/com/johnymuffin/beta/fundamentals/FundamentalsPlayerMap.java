@@ -60,6 +60,10 @@ public class FundamentalsPlayerMap {
     }
 
     public boolean isPlayerKnown(UUID uuid) {
+        if (uuid == null) {
+            return false;
+        }
+
         return knownPlayers.contains(uuid);
     }
 
