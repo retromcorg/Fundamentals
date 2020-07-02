@@ -10,8 +10,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static com.johnymuffin.beta.fundamentals.util.CommandUtils.formatColor;
+import static com.johnymuffin.beta.fundamentals.util.CommandUtils.getUUIDFromUsername;
 
 public class CommandHome implements CommandExecutor {
     @Override
@@ -25,37 +27,71 @@ public class CommandHome implements CommandExecutor {
             return true;
         }
         Player player = (Player) commandSender;
-        FundamentalsPlayer fundamentalsPlayer = FundamentalsPlayerMap.getInstance().getPlayer(player);
+        String homeName = null;
+        FundamentalsPlayer targetPlayer;
+
 
         if (strings.length == 0) {
-            //List Homes
-            ArrayList<String> homes = fundamentalsPlayer.getPlayerHomes();
+            targetPlayer = FundamentalsPlayerMap.getInstance().getPlayer(player);
+            homeName = null;
+        } else {
+            String[] homeNameParts = strings[0].split(":");
+            if (strings[0].contains(":")) {
+                //User is requesting another user
+                String targetPlayerUsername;
+                if (homeNameParts.length > 1) {
+                    //User is requesting to teleport to a specific home
+                    homeName = homeNameParts[1];
+                    targetPlayerUsername = homeNameParts[0];
+                } else {
+                    //User is requesting a list of homes from another user
+                    homeName = null;
+                    targetPlayerUsername = homeNameParts[0];
+                }
+                UUID targetPlayerUUID = getUUIDFromUsername(targetPlayerUsername);
+                if (!FundamentalsPlayerMap.getInstance().isPlayerKnown(targetPlayerUUID)) {
+                    String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
+                    message = message.replace("%username%", targetPlayerUsername);
+                    commandSender.sendMessage(message);
+                    return true;
+                }
+                targetPlayer = FundamentalsPlayerMap.getInstance().getPlayer(targetPlayerUUID);
+            } else {
+                //User is requesting their own homes
+                targetPlayer = FundamentalsPlayerMap.getInstance().getPlayer(player);
+                homeName = strings[0];
+            }
+        }
+
+
+        if (homeName == null) {
+            //No home specified, list homes
+            ArrayList<String> homes = targetPlayer.getPlayerHomes();
             if (homes.size() == 0) {
                 commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("home_non_recorded"));
                 return true;
             }
             String msg = "&6Home List: ";
-            for (String homeName : homes) {
-                if (fundamentalsPlayer.isHomeInValidWorld(homeName)) {
-                    msg = msg + "&a" + homeName + "&6, ";
+            for (String hn : homes) {
+                if (targetPlayer.isHomeInValidWorld(hn)) {
+                    msg = msg + "&a" + hn + "&6, ";
                 } else {
-                    msg = msg + "&4" + homeName + "&6, ";
+                    msg = msg + "&4" + hn + "&6, ";
                 }
             }
             msg = msg.substring(0, msg.length() - 1);
             commandSender.sendMessage(formatColor(msg));
             return true;
         } else {
-            String homeName = strings[0];
-            if (!fundamentalsPlayer.doesHomeExist(homeName)) {
+            if (!targetPlayer.doesHomeExist(homeName)) {
                 commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("home_not_on_record"));
                 return true;
             }
-            if(!fundamentalsPlayer.isHomeInValidWorld(homeName)) {
+            if (!targetPlayer.isHomeInValidWorld(homeName)) {
                 commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("home_in_invalid_world"));
                 return true;
             }
-            Location home = fundamentalsPlayer.getPlayerHome(homeName);
+            Location home = targetPlayer.getPlayerHome(homeName);
             player.teleport(home);
             String msg = FundamentalsLanguage.getInstance().getMessage("home_teleport_successfully");
             msg = msg.replaceAll("%var1%", homeName);
@@ -65,4 +101,5 @@ public class CommandHome implements CommandExecutor {
 
 
     }
+
 }
