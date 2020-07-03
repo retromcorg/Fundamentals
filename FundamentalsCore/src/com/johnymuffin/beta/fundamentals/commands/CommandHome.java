@@ -1,8 +1,10 @@
 package com.johnymuffin.beta.fundamentals.commands;
 
+import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
+import com.johnymuffin.beta.fundamentals.util.Utils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,11 +13,18 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Level;
 
-import static com.johnymuffin.beta.fundamentals.util.CommandUtils.formatColor;
-import static com.johnymuffin.beta.fundamentals.util.CommandUtils.getUUIDFromUsername;
+import static com.johnymuffin.beta.fundamentals.util.Utils.*;
 
 public class CommandHome implements CommandExecutor {
+    private Fundamentals plugin;
+
+    public CommandHome(Fundamentals plugin) {
+        this.plugin = plugin;
+    }
+
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender.hasPermission("fundamentals.home") || commandSender.isOp())) {
@@ -92,10 +101,25 @@ public class CommandHome implements CommandExecutor {
                 return true;
             }
             Location home = targetPlayer.getPlayerHome(homeName);
-            player.teleport(home);
+            Location safeLocation;
+            try {
+                safeLocation = Utils.getSafeDestination(home);
+            } catch (Exception e) {
+                String msg = FundamentalsLanguage.getInstance().getMessage("generic_error_player");
+                msg = msg.replaceAll("%var1%", e.getMessage());
+                commandSender.sendMessage(msg);
+                return true;
+            }
+            player.teleport(safeLocation);
             String msg = FundamentalsLanguage.getInstance().getMessage("home_teleport_successfully");
             msg = msg.replaceAll("%var1%", homeName);
             commandSender.sendMessage(msg);
+            //Username
+            String target = getPlayerName(targetPlayer.getUuid());
+            if (target == null) {
+                target = targetPlayer.getUuid().toString();
+            }
+            plugin.debugLogger(Level.INFO, player.getName() + " has teleported to a home owned by " + target + " called " + homeName, 2);
             return true;
         }
 

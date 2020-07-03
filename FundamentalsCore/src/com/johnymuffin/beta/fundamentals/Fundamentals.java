@@ -86,7 +86,7 @@ public class Fundamentals extends JavaPlugin {
 
         //Commands
         Bukkit.getPluginCommand("heal").setExecutor(new CommandHeal());
-        Bukkit.getPluginCommand("home").setExecutor(new CommandHome());
+        Bukkit.getPluginCommand("home").setExecutor(new CommandHome(plugin));
         Bukkit.getPluginCommand("afk").setExecutor(new CommandAFK());
         Bukkit.getPluginCommand("sethome").setExecutor(new CommandSetHome());
         Bukkit.getPluginCommand("delhome").setExecutor(new CommandDelhome());
