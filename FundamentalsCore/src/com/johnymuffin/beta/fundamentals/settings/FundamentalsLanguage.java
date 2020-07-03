@@ -23,6 +23,7 @@ public class FundamentalsLanguage extends Configuration {
         map.put("unavailable_to_console", "&4Sorry, console can't run this command.");
         map.put("player_not_found_full", "&4Can't find a player called &9%username%");
         map.put("generic_error", "&4Sorry, an error occurred running that command, please contact staff!");
+        map.put("generic_error_player", "&4Sorry, an error occurred:&f %var1%");
         map.put("generic_no_save_data", "&4Sorry, Fundamentals has no information on that player.");
         map.put("generic_invalid_world", "&cSorry, a world with that name couldn't be located");
         //AFK

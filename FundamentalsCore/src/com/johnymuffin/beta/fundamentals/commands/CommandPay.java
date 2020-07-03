@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-import static com.johnymuffin.beta.fundamentals.util.CommandUtils.getPlayerFromString;
+import static com.johnymuffin.beta.fundamentals.util.Utils.getPlayerFromString;
 import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
 
 public class CommandPay implements CommandExecutor {

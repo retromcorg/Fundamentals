@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.UUID;
 
-import static com.johnymuffin.beta.fundamentals.util.CommandUtils.getUUIDFromUsername;
+import static com.johnymuffin.beta.fundamentals.util.Utils.getUUIDFromUsername;
 import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
 
 public class CommandEconomy implements CommandExecutor {

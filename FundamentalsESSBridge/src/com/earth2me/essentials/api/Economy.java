@@ -1,6 +1,6 @@
 package com.earth2me.essentials.api;
 
-import com.johnymuffin.beta.fundamentals.util.CommandUtils;
+import com.johnymuffin.beta.fundamentals.util.Utils;
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
 import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
@@ -50,7 +50,7 @@ public final class Economy {
      * @throws UserDoesNotExistException
      */
     public static double getMoney(String name) throws UserDoesNotExistException {
-        UUID uuid = CommandUtils.getUUIDFromUsername(name);
+        UUID uuid = Utils.getUUIDFromUsername(name);
         if (uuid == null) {
             throw new UserDoesNotExistException(name);
         }
@@ -72,7 +72,7 @@ public final class Economy {
      * @throws NoLoanPermittedException  If the user is not allowed to have a negative balance
      */
     public static void setMoney(String name, double balance) throws UserDoesNotExistException, NoLoanPermittedException {
-        UUID uuid = CommandUtils.getUUIDFromUsername(name);
+        UUID uuid = Utils.getUUIDFromUsername(name);
 
         if (balance < 0.0) {
             throw new NoLoanPermittedException();
@@ -219,7 +219,7 @@ public final class Economy {
      * @return true, if the user exists
      */
     public static boolean playerExists(String name) {
-        UUID uuid = CommandUtils.getUUIDFromUsername(name);
+        UUID uuid = Utils.getUUIDFromUsername(name);
         if (uuid == null) {
             return false;
         }
