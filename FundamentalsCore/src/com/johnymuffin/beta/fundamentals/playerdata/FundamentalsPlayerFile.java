@@ -204,9 +204,9 @@ public class FundamentalsPlayerFile {
 
     public boolean setPlayerHome(String name, Location location) {
         name = name.toLowerCase();
-        if (!verifyHomeName(name)) {
-            return false;
-        }
+//        if (!verifyHomeName(name)) {
+//            return false;
+//        }
         JSONObject homes;
         if (jsonData.get("homes") == null) {
             homes = new JSONObject();

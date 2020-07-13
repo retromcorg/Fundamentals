@@ -1,6 +1,5 @@
 package com.johnymuffin.beta.fundamentals.util;
 
-import com.earth2me.essentials.Util;
 import com.projectposeidon.api.PoseidonUUID;
 import com.projectposeidon.api.UUIDType;
 import org.bukkit.Bukkit;
@@ -8,7 +7,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.entity.FallingSand;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;

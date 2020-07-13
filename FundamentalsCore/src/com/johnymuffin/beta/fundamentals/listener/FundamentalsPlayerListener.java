@@ -40,7 +40,7 @@ public class FundamentalsPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = Event.Priority.Highest)
     public void onPlayerJoin(final PlayerJoinEvent event) {
         if (event == null) {
             return;
