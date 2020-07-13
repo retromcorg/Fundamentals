@@ -1,23 +1,25 @@
 package com.johnymuffin.fundamentals.importer;
 
 import com.earth2me.essentials.User;
-import com.earth2me.essentials.UserData;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
-import org.bukkit.Location;
+import com.johnymuffin.fundamentals.importer.essentials.EssentialsManager;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.util.List;
+import java.util.logging.Level;
 
 public class FSBPlayerListener implements Listener {
     private FundamentalsESSBridge plugin;
+    private EssentialsManager essM;
 
     public FSBPlayerListener(FundamentalsESSBridge plugin) {
         this.plugin = plugin;
+        this.essM = new EssentialsManager(plugin.getFundamentals());
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = Event.Priority.Monitor)
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (!event.getPlayer().isOnline()) {
             return;
@@ -26,33 +28,20 @@ public class FSBPlayerListener implements Listener {
         User user = plugin.getEssentials().getUser(event.getPlayer()); //Essentials Player
         FundamentalsPlayer fundamentalsPlayer = plugin.getFundamentals().getPlayerMap().getPlayer(event.getPlayer()); //Fundamental Player
 
-        if (fundamentalsPlayer.isFirstJoin()) {
-            //Home Import Start
-            List<String> homes = user.getHomes();
-            int importCount = 0;
-            for (String key : homes) {
-                try {
-                    Location homeLocation = user.getHome(key);
-                    if (!fundamentalsPlayer.doesHomeExist(key)) {
-                        fundamentalsPlayer.setPlayerHome(key, homeLocation);
-                    }
-                    importCount = importCount + 1;
-                } catch (Exception e) {
 
-                }
+        //Essentials Start
+        if (essM.doesPlayerExist(event.getPlayer().getName())) {
+            plugin.getFundamentals().debugLogger(Level.INFO, "Importing Essentials data for " + event.getPlayer(), 2);
+            if (!Utils.doesImportEntryExist("essentials-homes", fundamentalsPlayer)) {
+                essM.importHomes(event.getPlayer(), fundamentalsPlayer, plugin.getFundamentals());
+                Utils.addImportEntry("essentials-homes", fundamentalsPlayer);
             }
-            event.getPlayer().sendMessage("Imported " + importCount + "/" + homes.size() + ". Homes in an invalid would will not be imported. If this import failed please contact staff!");
-            //Home Import End
-
-            //Balance Import Start
-            UserData userData = user;
-            fundamentalsPlayer.setBalance(userData.getMoney());
-            //Balance Import End
-            fundamentalsPlayer.setFileGodModeStatus(user.isGodModeEnabled()); // God Mode Import
-            fundamentalsPlayer.setNickname(user.getNickname()); // Import Nickname
+            if (!Utils.doesImportEntryExist("essentials-money", fundamentalsPlayer)) {
+                essM.importBalance(event.getPlayer(), fundamentalsPlayer, plugin.getFundamentals());
+                Utils.addImportEntry("essentials-money", fundamentalsPlayer);
+            }
         }
-
-        user.setGodModeEnabled(false); //Reset Essentials God
+        //Essentials End
 
 
     }
