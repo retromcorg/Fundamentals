@@ -85,19 +85,19 @@ public class Fundamentals extends JavaPlugin {
 
 
         //Commands
-        Bukkit.getPluginCommand("heal").setExecutor(new CommandHeal());
+//        Bukkit.getPluginCommand("heal").setExecutor(new CommandHeal());
         Bukkit.getPluginCommand("home").setExecutor(new CommandHome(plugin));
-        Bukkit.getPluginCommand("afk").setExecutor(new CommandAFK());
+//        Bukkit.getPluginCommand("afk").setExecutor(new CommandAFK());
         Bukkit.getPluginCommand("sethome").setExecutor(new CommandSetHome());
         Bukkit.getPluginCommand("delhome").setExecutor(new CommandDelhome());
-        Bukkit.getPluginCommand("balance").setExecutor(new CommandBalance());
-        Bukkit.getPluginCommand("economy").setExecutor(new CommandEconomy());
-        Bukkit.getPluginCommand("pay").setExecutor(new CommandPay());
-        Bukkit.getPluginCommand("god").setExecutor(new CommandGod());
-        Bukkit.getPluginCommand("nickname").setExecutor(new CommandNickname());
-        Bukkit.getPluginCommand("invsee").setExecutor(new CommandInvsee(plugin));
-        Bukkit.getPluginCommand("clearinventory").setExecutor(new CommandClearInventory(plugin));
-        Bukkit.getPluginCommand("time").setExecutor(new CommandTime(plugin));
+//        Bukkit.getPluginCommand("balance").setExecutor(new CommandBalance());
+//        Bukkit.getPluginCommand("economy").setExecutor(new CommandEconomy());
+//        Bukkit.getPluginCommand("pay").setExecutor(new CommandPay());
+//        Bukkit.getPluginCommand("god").setExecutor(new CommandGod());
+//        Bukkit.getPluginCommand("nickname").setExecutor(new CommandNickname());
+//        Bukkit.getPluginCommand("invsee").setExecutor(new CommandInvsee(plugin));
+//        Bukkit.getPluginCommand("clearinventory").setExecutor(new CommandClearInventory(plugin));
+//        Bukkit.getPluginCommand("time").setExecutor(new CommandTime(plugin));
 
         //Timer
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, () -> {

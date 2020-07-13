@@ -10,12 +10,12 @@ softdepend:
   - Multiverse
 
 commands:
-  heal:
-    description: Heals a player
-    usage: /<command> <player>
-  afk:
-    description: Set a plad
-    usage: /<command> <player>
+#  heal:
+#    description: Heals a player
+#    usage: /<command> <player>
+#  afk:
+#    description: Set a plad
+#    usage: /<command> <player>
   home:
     description: a home command
     usage: /<command>
@@ -25,32 +25,32 @@ commands:
   delhome:
     description: a home command
     usage: /<command>
-  balance:
-    description: a balance command
-    usage: /<command>
-    aliases: [bal]
-  pay:
-    description: a economy command
-    usage: /<command>
-  economy:
-    description: a economy command
-    usage: /<command>
-    aliases: [eco]
-  god:
-    description: a god command
-    usage: /<command>
-  nickname:
-    description: a nickname command
-    usage: /<command>
-    aliases: [nick]
-  invsee:
-    description: a inventory command
-    usage: /<command>
-  clearinventory:
-    description: Clear all items in your inventory.
-    usage: /<command>
-    aliases: [ci]
-  time:
-    description: time change command
-    usage: /<command> [day|night|dawn|17:30|4pm|4000ticks] [worldname|all]
-    aliases: [day, night]
+#  balance:
+#    description: a balance command
+#    usage: /<command>
+#    aliases: [bal]
+#  pay:
+#    description: a economy command
+#    usage: /<command>
+#  economy:
+#    description: a economy command
+#    usage: /<command>
+#    aliases: [eco]
+#  god:
+#    description: a god command
+#    usage: /<command>
+#  nickname:
+#    description: a nickname command
+#    usage: /<command>
+#    aliases: [nick]
+#  invsee:
+#    description: a inventory command
+#    usage: /<command>
+#  clearinventory:
+#    description: Clear all items in your inventory.
+#    usage: /<command>
+#    aliases: [ci]
+#  time:
+#    description: time change command
+#    usage: /<command> [day|night|dawn|17:30|4pm|4000ticks] [worldname|all]
+#    aliases: [day, night]
