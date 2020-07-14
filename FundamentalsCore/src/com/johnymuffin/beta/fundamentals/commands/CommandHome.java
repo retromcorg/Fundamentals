@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
 import static com.johnymuffin.beta.fundamentals.util.Utils.*;
 
 public class CommandHome implements CommandExecutor {
@@ -47,6 +48,10 @@ public class CommandHome implements CommandExecutor {
             String[] homeNameParts = strings[0].split(":");
             if (strings[0].contains(":")) {
                 //User is requesting another user
+                if (!isPlayerAuthorized(commandSender, "fundamentals.home.others")) {
+                    commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
+                    return true;
+                }
                 String targetPlayerUsername;
                 if (homeNameParts.length > 1) {
                     //User is requesting to teleport to a specific home
@@ -88,7 +93,7 @@ public class CommandHome implements CommandExecutor {
                     msg = msg + "&4" + hn + "&6, ";
                 }
             }
-            msg = msg.substring(0, msg.length() - 1);
+            msg = msg.substring(0, msg.length() - 2);
             commandSender.sendMessage(formatColor(msg));
             return true;
         } else {

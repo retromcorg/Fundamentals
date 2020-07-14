@@ -65,7 +65,6 @@ public class EssentialsManager implements PluginDataManager {
         EssentialsPlayerData ePlayer = getPlayerData(player.getName());
         //Loop through all homes
         int importCount = 0;
-        System.out.println(ePlayer.getHomes().toString());
         for (String home : ePlayer.getHomes()) {
             LocationWrapper locationWrapper = ePlayer.getHome(home);
             if (locationWrapper == null) {
@@ -81,7 +80,7 @@ public class EssentialsManager implements PluginDataManager {
             if (!fPlayer.doesHomeExist(home)) {
                 //Home name doesn't exist
                 if (!verifyHomeName(home)) {
-                    String oldHomeName = String.valueOf(home);
+                    String oldHomeName = home;
                     while (true) {
                         home = String.valueOf((int) (Math.random() * 9999 + 1));
                         if (!fPlayer.doesHomeExist(home)) {
