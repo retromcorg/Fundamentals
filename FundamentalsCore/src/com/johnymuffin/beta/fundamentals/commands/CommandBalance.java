@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-import static com.johnymuffin.beta.fundamentals.util.Utils.getPlayerFromString;
 import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
+import static com.johnymuffin.beta.fundamentals.util.Utils.getPlayerFromString;
 
 public class CommandBalance implements CommandExecutor {
     @Override
@@ -61,7 +61,7 @@ public class CommandBalance implements CommandExecutor {
     private void printBalance(String playerName, CommandSender commandSender, EconomyAPI.BalanceWrapper balanceWrapper) {
         if (balanceWrapper.getEconomyResult() == EconomyAPI.EconomyResult.successful) {
             String message = FundamentalsLanguage.getInstance().getMessage("balance_successful");
-            message = message.replace("%var1%", String.valueOf(balanceWrapper.getBalance()));
+            message = message.replace("%var1%", String.valueOf((int) balanceWrapper.getBalance()));
             commandSender.sendMessage(message);
         } else if (balanceWrapper.getEconomyResult() == EconomyAPI.EconomyResult.userNotKnown) {
             String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");

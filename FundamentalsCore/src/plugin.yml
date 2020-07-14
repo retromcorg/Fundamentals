@@ -1,7 +1,7 @@
 name: Fundamentals
 description: A Essentials like plugin for Beta 1.7.3 designed for Project Poseidon
 main: com.johnymuffin.beta.fundamentals.Fundamentals
-version: 1.0.0
+version: 1.0.1
 authors:
   - JohnyMuffin
 softdepend:
