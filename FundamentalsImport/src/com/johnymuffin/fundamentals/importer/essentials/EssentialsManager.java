@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.util.logging.Level;
 
+import static com.johnymuffin.beta.fundamentals.util.Utils.verifyHomeName;
+
 public class EssentialsManager implements PluginDataManager {
     private File essentialsFolder;
     private Fundamentals plugin;
@@ -78,6 +80,18 @@ public class EssentialsManager implements PluginDataManager {
             }
             if (!fPlayer.doesHomeExist(home)) {
                 //Home name doesn't exist
+                if (!verifyHomeName(home)) {
+                    String oldHomeName = String.valueOf(home);
+                    while (true) {
+                        home = String.valueOf((int) (Math.random() * 9999 + 1));
+                        if (!fPlayer.doesHomeExist(home)) {
+                            player.sendMessage(ChatColor.BLUE + "Renamed home " + oldHomeName + " to " + home);
+                            break;
+                        }
+                    }
+                }
+
+
                 Location location = new Location(Bukkit.getServer().getWorld(locationWrapper.getWorld()), locationWrapper.getX(), locationWrapper.getY(), locationWrapper.getZ(), locationWrapper.getYaw(), locationWrapper.getPitch());
                 fPlayer.setPlayerHome(home, location);
                 importCount = importCount + 1;
