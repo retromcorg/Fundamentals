@@ -4,4 +4,4 @@ main: com.johnymuffin.fundamentals.importer.FundamentalsESSBridge
 version: 1.0.0
 authors:
   - JohnyMuffin
-#depend: [Fundamentals, Essentials]
+depend: [Fundamentals, Essentials]
