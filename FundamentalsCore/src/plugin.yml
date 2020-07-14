@@ -25,10 +25,10 @@ commands:
   delhome:
     description: a home command
     usage: /<command>
-#  balance:
-#    description: a balance command
-#    usage: /<command>
-#    aliases: [bal]
+  balance:
+    description: a balance command
+    usage: /<command>
+    aliases: [bal]
 #  pay:
 #    description: a economy command
 #    usage: /<command>

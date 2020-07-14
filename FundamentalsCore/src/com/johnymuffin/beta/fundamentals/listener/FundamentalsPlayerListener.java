@@ -68,7 +68,7 @@ public class FundamentalsPlayerListener implements Listener {
                 if (event.getPlayer().hasPermission("fundamentals.nickname.color") || event.getPlayer().isOp()) {
                     displayName = formatColor(displayName);
                 }
-                event.getPlayer().setDisplayName("~" + displayName + "&f");
+//                event.getPlayer().setDisplayName("~" + displayName + "&f");
             }
             //Nickname End
 
@@ -96,7 +96,7 @@ public class FundamentalsPlayerListener implements Listener {
             if (player.hasPermission("fundamentals.nickname.color") || player.isOp()) {
                 displayName = formatColor(displayName + "&f");
             }
-            player.setDisplayName("~" + displayName);
+//            player.setDisplayName("~" + displayName);
         }
         //Nickname End
 
