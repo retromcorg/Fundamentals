@@ -44,7 +44,7 @@ public class CommandSetHome implements CommandExecutor {
                     return true;
                 }
             } else {
-                if (homeCount < limit + 1) {
+                if (homeCount > limit + 1) {
                     String msg = FundamentalsLanguage.getInstance().getMessage("sethome_limit_reached");
                     msg = msg.replaceAll("%var1%", String.valueOf(limit));
                     commandSender.sendMessage(msg);
