@@ -26,6 +26,7 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.afk.time", 60 * 5);
         generateConfigOption("settings.afk.kick.enabled", true);
         generateConfigOption("settings.afk.kick.time", 60 * 25);
+        generateConfigOption("settings.import.player-stats-url", "https://example.com/player/stats?username=");
 
 
     }
