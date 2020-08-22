@@ -30,8 +30,8 @@ public class FSBPlayerListener implements Listener {
 
 
         //Essentials Start
-        if (essM.doesPlayerExist(event.getPlayer().getName()) && fundamentalsPlayer.isFirstJoin()) {
-            plugin.getFundamentals().debugLogger(Level.INFO, "Importing Essentials data for " + event.getPlayer(), 2);
+        if (essM.doesPlayerExist(event.getPlayer().getName())) {
+//            plugin.getFundamentals().debugLogger(Level.INFO, "Importing Essentials data for " + event.getPlayer(), 2);
             if (!Utils.doesImportEntryExist("essentials-homes", fundamentalsPlayer)) {
                 essM.importHomes(event.getPlayer(), fundamentalsPlayer, plugin.getFundamentals());
                 Utils.addImportEntry("essentials-homes", fundamentalsPlayer);
