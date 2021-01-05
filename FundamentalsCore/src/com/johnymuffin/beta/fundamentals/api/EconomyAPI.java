@@ -2,6 +2,7 @@ package com.johnymuffin.beta.fundamentals.api;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
+import com.johnymuffin.beta.fundamentals.util.FundamentalsEventFactory;
 
 import java.util.UUID;
 import java.util.logging.Level;
@@ -40,6 +41,7 @@ public class EconomyAPI {
                 return EconomyResult.notEnoughFunds;
             }
             player.setBalance(balance);
+            FundamentalsEventFactory.callEconomyUpdateEvent(plugin, player); //Call event so other plugins can update
             return EconomyResult.successful;
         } catch (Exception e) {
             Fundamentals.getPlugin().logger(Level.WARNING, "An error occurred trying to change the balance of " + uuid.toString() + ": " + e.getMessage());
@@ -57,6 +59,7 @@ public class EconomyAPI {
             FundamentalsPlayer player = plugin.getPlayerMap().getPlayer(uuid);
             double balance = player.getBalance() + amount;
             player.setBalance(balance);
+            FundamentalsEventFactory.callEconomyUpdateEvent(plugin, player); //Call event so other plugins can update
             return EconomyResult.successful;
         } catch (Exception e) {
             Fundamentals.getPlugin().logger(Level.WARNING, "An error occurred trying to change the balance of " + uuid.toString() + ": " + e.getMessage());
@@ -73,6 +76,7 @@ public class EconomyAPI {
         try {
             FundamentalsPlayer player = plugin.getPlayerMap().getPlayer(uuid);
             player.setBalance(amount);
+            FundamentalsEventFactory.callEconomyUpdateEvent(plugin, player); //Call event so other plugins can update
             return EconomyResult.successful;
         } catch (Exception e) {
             Fundamentals.getPlugin().logger(Level.WARNING, "An error occurred trying to change the balance of " + uuid.toString() + ": " + e.getMessage());

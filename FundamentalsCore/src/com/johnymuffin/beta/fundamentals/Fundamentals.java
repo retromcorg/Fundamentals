@@ -5,8 +5,10 @@ import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
 import com.johnymuffin.beta.fundamentals.commands.*;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsEntityListener;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsPlayerListener;
+import com.johnymuffin.beta.fundamentals.settings.EconomyCache;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsConfig;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
+import com.johnymuffin.beta.fundamentals.settings.UUIDCache;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -31,6 +33,9 @@ public class Fundamentals extends JavaPlugin {
     private Long lastAutoSaveTime = System.currentTimeMillis() / 1000l;
     //API
     private EconomyAPI economyAPI;
+    //Storage
+    private UUIDCache uuidCache;
+    private EconomyCache economyCache;
     //Invsee Comamnd
     private HashMap<UUID, ItemStack[]> invSee = new HashMap<UUID, ItemStack[]>();
 
@@ -65,6 +70,8 @@ public class Fundamentals extends JavaPlugin {
         FundamentalsAPI.setFundamentals(plugin);
         economyAPI = new EconomyAPI(plugin);
 
+        this.logger(Level.INFO, "Initializing UUIDCache");
+        uuidCache = new UUIDCache(plugin);
 
         //Listeners
         final FundamentalsPlayerListener fundamentalsPlayerListener = new FundamentalsPlayerListener(plugin);
@@ -91,7 +98,7 @@ public class Fundamentals extends JavaPlugin {
         Bukkit.getPluginCommand("sethome").setExecutor(new CommandSetHome());
         Bukkit.getPluginCommand("delhome").setExecutor(new CommandDelhome());
         Bukkit.getPluginCommand("balance").setExecutor(new CommandBalance());
-//        Bukkit.getPluginCommand("economy").setExecutor(new CommandEconomy());
+        Bukkit.getPluginCommand("economy").setExecutor(new CommandEconomy());
 //        Bukkit.getPluginCommand("pay").setExecutor(new CommandPay());
 //        Bukkit.getPluginCommand("god").setExecutor(new CommandGod());
 //        Bukkit.getPluginCommand("nickname").setExecutor(new CommandNickname());
@@ -106,7 +113,7 @@ public class Fundamentals extends JavaPlugin {
                 if (lastAutoSaveTime + autoSavePeriod < getUnix()) {
                     lastAutoSaveTime = getUnix();
                     debugLogger(Level.INFO, "Automatically saving data.", 2);
-                    FundamentalsPlayerMap.getInstance().saveData();
+                    saveData();
                 }
                 FundamentalsPlayerMap.getInstance(plugin).runTimerTasks();
             });
@@ -115,6 +122,12 @@ public class Fundamentals extends JavaPlugin {
         long endTimeUnix = System.currentTimeMillis() / 1000L;
         log.info("[" + pluginName + "] Has Loaded, loading took " + (int) (endTimeUnix - startTimeUnix) + " seconds.");
 
+    }
+
+    public void saveData() {
+        FundamentalsPlayerMap.getInstance().saveData();
+        economyCache.saveData();
+        uuidCache.saveData();
     }
 
     @Override
@@ -129,7 +142,7 @@ public class Fundamentals extends JavaPlugin {
         //Force Disable InvSee End
 
         //Save Player Data
-        FundamentalsPlayerMap.getInstance().serverShutdown();
+        saveData();
     }
 
     public void logger(Level level, String message) {
@@ -186,6 +199,14 @@ public class Fundamentals extends JavaPlugin {
             return itemStacks;
         }
         return null;
+    }
+
+    public UUIDCache getUuidCache() {
+        return uuidCache;
+    }
+
+    public EconomyCache getEconomyCache() {
+        return economyCache;
     }
 
 

@@ -1,7 +1,7 @@
 name: Fundamentals
 description: A Essentials like plugin for Beta 1.7.3 designed for Project Poseidon
 main: com.johnymuffin.beta.fundamentals.Fundamentals
-version: 1.0.2
+version: 1.0.3
 authors:
   - JohnyMuffin
 softdepend:
@@ -32,10 +32,10 @@ commands:
 #  pay:
 #    description: a economy command
 #    usage: /<command>
-#  economy:
-#    description: a economy command
-#    usage: /<command>
-#    aliases: [eco]
+  economy:
+    description: a economy command
+    usage: /<command>
+    aliases: [eco]
 #  god:
 #    description: a god command
 #    usage: /<command>

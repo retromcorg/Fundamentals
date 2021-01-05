@@ -32,5 +32,12 @@ public class FundamentalsEntityListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+        if (event.getEntity() instanceof Player && plugin.getPlayerMap().getPlayer((Player) event.getEntity()).getFileGodModeStatus()) {
+            event.setCancelled(true);
+        }
+    }
+
 
 }

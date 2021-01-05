@@ -2,6 +2,7 @@ package com.johnymuffin.beta.fundamentals.listener;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
+import com.johnymuffin.beta.fundamentals.events.FEconomyUpdateEvent;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import com.projectposeidon.api.PoseidonUUID;
@@ -23,7 +24,7 @@ import org.bukkit.event.player.*;
 import java.util.UUID;
 import java.util.logging.Level;
 
-import static com.johnymuffin.beta.fundamentals.util.Utils.formatColor;
+import static com.johnymuffin.beta.fundamentals.util.Utils.*;
 
 public class FundamentalsPlayerListener implements Listener {
     private Fundamentals plugin;
@@ -38,6 +39,9 @@ public class FundamentalsPlayerListener implements Listener {
         if (event.getResult() != PlayerLoginEvent.Result.ALLOWED) {
             return;
         }
+        //Store UUID in cache
+        plugin.getUuidCache().addUser(event.getPlayer().getName(), event.getPlayer().getUniqueId());
+
     }
 
     @EventHandler(ignoreCancelled = true, priority = Event.Priority.Highest)
@@ -50,20 +54,29 @@ public class FundamentalsPlayerListener implements Listener {
         }
 
         //Player Data File
+        FundamentalsPlayer fPlayer = FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer());
+
         boolean fistJoin = !FundamentalsPlayerMap.getInstance().isPlayerKnown(event.getPlayer().getUniqueId());
-        FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer());
-        FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).setFirstJoin(fistJoin);
+        fPlayer.setFirstJoin(fistJoin);
+
+        //Store balance in economy cache
+        if (fPlayer.getBalance() > 1) {
+            plugin.getEconomyCache().saveRecord(event.getPlayer().getUniqueId(), fPlayer.getBalance());
+        }
+
+        //Vanish Information
+        updateVanishedPlayers();
 
         //Online Player
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             if (!event.getPlayer().isOnline()) {
                 return;
             }
-            FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
-            FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).playerJoinUpdate(event.getPlayer().getName());
+            fPlayer.updateActivity();
+            fPlayer.playerJoinUpdate(event.getPlayer().getName());
 
             //Nickname Start
-            String displayName = FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).getNickname();
+            String displayName = fPlayer.getNickname();
             if (displayName != null) {
                 if (event.getPlayer().hasPermission("fundamentals.nickname.color") || event.getPlayer().isOp()) {
                     displayName = formatColor(displayName);
@@ -169,6 +182,11 @@ public class FundamentalsPlayerListener implements Listener {
                 return;
             }
         }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onEconomyUpdate(FEconomyUpdateEvent economyUpdateEvent) {
+
     }
 
 
