@@ -1,4 +1,4 @@
-package com.johnymuffin.beta.fundamentals.uuidcache;
+package com.johnymuffin.beta.fundamentals.settings;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.simplejson.JSONArray;
@@ -12,7 +12,7 @@ import java.util.logging.Level;
 
 public class UUIDCache {
     private Fundamentals plugin;
-    private JSONArray UUIDCacheArray;
+    private JSONObject usernameUUIDCache;
     private File cacheFile;
     private boolean memoryOnly = false;
 
@@ -24,8 +24,8 @@ public class UUIDCache {
             try {
                 FileWriter file = new FileWriter(cacheFile);
                 plugin.debugLogger(Level.INFO, "Generating UUIDCache.json file", 1);
-                UUIDCacheArray = new JSONArray();
-                file.write(UUIDCacheArray.toJSONString());
+                usernameUUIDCache = new JSONObject();
+                file.write(usernameUUIDCache.toJSONString());
                 file.flush();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -35,56 +35,29 @@ public class UUIDCache {
         try {
             plugin.debugLogger(Level.INFO, "Reading UUIDCache.json file", 1);
             JSONParser parser = new JSONParser();
-            UUIDCacheArray = (JSONArray) parser.parse(new FileReader(cacheFile));
+            usernameUUIDCache = (JSONObject) parser.parse(new FileReader(cacheFile));
         } catch (ParseException e) {
             plugin.logger(Level.WARNING, "UUIDCache.json file is corrupt, resetting file: " + e + " : " + e.getMessage());
-            UUIDCacheArray = new JSONArray();
+            usernameUUIDCache = new JSONObject();
         } catch (Exception e) {
             plugin.logger(Level.WARNING, "UUIDCache.json file is corrupt, changing to memory only mode.");
             memoryOnly = true;
-            UUIDCacheArray = new JSONArray();
+            usernameUUIDCache = new JSONObject();
         }
 
 
     }
 
     public void addUser(String username, UUID uuid) {
-        username = username.toLowerCase();
-        //Remove preexisting cache for username
-        removeInstanceOfUsername(username);
-        JSONObject tmp = new JSONObject();
-        tmp.put("username", username);
-        tmp.put("uuid", uuid.toString());
-        UUIDCacheArray.add(tmp);
+        usernameUUIDCache.put(username.toLowerCase(), uuid.toString());
     }
 
     public UUID getUUIDFromUsername(String username) {
-        for (int i = 0; i < UUIDCacheArray.size(); i++) {
-            JSONObject tmp = (JSONObject) UUIDCacheArray.get(i);
-            if (((String) tmp.get("username")).equalsIgnoreCase(username)) {
-                return UUID.fromString(String.valueOf(tmp.get("uuid")));
-            }
+        username = username.toLowerCase();
+        if (usernameUUIDCache.containsKey(username)) {
+            return UUID.fromString(String.valueOf(usernameUUIDCache.get(username)));
         }
         return null;
-    }
-
-
-    private void removeInstanceOfUsername(String username) {
-        boolean stillRemoving = true;
-        while (stillRemoving) {
-            boolean removedEntry = false;
-            for (int i = 0; i < UUIDCacheArray.size(); i++) {
-                JSONObject tmp = (JSONObject) UUIDCacheArray.get(i);
-                if (((String) tmp.get("username")).equalsIgnoreCase(username)) {
-                    UUIDCacheArray.remove(i);
-                    removedEntry = true;
-                    break;
-                }
-            }
-            if (!removedEntry) {
-                stillRemoving = false;
-            }
-        }
     }
 
 
@@ -98,12 +71,11 @@ public class UUIDCache {
         }
         try (FileWriter file = new FileWriter(cacheFile)) {
             plugin.debugLogger(Level.INFO, "Saving UUIDCache.json", 1);
-            file.write(UUIDCacheArray.toJSONString());
+            file.write(usernameUUIDCache.toJSONString());
             file.flush();
         } catch (IOException e) {
             plugin.logger(Level.WARNING, "Error saving UUIDCache.json: " + e + " : " + e.getMessage());
         }
     }
-
 
 }

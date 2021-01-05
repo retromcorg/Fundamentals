@@ -101,6 +101,21 @@ public class FundamentalsPlayerFile {
     }
     //Nickname End
 
+    //Vanish Start
+    public boolean isVanished() {
+        if (jsonData.get("vanished") == null) {
+            return false;
+        }
+        return Boolean.valueOf(String.valueOf(jsonData.get("vanished")));
+    }
+
+    public void setVanished(boolean vanished) {
+        modified = true;
+        jsonData.put("vanished", vanished);
+    }
+
+    //Vanish End
+
     //Ignores start
     public void addUserIgnore(UUID uuid) {
         JSONArray ignores;

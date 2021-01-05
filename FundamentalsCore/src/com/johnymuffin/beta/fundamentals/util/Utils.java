@@ -1,5 +1,7 @@
 package com.johnymuffin.beta.fundamentals.util;
 
+import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
+import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.projectposeidon.api.PoseidonUUID;
 import com.projectposeidon.api.UUIDType;
 import org.bukkit.Bukkit;
@@ -152,6 +154,23 @@ public class Utils {
     public static String formatColor(String s) {
         return s.replaceAll("(&([a-f0-9]))", "\u00A7$2");
 
+    }
+
+    public static void updateVanishedPlayers() {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            FundamentalsPlayer fPlayer = FundamentalsPlayerMap.getInstance().getPlayer(p);
+            if (fPlayer.isVanished()) {
+                for (Player p2 : Bukkit.getOnlinePlayers()) {
+                    if (!(p2.hasPermission("fundamentals.vanish.bypass") || p2.isOp())) {
+                        p2.hidePlayer(p);
+                    }
+                }
+            } else {
+                for (Player p2 : Bukkit.getOnlinePlayers()) {
+                    p2.showPlayer(p);
+                }
+            }
+        }
     }
 
 
