@@ -1,12 +1,13 @@
 package com.johnymuffin.beta.fundamentals.events;
 
+import com.johnymuffin.beta.fundamentals.Fundamentals;
+import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import org.bukkit.event.Event;
 
-public class EconomyUpdateEvent extends Event {
+public class FEconomyUpdateEvent extends FundamentalsPlayerEvent {
 
-    public EconomyUpdateEvent() {
-        super("FundamentalsEconomyUpdateEvent");
-
+    public FEconomyUpdateEvent(Fundamentals plugin, FundamentalsPlayer fundamentalsPlayer) {
+        super("FundamentalsEconomyUpdateEvent", plugin, fundamentalsPlayer);
     }
 
 }
