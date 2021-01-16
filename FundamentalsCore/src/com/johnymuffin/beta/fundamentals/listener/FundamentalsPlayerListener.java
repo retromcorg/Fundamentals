@@ -144,14 +144,29 @@ public class FundamentalsPlayerListener implements Listener {
         if (plugin.isPlayerInvSee(event.getPlayer().getUniqueId())) {
             event.getPlayer().sendMessage(FundamentalsLanguage.getInstance().getMessage("invsee_deny"));
             event.setCancelled(true);
+            return;
         }
+
+        if (plugin.getPlayerMap().getPlayer(event.getPlayer()).isVanished()) {
+            event.getPlayer().sendMessage(FundamentalsLanguage.getInstance().getMessage("vanish_deny"));
+            event.setCancelled(true);
+            return;
+        }
+
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerItemPickup(PlayerPickupItemEvent event) {
         if (plugin.isPlayerInvSee(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
+            return;
         }
+
+        if (plugin.getPlayerMap().getPlayer(event.getPlayer()).isVanished()) {
+            event.setCancelled(true);
+            return;
+        }
+
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -175,13 +190,13 @@ public class FundamentalsPlayerListener implements Listener {
             craftBlock.setTypeId(craftWorld.getBlockTypeIdAt(location));
             if (craftBlock.getState() instanceof org.bukkit.block.ContainerBlock) {
                 event.getPlayer().sendMessage(FundamentalsLanguage.getInstance().getMessage("invsee_deny"));
-
-
                 event.setCancelled(true);
-
-                return;
             }
+            return;
         }
+
+
+
     }
 
     @EventHandler(ignoreCancelled = true)
