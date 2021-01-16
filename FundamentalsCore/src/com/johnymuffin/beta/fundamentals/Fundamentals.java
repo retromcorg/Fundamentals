@@ -73,6 +73,9 @@ public class Fundamentals extends JavaPlugin {
         this.logger(Level.INFO, "Initializing UUIDCache");
         uuidCache = new UUIDCache(plugin);
 
+        this.logger(Level.INFO, "Initializing Economy Cache");
+        economyCache = new EconomyCache(plugin);
+
         //Listeners
         final FundamentalsPlayerListener fundamentalsPlayerListener = new FundamentalsPlayerListener(plugin);
         Bukkit.getPluginManager().registerEvents(fundamentalsPlayerListener, plugin);
@@ -105,7 +108,7 @@ public class Fundamentals extends JavaPlugin {
 //        Bukkit.getPluginCommand("invsee").setExecutor(new CommandInvsee(plugin));
 //        Bukkit.getPluginCommand("clearinventory").setExecutor(new CommandClearInventory(plugin));
 //        Bukkit.getPluginCommand("time").setExecutor(new CommandTime(plugin));
-
+        Bukkit.getPluginCommand("vanish").setExecutor(new CommandVanish(plugin));
         //Timer
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, () -> {
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
