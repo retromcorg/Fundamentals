@@ -76,6 +76,10 @@ public class FundamentalsLanguage extends Configuration {
         map.put("invsee_enable", "&bYou have enabled InvSee for %var1%");
         //Vanish
         map.put("vanish_deny", "&cSorry, you can't do that while you are in vanish");
+        map.put("vanish_successful_other_enabled", "&bEnabled vanish for another player.");
+        map.put("vanish_successful_other_disabled", "&4Disabled vanish for another player.");
+        map.put("vanish_disabled", "&4Vanish Disabled.");
+        map.put("vanish_enable", "7bVanish Enabled.")
         //Clear Inventory
         map.put("clearinventory_notice", "&9Your inventory has been cleared");
         map.put("clearinventory_successfully", "&9Inventory cleared successfully");
