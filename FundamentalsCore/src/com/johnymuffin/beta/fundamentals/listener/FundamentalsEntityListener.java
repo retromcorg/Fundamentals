@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 
 public class FundamentalsEntityListener implements Listener {
     private Fundamentals plugin;
@@ -36,6 +37,17 @@ public class FundamentalsEntityListener implements Listener {
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player && plugin.getPlayerMap().getPlayer((Player) event.getEntity()).getFileGodModeStatus()) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onEntityTarget(EntityTargetEvent event) {
+        if (event.getTarget() instanceof Player) {
+            if (plugin.getPlayerMap().getPlayer((Player) event.getTarget()).isVanished()) {
+                if(plugin.getFundamentalConfig().getConfigBoolean("settings.vanish-hidden-from-mobs")) {
+                    event.setCancelled(true);
+                }
+            }
         }
     }
 

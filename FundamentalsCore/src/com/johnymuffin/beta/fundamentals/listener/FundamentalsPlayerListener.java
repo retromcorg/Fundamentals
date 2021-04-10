@@ -9,6 +9,7 @@ import com.projectposeidon.api.PoseidonUUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.CraftChunk;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -179,6 +180,22 @@ public class FundamentalsPlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent event) {
+        //Vanish
+        if (plugin.getPlayerMap().getPlayer(event).isVanished()) {
+            if (plugin.getFundamentalConfig().getConfigBoolean("settings.vanish.block-interactions")) {
+                if (event.getAction() == Action.PHYSICAL && event.hasBlock()) {
+                    if (event.getMaterial() == Material.WOOD_PLATE || event.getMaterial() == Material.STONE_PLATE) {
+                        event.setCancelled(true);
+                    }
+                } else if (event.getMaterial() == Material.STONE_BUTTON) {
+                    event.getPlayer().sendMessage(FundamentalsLanguage.getInstance().getMessage("vanish_deny"));
+                    event.setCancelled(true);
+                }
+            }
+        }
+
+
+        //Invsee - Block opening chests
         if (plugin.isPlayerInvSee(event.getPlayer().getUniqueId())) {
             if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
                 return;
@@ -194,7 +211,6 @@ public class FundamentalsPlayerListener implements Listener {
             }
             return;
         }
-
 
 
     }
