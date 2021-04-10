@@ -78,6 +78,7 @@ public class FundamentalsPlayerFile {
     public void setBalance(Double amount) {
         modified = true;
         jsonData.put("balance", amount);
+        plugin.getEconomyCache().saveRecord(uuid, amount); //Save the balance for any economy transaction that might occur, even if the player is offline.
     }
 
     //Economy End
