@@ -3,6 +3,7 @@ package com.johnymuffin.beta.fundamentals;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsConfig;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerEvent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -84,6 +85,10 @@ public class FundamentalsPlayerMap {
 
     public FundamentalsPlayer getPlayer(Player p) {
         return getPlayer(p.getUniqueId());
+    }
+
+    public FundamentalsPlayer getPlayer(PlayerEvent event) {
+        return getPlayer(event.getPlayer());
     }
 
     public void removePlayerFromMap(UUID uuid) {
