@@ -2,19 +2,18 @@ package com.johnymuffin.beta.fundamentals;
 
 import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
 import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
+import com.johnymuffin.beta.fundamentals.banks.FundamentalsBank;
 import com.johnymuffin.beta.fundamentals.commands.*;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsEntityListener;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsPlayerListener;
-import com.johnymuffin.beta.fundamentals.settings.EconomyCache;
-import com.johnymuffin.beta.fundamentals.settings.FundamentalsConfig;
-import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
-import com.johnymuffin.beta.fundamentals.settings.UUIDCache;
+import com.johnymuffin.beta.fundamentals.settings.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -36,8 +35,10 @@ public class Fundamentals extends JavaPlugin {
     //Storage
     private UUIDCache uuidCache;
     private EconomyCache economyCache;
+    private HashMap<String, FundamentalsBank> banks = new HashMap<>();
     //Invsee Comamnd
     private HashMap<UUID, ItemStack[]> invSee = new HashMap<UUID, ItemStack[]>();
+    private BankManager bankManager;
 
     @Override
     public void onEnable() {
@@ -75,6 +76,16 @@ public class Fundamentals extends JavaPlugin {
 
         this.logger(Level.INFO, "Initializing Economy Cache");
         economyCache = new EconomyCache(plugin);
+
+        this.logger(Level.INFO, "Loading Fundamentals Banks");
+        bankManager = new BankManager(plugin);
+        int i = 0;
+        for (FundamentalsBank bank : bankManager.getBanks()) {
+            this.banks.put(bank.getBankName(), bank);
+            i = i + 1;
+        }
+        this.debugLogger(Level.INFO, "Loaded " + i + " banks into memory.", 1);
+
 
         //Listeners
         final FundamentalsPlayerListener fundamentalsPlayerListener = new FundamentalsPlayerListener(plugin);
@@ -131,6 +142,13 @@ public class Fundamentals extends JavaPlugin {
         FundamentalsPlayerMap.getInstance().saveData();
         economyCache.saveData();
         uuidCache.saveData();
+        FundamentalsBank[] banks = new FundamentalsBank[this.banks.size()];
+        int i = 0;
+        for (String bankName : this.banks.keySet()) {
+            banks[i] = this.banks.get(bankName);
+            i = i + 1;
+        }
+        bankManager.saveBanks(banks);
     }
 
     @Override
@@ -210,6 +228,10 @@ public class Fundamentals extends JavaPlugin {
 
     public EconomyCache getEconomyCache() {
         return economyCache;
+    }
+
+    public HashMap<String, FundamentalsBank> getBanks() {
+        return banks;
     }
 
 
