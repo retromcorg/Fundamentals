@@ -5,6 +5,7 @@ import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.events.FEconomyUpdateEvent;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
+import com.johnymuffin.jperms.beta.JohnyPerms;
 import com.projectposeidon.api.PoseidonUUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,11 +22,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.*;
+import ru.tehkode.permissions.PermissionManager;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 import java.util.UUID;
 import java.util.logging.Level;
 
-import static com.johnymuffin.beta.fundamentals.util.Utils.*;
+import static com.johnymuffin.beta.fundamentals.util.Utils.formatColor;
+import static com.johnymuffin.beta.fundamentals.util.Utils.updateVanishedPlayers;
 
 public class FundamentalsPlayerListener implements Listener {
     private Fundamentals plugin;
@@ -68,6 +72,14 @@ public class FundamentalsPlayerListener implements Listener {
         //Vanish Information
         updateVanishedPlayers();
 
+//        //Join message
+//        String message = plugin.getFundamentalConfig().getConfigString("settings.joinandleave.join-message");
+//        message = message.replace("%player%", event.getPlayer().getName());
+//
+//
+//
+//        event.setJoinMessage(formatColor());
+
         //Online Player
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             if (!event.getPlayer().isOnline()) {
@@ -88,6 +100,23 @@ public class FundamentalsPlayerListener implements Listener {
 
 
         }, 20L);
+
+    }
+
+    public String getPrefix(Player player) {
+        if (Bukkit.getPluginManager().isPluginEnabled("JPerms")) {
+            if (JohnyPerms.getJPermsAPI().getUser(player.getUniqueId()).getGroup().getPrefix() != null) {
+                return JohnyPerms.getJPermsAPI().getUser(player.getUniqueId()).getGroup().getPrefix();
+            }
+        }
+        if (Bukkit.getPluginManager().isPluginEnabled("PermissionsEx")) {
+            PermissionManager permissionManager = PermissionsEx.getPermissionManager();
+            if (permissionManager.getUser(player).getPrefix() != null) {
+                return permissionManager.getUser(player).getPrefix();
+            }
+        }
+        return "&f[&4Unknown&f]";
+
 
     }
 
