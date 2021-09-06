@@ -4,16 +4,20 @@ import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
 import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
 import com.johnymuffin.beta.fundamentals.banks.FundamentalsBank;
 import com.johnymuffin.beta.fundamentals.commands.*;
+import com.johnymuffin.beta.fundamentals.hooks.permissions.JPermsHook;
+import com.johnymuffin.beta.fundamentals.hooks.permissions.PermissionsHook;
+import com.johnymuffin.beta.fundamentals.hooks.permissions.SuperPermsHook;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsEntityListener;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsPlayerListener;
 import com.johnymuffin.beta.fundamentals.settings.*;
+import com.johnymuffin.beta.fundamentals.util.FundamentalsDependencies;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -39,6 +43,11 @@ public class Fundamentals extends JavaPlugin {
     //Invsee Comamnd
     private HashMap<UUID, ItemStack[]> invSee = new HashMap<UUID, ItemStack[]>();
     private BankManager bankManager;
+    //Dependency store
+    private HashMap<FundamentalsDependencies, Boolean> dependenciesMap = new HashMap<>();
+
+    private PermissionsHook[] permissionsHooks;
+
 
     @Override
     public void onEnable() {
@@ -81,7 +90,7 @@ public class Fundamentals extends JavaPlugin {
         bankManager = new BankManager(plugin);
         int i = 0;
         for (FundamentalsBank bank : bankManager.getBanks()) {
-            this.banks.put(bank.getBankName(), bank);
+            this.banks.put(bank.getBankName().toLowerCase(), bank);
             i = i + 1;
         }
         this.debugLogger(Level.INFO, "Loaded " + i + " banks into memory.", 1);
@@ -102,6 +111,8 @@ public class Fundamentals extends JavaPlugin {
             discordCoreHook = true;
             debugLogger(Level.INFO, "Discord Core has been detected.", 1);
         }
+        //Permissions Hook
+        initializeHooks();
         long startTimeUnix = System.currentTimeMillis() / 1000L;
 
 
@@ -120,6 +131,7 @@ public class Fundamentals extends JavaPlugin {
 //        Bukkit.getPluginCommand("clearinventory").setExecutor(new CommandClearInventory(plugin));
 //        Bukkit.getPluginCommand("time").setExecutor(new CommandTime(plugin));
         Bukkit.getPluginCommand("vanish").setExecutor(new CommandVanish(plugin));
+        Bukkit.getPluginCommand("bank").setExecutor(new CommandBank(plugin));
         //Timer
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, () -> {
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
@@ -149,6 +161,7 @@ public class Fundamentals extends JavaPlugin {
             i = i + 1;
         }
         bankManager.saveBanks(banks);
+        bankManager.saveIfModified();
     }
 
     @Override
@@ -234,7 +247,45 @@ public class Fundamentals extends JavaPlugin {
         return banks;
     }
 
+    public HashMap<FundamentalsDependencies, Boolean> getDependenciesMap() {
+        return dependenciesMap;
+    }
+
+
+    public PermissionsHook getPermissionsHook() {
+        String preferredHook = plugin.getFundamentalConfig().getConfigString("settings.preferred-permissions-hook");
+        for (PermissionsHook permissionsHook : permissionsHooks) {
+            if (permissionsHook.isHookEnabled() && permissionsHook.getHookName().equalsIgnoreCase(preferredHook)) {
+                plugin.debugLogger(Level.INFO, "Preferred hook (" + preferredHook + ") was located and will be used", 2);
+                return permissionsHook;
+            }
+        }
+        //Yes, this is technically inefficient but I am lazy and the list will at maximum have 10 entries. I have chosen to reloop as I want to grab the highest priority plugin easily.
+        for (PermissionsHook permissionsHook : permissionsHooks) {
+            if (permissionsHook.isHookEnabled()) {
+                plugin.debugLogger(Level.INFO, "Hook (" + preferredHook + ") was located and will be used", 2);
+                return permissionsHook;
+            }
+        }
+
+        throw new RuntimeException("A Permissions Hook couldn't be found. This shouldn't be possible as the SuperPerms hook should always be available.");
+    }
+
 
     //InvSee End
+    public void initializeHooks() {
+        permissionsHooks = new PermissionsHook[2];
+        permissionsHooks[0] = new JPermsHook(plugin);
+        permissionsHooks[1] = new SuperPermsHook(plugin);
+
+
+        for (PermissionsHook permissionsHook : permissionsHooks) {
+            if (permissionsHook instanceof Listener) {
+                Bukkit.getServer().getPluginManager().registerEvents((Listener) permissionsHook, plugin);
+            }
+        }
+
+    }
+
 
 }

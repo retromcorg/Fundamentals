@@ -29,6 +29,12 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.import.player-stats-url", "https://example.com/player/stats?username=");
         generateConfigOption("settings.vanish.block-interactions", true);
         generateConfigOption("settings.vanish-hidden-from-mobs", true);
+        generateConfigOption("settings.preferred-permissions-hook", "JPerms");
+
+
+        generateConfigOption("settings.joinandleave.join-message", "%prefix% &c%player% &bJoined the game.");
+        generateConfigOption("settings.joinandleave.leave-message", "%prefix% &c%player% &bLeft the game.");
+        generateConfigOption("settings.joinandleave.kick-message", "%prefix% &c%player% &bWas kicked from the game.");
 
     }
 

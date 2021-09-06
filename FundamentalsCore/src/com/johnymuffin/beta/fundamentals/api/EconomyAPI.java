@@ -84,6 +84,7 @@ public class EconomyAPI {
         }
 
     }
+    
 
     public enum EconomyResult {
         successful,

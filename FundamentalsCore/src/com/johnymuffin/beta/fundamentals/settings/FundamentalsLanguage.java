@@ -86,6 +86,25 @@ public class FundamentalsLanguage extends Configuration {
         //Time Command
         map.put("time_info", "/time [day|night|dawn|17:30|4pm|4000ticks] [worldname|all]");
         map.put("time_change_successful", "The time has been changed");
+        //Bank Stuff
+        map.put("bank_Info", "&7Fundamentals Banking System\n&8/bank list - List your accounts\n&8/bank new (name) - Make account\n&8/bank (name) - Show bank details\n&8/bank (name) (deposit/withdraw) (amount)\n&8/bank (name) (add/remove) (username/uuid)");
+        map.put("bank_unknown", "&4Sorry, that bank account is unknown.");
+        map.put("bank_account_info", "&7Bank &6%var1%\n&7Amount: &6$%var2%\n&7Owner: &6%var3%\n&7Access List: &6%var4%");
+        map.put("bank_new", "&4You haven't provided enough arguments, /bank new (name)");
+        map.put("bank_delete", "&4You haven't provided enough arguments, /bank delete (name)");
+        map.put("bank_edit_access", "&4You haven't provided enough arguments, /bank (name) (add/remove) (username/uuid)");
+        map.put("bank_withdraw", "&4You haven't provided enough arguments, /bank (name) (deposit/withdraw) (amount)");
+        map.put("bank_invalid_name", "&4Only alphanumeric characters can be used in a bank name, A-Z,0-9");
+        map.put("bank_already_exists", "&4A bank with that name already exists. Please try another name.");
+        map.put("bank_created_successfully", "&6Your bank account has been created successfully.");
+        map.put("bank_delete_unauthorized", "&4Sorry, you cannot delete this bank account as you are not the owner.");
+        map.put("bank_add_unauthorized", "&4Sorry, you cannot add to this bank account as you are not the owner.");
+        map.put("bank_remove_unauthorized", "&4Sorry, you cannot remove users from the bank account as you are not the owner.");
+        map.put("bank_add_successfully", "&6The user has been added successfully.");
+        map.put("bank_remove_successfully", "&6The user has been removed successfully.");
+        map.put("bank_deposit_successfully", "&6You have successfully deposited money.");
+        map.put("bank_withdraw_successfully", "&6You have successfully deposited money.");
+        map.put("bank_withdraw_unauthorized", "&4Sorry, you cannot withdraw from the bank account as you are not the owner or authorized.");
 
 
     }

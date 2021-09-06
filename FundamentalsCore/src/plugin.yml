@@ -53,6 +53,9 @@ commands:
   vanish:
     description: Command to vanish player.
     usage: /<command>
+  bank:
+    description: Command to do bank stuff.
+    usage: /<command>
 #  time:
 #    description: time change command
 #    usage: /<command> [day|night|dawn|17:30|4pm|4000ticks] [worldname|all]

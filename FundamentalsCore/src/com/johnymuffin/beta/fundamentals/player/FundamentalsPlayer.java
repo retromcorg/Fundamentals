@@ -1,11 +1,14 @@
 package com.johnymuffin.beta.fundamentals.player;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
+import com.johnymuffin.beta.fundamentals.banks.FundamentalsBank;
 import com.johnymuffin.beta.fundamentals.playerdata.FundamentalsPlayerFile;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class FundamentalsPlayer extends FundamentalsPlayerFile {
@@ -116,6 +119,26 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         quitTime = System.currentTimeMillis() / 1000L;
     }
 
+    //TODO This method is actually pretty intensive and a better system should be implemented when I have more time.
+    public FundamentalsBank[] getAccessibleAccounts() {
+        List<FundamentalsBank> accounts = new ArrayList<>();
+        for (FundamentalsBank bank : plugin.getBanks().values()) {
+            if (bank.getBankOwner().equals(this.uuid)) {
+                accounts.add(bank);
+                continue;
+            }
+            for (UUID access : bank.getAccessList()) {
+                if (access.equals(this.uuid)) {
+                    accounts.add(bank);
+                    continue;
+                }
+            }
+        }
+
+        return (FundamentalsBank[]) accounts.toArray();
+    }
+
+
     public long getQuitTime() {
         return quitTime;
     }
@@ -132,3 +155,4 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         return isFirstJoin;
     }
 }
+
