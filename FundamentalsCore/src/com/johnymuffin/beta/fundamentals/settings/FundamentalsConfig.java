@@ -38,7 +38,7 @@ public class FundamentalsConfig extends Configuration {
 
     }
 
-    private void generateConfigOption(String key, Object defaultValue) {
+    public void generateConfigOption(String key, Object defaultValue) {
         if (this.getProperty(key) == null) {
             this.setProperty(key, defaultValue);
         }
