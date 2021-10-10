@@ -2,8 +2,6 @@ package com.johnymuffin.fundamentals.importer;
 
 import com.earth2me.essentials.Essentials;
 import com.johnymuffin.beta.fundamentals.Fundamentals;
-import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
-import com.johnymuffin.beta.fundamentals.simplejson.JSONArray;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,6 +30,11 @@ public class FundamentalsESSBridge extends JavaPlugin {
         fundamentals = (Fundamentals) Bukkit.getServer().getPluginManager().getPlugin("Fundamentals");
 
         Bukkit.getServer().getPluginManager().registerEvents(new FSBPlayerListener(plugin), plugin);
+
+        //Generate some settings YAAAAAAAAAAA
+        fundamentals.getFundamentalConfig().generateConfigOption("settings.fundamentals-importer.discordDebugEnabled", false);
+        fundamentals.getFundamentalConfig().generateConfigOption("settings.fundamentals-importer.discordChannelID", "0");
+        fundamentals.getFundamentalConfig().save();
 
 
     }

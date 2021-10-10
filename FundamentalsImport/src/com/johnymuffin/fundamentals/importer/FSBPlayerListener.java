@@ -2,20 +2,16 @@ package com.johnymuffin.fundamentals.importer;
 
 import com.earth2me.essentials.User;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
-import com.johnymuffin.beta.fundamentals.simplejson.JSONObject;
+import com.johnymuffin.discordcore.DiscordCore;
 import com.johnymuffin.fundamentals.importer.essentials.EssentialsManager;
-import com.johnymuffin.jstats.beta.JStats;
-import com.johnymuffin.jstats.beta.PPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.logging.Level;
-
-import static com.johnymuffin.beta.fundamentals.util.JsonReader.readJsonFromUrl;
 
 public class FSBPlayerListener implements Listener {
     private FundamentalsESSBridge plugin;
@@ -50,6 +46,61 @@ public class FSBPlayerListener implements Listener {
         }
         //Essentials End
 
+
+        //Towny & LWC Changer
+
+        if (fundamentalsPlayer.getInformation("last-username") != null && !String.valueOf(fundamentalsPlayer.getInformation("last-username")).equals(event.getPlayer().getName())) {
+            String newUsername = event.getPlayer().getName();
+            String oldUsername = String.valueOf(fundamentalsPlayer.getInformation("last-username"));
+
+            plugin.getFundamentals().debugLogger(Level.INFO, "[Account Transfer] PLayer " + oldUsername + " ("
+                    + event.getPlayer().getUniqueId().toString() + ") has changed their username to " + newUsername, 2);
+
+
+            ArrayList<String> debugTransfer = new ArrayList<String>();
+
+            //Run Towny Transfer
+            try {
+                (new TownyTransfer(newUsername, oldUsername, plugin.getFundamentals(), fundamentalsPlayer, debugTransfer)).runTransfer();
+            } catch (Exception exception) {
+                plugin.getFundamentals().debugLogger(Level.WARNING, "An error occurred attempting to run the Towny transfer", 2);
+                debugTransfer.add("An error occurred attempting to run the Towny transfer");
+                exception.printStackTrace();
+            }
+
+            //Run LWC Trnasfer
+            try {
+                (new LWCTransfer(newUsername, oldUsername, plugin.getFundamentals(), fundamentalsPlayer, debugTransfer)).runTransfer();
+            } catch (Exception exception) {
+                plugin.getFundamentals().debugLogger(Level.INFO, "An error occurred attempting to run the LWC transfer", 2);
+                debugTransfer.add("An error occurred attempting to run the LWC transfer");
+                exception.printStackTrace();
+            }
+
+
+            for (String debug : debugTransfer) {
+                plugin.getFundamentals().debugLogger(Level.INFO, "[Account Transfer] " + debug, 2);
+            }
+
+            //TODO: fix this lazy shit
+            try {
+                if (Bukkit.getServer().getPluginManager().isPluginEnabled("DiscordCore") && plugin.getFundamentals().getFundamentalConfig().getConfigBoolean("settings.fundamentals-importer.discordDebugEnabled")) {
+                    DiscordCore discordCore = (DiscordCore) Bukkit.getServer().getPluginManager().getPlugin("DiscordCore");
+                    String channelID = plugin.getFundamentals().getFundamentalConfig().getConfigString("settings.fundamentals-importer.discordChannelID");
+                    discordCore.getDiscordBot().discordSendToChannel(channelID, "**Automatic Account Transfer Task**");
+                    discordCore.getDiscordBot().discordSendToChannel(channelID, "**Old Username: **" + oldUsername + " **New Username: **" + newUsername);
+                    discordCore.getDiscordBot().discordSendToChannel(channelID, "**UUID: **" + event.getPlayer().getUniqueId());
+                    for (String debug : debugTransfer) {
+                        discordCore.getDiscordBot().discordSendToChannel(channelID, "- " + debug);
+                    }
+                }
+            } catch (Exception e) {
+                plugin.getFundamentals().debugLogger(Level.WARNING, "Failed to send transfer debug to Discord", 2);
+                e.printStackTrace();
+            }
+
+        }
+        fundamentalsPlayer.saveInformation("last-username", event.getPlayer().getName());
 
 
     }
