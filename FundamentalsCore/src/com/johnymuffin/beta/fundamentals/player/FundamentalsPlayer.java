@@ -20,6 +20,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     private boolean isAFK = false;
     private boolean isFirstJoin = false;
     private long quitTime = 0L;
+    private boolean fakeQuit = false;
 
     public FundamentalsPlayer(UUID uuid, Fundamentals plugin) {
         super(uuid, plugin);
@@ -153,6 +154,14 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
 
     public boolean isFirstJoin() {
         return isFirstJoin;
+    }
+
+    public boolean isFakeQuit() {
+        return fakeQuit;
+    }
+
+    public void setFakeQuit(boolean fakeQuit) {
+        this.fakeQuit = fakeQuit;
     }
 }
 

@@ -21,7 +21,7 @@ public class FundamentalsBank {
 
     public FundamentalsBank(JSONObject jsonInfo) {
         this.bankName = String.valueOf(jsonInfo.get("bankName"));
-        this.bankOwner = UUID.fromString(String.valueOf("ownerUUID"));
+        this.bankOwner = UUID.fromString(String.valueOf(jsonInfo.get("ownerUUID")));
         if (jsonInfo.containsKey("accessList")) {
             JSONArray arrayAccessList = (JSONArray) jsonInfo.get("accessList");
             this.accessList = new UUID[arrayAccessList.size()];
@@ -40,7 +40,7 @@ public class FundamentalsBank {
     public JSONObject getJSONObject() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("bankName", bankName);
-        jsonObject.put("ownerUUID", bankOwner);
+        jsonObject.put("ownerUUID", bankOwner.toString());
         JSONArray accessList = new JSONArray();
         for (UUID uuid : this.accessList) {
             accessList.add(uuid.toString());
@@ -73,4 +73,5 @@ public class FundamentalsBank {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
 }

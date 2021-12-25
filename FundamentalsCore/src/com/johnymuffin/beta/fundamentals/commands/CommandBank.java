@@ -5,14 +5,18 @@ import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
 import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
 import com.johnymuffin.beta.fundamentals.banks.FundamentalsBank;
 import com.johnymuffin.beta.fundamentals.events.BankCreationEvent;
+import com.johnymuffin.beta.fundamentals.settings.BankManager;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
 import static com.johnymuffin.beta.fundamentals.util.Utils.*;
@@ -38,16 +42,24 @@ public class CommandBank implements CommandExecutor {
         Player player = (Player) commandSender;
 
         if (strings.length == 0) {
-            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_info"));
+            //commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_info"));
+            sendLangFileMessage(commandSender, "bank_info");
             return true;
         }
 
         if (strings.length >= 1) {
             if (strings[0].equalsIgnoreCase("list")) {
-                //TODO: List of bank accounts the user has access to
-
+                HashMap<String, BankManager.AccessType> accessibleBanks = plugin.getBankManager().getAccessibleBanks(player.getUniqueId());
+                commandSender.sendMessage(ChatColor.GRAY + "Bank List: ");
+                for (String bankName : accessibleBanks.keySet()) {
+                    commandSender.sendMessage(ChatColor.GRAY + bankName + " - " + accessibleBanks.get(bankName).name());
+                }
                 return true;
             } else if (strings[0].equalsIgnoreCase("new")) {
+                if (!isPlayerAuthorized(commandSender, "fundamentals.bank.new")) {
+                    commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
+                    return true;
+                }
                 //Command argument failure
                 if (strings.length == 1) {
                     commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_new"));
@@ -76,22 +88,37 @@ public class CommandBank implements CommandExecutor {
                 commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_created_successfully"));
                 return true;
             } else if (strings[0].equalsIgnoreCase("delete")) {
-                //TODO: Tooltip for deleting bank accounts
-                if (!plugin.getBanks().containsKey(strings[0].toLowerCase())) {
+                //Command argument failure
+                if (strings.length == 1) {
+                    commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_delete"));
+                    return true;
+                }
+                if (!plugin.getBanks().containsKey(strings[1].toLowerCase())) {
                     commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_unknown"));
                     return true;
                 }
 
-                FundamentalsBank bank = plugin.getBanks().get(strings[0].toLowerCase());
-
+                FundamentalsBank bank = plugin.getBanks().get(strings[1].toLowerCase());
                 if (!bank.getBankOwner().equals(player.getUniqueId())) {
                     commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_delete_unauthorized"));
                     return true;
                 }
 
-                plugin.getBanks().remove(bank);
+                //Transfer money out of account before closing - start
+                EconomyAPI.EconomyResult economyResult = FundamentalsAPI.getEconomy().additionBalance(player.getUniqueId(), bank.getBalance());
+                switch (economyResult) {
+                    case error:
+                    case userNotKnown:
+                        commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("generic_error"));
+                        return true;
+                }
 
+                bank.setBalance(0);
+                commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_withdraw_successfully"));
+                //Transfer money out of account before closing - end
 
+                plugin.getBanks().remove(strings[1].toLowerCase());
+                sendLangFileMessage(commandSender, "bank_deleted_successfully");
                 return true;
             }
             //Assume player is trying to get details of a bank account.
@@ -115,12 +142,14 @@ public class CommandBank implements CommandExecutor {
                     if (firstEntry) {
                         accessList = getUsername(uuid);
                         firstEntry = false;
+                    } else {
+                        accessList = accessList + ", " + getUsername(uuid);
                     }
-                    accessList = accessList + ", " + getUsername(uuid);
                 }
                 //Generate list of users who have access - end
                 bankInfo = bankInfo.replace("%var4%", accessList);
-                commandSender.sendMessage(bankInfo);
+                //commandSender.sendMessage(bankInfo);
+                sendNewLinedMessage(commandSender, bankInfo);
                 return true;
             }
 
@@ -152,7 +181,7 @@ public class CommandBank implements CommandExecutor {
 
                 accessList[bank.getAccessList().length] = uuid;
                 bank.setAccessList(accessList);
-                commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_add_successfully"));
+                sendLangFileMessage(commandSender, "bank_add_successfully");
                 return true;
 
             } else if (strings[1].equalsIgnoreCase("remove")) {
@@ -177,10 +206,11 @@ public class CommandBank implements CommandExecutor {
                 UUID[] accessList = new UUID[bank.getAccessList().length - 1];
                 int counter = 0;
                 for (UUID accessUser : bank.getAccessList()) {
-                    if (accessList[counter].equals(uuid)) {
+                    if (accessUser.equals(uuid)) {
                         continue;
                     }
                     accessList[counter] = accessUser;
+                    counter++;
                 }
 
                 bank.setAccessList(accessList);
@@ -205,6 +235,8 @@ public class CommandBank implements CommandExecutor {
                 }
 
                 bank.setBalance(bank.getBalance() + amount);
+                plugin.debugLogger(Level.INFO, "Player " + player.getName() + " (" + player.getUniqueId() + ") has deposited $" + amount +
+                        " into the bank account " + bank.getBankName(), 2);
                 commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_deposit_successfully"));
                 return true;
 
@@ -250,7 +282,8 @@ public class CommandBank implements CommandExecutor {
                         return true;
                 }
 
-                bank.setBalance(bank.getBalance() + amount);
+                plugin.debugLogger(Level.INFO, "Player " + player.getName() + " (" + player.getUniqueId() + ") has withdrawn $" + amount +
+                        " from the bank account " + bank.getBankName(), 2);
                 commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_withdraw_successfully"));
                 return true;
             }

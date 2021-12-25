@@ -5,7 +5,6 @@ import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.events.FEconomyUpdateEvent;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
-import com.johnymuffin.jperms.beta.JohnyPerms;
 import com.projectposeidon.api.PoseidonUUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,8 +21,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.*;
-import ru.tehkode.permissions.PermissionManager;
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 import java.util.UUID;
 import java.util.logging.Level;
@@ -72,13 +69,12 @@ public class FundamentalsPlayerListener implements Listener {
         //Vanish Information
         updateVanishedPlayers();
 
-//        //Join message
+        //Join message
 //        String message = plugin.getFundamentalConfig().getConfigString("settings.joinandleave.join-message");
 //        message = message.replace("%player%", event.getPlayer().getName());
-//
-//
-//
-//        event.setJoinMessage(formatColor());
+//        message = message.replace("%prefix%", getPrefix(fPlayer.getUuid()));
+//        event.setJoinMessage(formatColor(message));
+
 
         //Online Player
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
@@ -103,26 +99,36 @@ public class FundamentalsPlayerListener implements Listener {
 
     }
 
-    public String getPrefix(Player player) {
-        if (Bukkit.getPluginManager().isPluginEnabled("JPerms")) {
-            if (JohnyPerms.getJPermsAPI().getUser(player.getUniqueId()).getGroup().getPrefix() != null) {
-                return JohnyPerms.getJPermsAPI().getUser(player.getUniqueId()).getGroup().getPrefix();
-            }
+    public String getPrefix(UUID uuid) {
+        String prefix = plugin.getPermissionsHook().getMainUserPrefix(uuid);
+        if (prefix == null) {
+            prefix = "&f[&4Unknown&f]";
         }
-        if (Bukkit.getPluginManager().isPluginEnabled("PermissionsEx")) {
-            PermissionManager permissionManager = PermissionsEx.getPermissionManager();
-            if (permissionManager.getUser(player).getPrefix() != null) {
-                return permissionManager.getUser(player).getPrefix();
-            }
-        }
-        return "&f[&4Unknown&f]";
-
-
+        return prefix;
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerQuit(PlayerQuitEvent event) {
         FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).playerQuitUpdate(event.getPlayer().getName());
+
+        //Quit message
+//        String message = plugin.getFundamentalConfig().getConfigString("settings.joinandleave.leave-message");
+//        message = message.replace("%player%", event.getPlayer().getName());
+//        message = message.replace("%prefix%", getPrefix(event.getPlayer().getUniqueId()));
+//        event.setQuitMessage(formatColor(message));
+
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPLayerKick(PlayerKickEvent event) {
+        FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).playerQuitUpdate(event.getPlayer().getName());
+
+        //Kick message
+//        String message = plugin.getFundamentalConfig().getConfigString("settings.joinandleave.kick-message");
+//        message = message.replace("%player%", event.getPlayer().getName());
+//        message = message.replace("%prefix%", getPrefix(event.getPlayer().getUniqueId()));
+//        event.setLeaveMessage(formatColor(message));
+
     }
 
     @EventHandler(ignoreCancelled = true)

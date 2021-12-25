@@ -6,21 +6,15 @@ import com.johnymuffin.beta.fundamentals.simplejson.JSONArray;
 import com.johnymuffin.beta.fundamentals.simplejson.JSONObject;
 import com.johnymuffin.beta.fundamentals.simplejson.parser.JSONParser;
 import com.johnymuffin.beta.fundamentals.simplejson.parser.ParseException;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Level;
-
-import static com.johnymuffin.beta.fundamentals.util.Utils.verifyHomeName;
 
 public class BankManager {
     //File
@@ -45,6 +39,7 @@ public class BankManager {
                 jsonData = (JSONObject) parser.parse(new FileReader(playerDataFile));
             } catch (ParseException e) {
                 plugin.logger(Level.WARNING, "Failed to Parse bank accounts as it is most likely corrupt, resetting data.");
+                initializeData();
                 throw new RuntimeException("Parse Exception: " + e + " - " + e.getMessage());
 //                e.printStackTrace();
             } catch (IOException e) {
@@ -65,6 +60,21 @@ public class BankManager {
         return fundamentalsBanks;
     }
 
+    public HashMap<String, AccessType> getAccessibleBanks(UUID uuid) {
+        HashMap<String, AccessType> accessibleBanks = new HashMap<>();
+        //Iterate thru banks to generate list
+        for (FundamentalsBank bank : plugin.getBanks().values()) {
+            if (bank.getBankOwner().equals(uuid)) {
+                accessibleBanks.put(bank.getBankName(), AccessType.OWNER);
+                continue;
+            }
+            if (Arrays.asList(bank.getAccessList()).contains(uuid)) {
+                accessibleBanks.put(bank.getBankName(), AccessType.MEMBER);
+                continue;
+            }
+        }
+        return accessibleBanks;
+    }
 
     public void saveBanks(FundamentalsBank[] banks) {
         JSONArray banksArray = new JSONArray();
@@ -98,6 +108,12 @@ public class BankManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public enum AccessType {
+        OWNER,
+        MEMBER,
     }
 
 }

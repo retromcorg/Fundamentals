@@ -2,6 +2,7 @@ package com.johnymuffin.beta.fundamentals.util;
 
 import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
+import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import com.projectposeidon.api.PoseidonUUID;
 import com.projectposeidon.api.UUIDType;
 import org.bukkit.Bukkit;
@@ -9,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
@@ -170,6 +172,20 @@ public class Utils {
                     p2.showPlayer(p);
                 }
             }
+        }
+    }
+
+    public static void sendNewLinedMessage(CommandSender sender, String message) {
+        String[] strings = message.split("\n");
+        for (String string : strings) {
+            sender.sendMessage(string);
+        }
+    }
+
+    public static void sendLangFileMessage(CommandSender sender, String msgKey) {
+        String[] strings = FundamentalsLanguage.getInstance().getMessage(msgKey).split("\n");
+        for (String string : strings) {
+            sender.sendMessage(string);
         }
     }
 

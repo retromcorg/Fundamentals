@@ -132,6 +132,7 @@ public class Fundamentals extends JavaPlugin {
 //        Bukkit.getPluginCommand("time").setExecutor(new CommandTime(plugin));
         Bukkit.getPluginCommand("vanish").setExecutor(new CommandVanish(plugin));
         Bukkit.getPluginCommand("bank").setExecutor(new CommandBank(plugin));
+        Bukkit.getPluginCommand("balancetop").setExecutor(new CommandBalanceTop(plugin));
         //Timer
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, () -> {
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
@@ -147,7 +148,6 @@ public class Fundamentals extends JavaPlugin {
 
         long endTimeUnix = System.currentTimeMillis() / 1000L;
         log.info("[" + pluginName + "] Has Loaded, loading took " + (int) (endTimeUnix - startTimeUnix) + " seconds.");
-
     }
 
     public void saveData() {
@@ -249,6 +249,10 @@ public class Fundamentals extends JavaPlugin {
 
     public HashMap<FundamentalsDependencies, Boolean> getDependenciesMap() {
         return dependenciesMap;
+    }
+
+    public BankManager getBankManager() {
+        return bankManager;
     }
 
 
