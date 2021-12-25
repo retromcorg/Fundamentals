@@ -1,7 +1,7 @@
 name: Fundamentals
 description: A Essentials like plugin for Beta 1.7.3 designed for Project Poseidon
 main: com.johnymuffin.beta.fundamentals.Fundamentals
-version: 1.0.4
+version: 1.0.6
 authors:
   - JohnyMuffin
 softdepend:
@@ -60,3 +60,7 @@ commands:
 #    description: time change command
 #    usage: /<command> [day|night|dawn|17:30|4pm|4000ticks] [worldname|all]
 #    aliases: [day, night]
+  balancetop:
+    description: a balance top command
+    usage: /<command>
+    aliases: [baltop]

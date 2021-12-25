@@ -68,7 +68,7 @@ public class FSBPlayerListener implements Listener {
                 exception.printStackTrace();
             }
 
-            //Run LWC Trnasfer
+            //Run LWC Transfer
             try {
                 (new LWCTransfer(newUsername, oldUsername, plugin.getFundamentals(), fundamentalsPlayer, debugTransfer)).runTransfer();
             } catch (Exception exception) {

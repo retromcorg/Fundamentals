@@ -78,6 +78,7 @@ public class FundamentalsPlayerMap {
             return playerMap.get(uuid);
         }
         FundamentalsPlayer fundamentalPlayer = new FundamentalsPlayer(uuid, plugin);
+        //plugin.getEconomyCache().saveRecord(uuid, fundamentalPlayer.getBalance()); //Update economy cache whenever a player data file is loaded.
         plugin.debugLogger(Level.INFO, uuid + " has been added to the player map", 3);
         playerMap.put(uuid, fundamentalPlayer);
         return playerMap.get(uuid);
@@ -141,4 +142,9 @@ public class FundamentalsPlayerMap {
         }
         return FundamentalsPlayerMap.singleton;
     }
+
+    public ArrayList<UUID> getKnownPlayers() {
+        return knownPlayers;
+    }
+
 }
