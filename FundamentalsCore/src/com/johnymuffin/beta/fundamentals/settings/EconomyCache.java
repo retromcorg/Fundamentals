@@ -60,8 +60,13 @@ public class EconomyCache {
             int totalPlayers = plugin.getPlayerMap().getKnownPlayers().size();
             long nextPrintStatus = (System.currentTimeMillis() / 1000) + 5;
             for (UUID uuid : plugin.getPlayerMap().getKnownPlayers()) {
-                saveRecord(uuid, plugin.getPlayerMap().getPlayer(uuid).getBalance());
                 players++;
+                //Skip players with unknown names because we don't want them in baltop
+                //TODO: Create a better way for Baltop to exclude users without usernames in their datafile.
+                if(plugin.getPlayerCache().getUsernameFromUUID(uuid) == null) {
+                    continue;
+                }
+                saveRecord(uuid, plugin.getPlayerMap().getPlayer(uuid).getBalance());
                 //Print progress so people don't think the server has hanged
                 if ((System.currentTimeMillis() / 1000L) > nextPrintStatus) {
                     plugin.debugLogger(Level.INFO, players + "/" + totalPlayers + " loaded into the economy cache.", 1);

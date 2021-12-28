@@ -80,7 +80,7 @@ public class CommandBalanceTop implements CommandExecutor {
             } else {
                 String prefix = plugin.getPlayerCache().getUserPrefix(entry.getValue());
                 if (prefix != null) {
-                    username = formatColor(prefix + " &f" + username);
+                    username = formatColor(prefix + "&f" + username);
                 }
             }
             commandSender.sendMessage(ChatColor.WHITE + "" + (index - startingPoint) + ". " + username +
