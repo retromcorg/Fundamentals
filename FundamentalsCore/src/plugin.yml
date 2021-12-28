@@ -7,7 +7,7 @@ authors:
 softdepend:
   - DiscordCore
   - UUIDCore
-  - Multiverse
+  - JPerms
 
 commands:
 #  heal:

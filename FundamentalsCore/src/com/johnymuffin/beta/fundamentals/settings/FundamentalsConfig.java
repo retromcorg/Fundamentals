@@ -30,6 +30,7 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.vanish.block-interactions", true);
         generateConfigOption("settings.vanish-hidden-from-mobs", true);
         generateConfigOption("settings.preferred-permissions-hook", "JPerms");
+//        generateConfigOption("settings.import-prefixes-next-start", true);
 
 
         generateConfigOption("settings.joinandleave.join-message", "%prefix% &c%player% &bJoined the game.");

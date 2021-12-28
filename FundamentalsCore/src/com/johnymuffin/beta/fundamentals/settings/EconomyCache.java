@@ -22,7 +22,7 @@ public class EconomyCache {
 
     public EconomyCache(Fundamentals plugin) {
         this.plugin = plugin;
-        cacheFile = new File(plugin.getDataFolder(), "economyCache.json");
+        cacheFile = new File(plugin.getDataFolder() + File.separator + "cache" + File.separator + "economyCache.json");
         boolean isNew = false;
         if (!cacheFile.exists()) {
             cacheFile.getParentFile().mkdirs();

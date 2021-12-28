@@ -30,6 +30,15 @@ public class Utils {
         return null;
     }
 
+    public static boolean isInt(String string) {
+        try {
+            Integer.parseInt(string);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
     public static UUID getUUIDFromUsername(String name) {
         Player player = getPlayerFromString(name);
         if (player != null) {

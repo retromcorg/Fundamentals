@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
+import static com.johnymuffin.beta.fundamentals.util.Utils.formatColor;
+import static com.johnymuffin.beta.fundamentals.util.Utils.isInt;
 
 public class CommandBalanceTop implements CommandExecutor {
 
@@ -71,9 +73,15 @@ public class CommandBalanceTop implements CommandExecutor {
                 index++;
                 break;
             }
-            String username = plugin.getUuidCache().getUsernameFromUUID(entry.getValue());
+            String username = plugin.getPlayerCache().getUsernameFromUUID(entry.getValue());
             if (username == null) {
                 username = "Unknown User";
+                System.out.println("Unknown User: " + entry.getValue());
+            } else {
+                String prefix = plugin.getPlayerCache().getUserPrefix(entry.getValue());
+                if (prefix != null) {
+                    username = formatColor(prefix + " &f" + username);
+                }
             }
             commandSender.sendMessage(ChatColor.WHITE + "" + (index - startingPoint) + ". " + username +
                     ", $" + entry.getKey());
@@ -82,15 +90,6 @@ public class CommandBalanceTop implements CommandExecutor {
         commandSender.sendMessage(ChatColor.GOLD + "Next Page: " + ChatColor.GRAY + "/baltop " + (pageNumber + 2));
 
 
-    }
-
-    public static boolean isInt(String string) {
-        try {
-            Integer.parseInt(string);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
     }
 
 
