@@ -37,7 +37,7 @@ public class Fundamentals extends JavaPlugin {
     //API
     private EconomyAPI economyAPI;
     //Storage
-    private UUIDCache uuidCache;
+    private PlayerCache playerCache;
     private EconomyCache economyCache;
     private HashMap<String, FundamentalsBank> banks = new HashMap<>();
     //Invsee Comamnd
@@ -47,6 +47,7 @@ public class Fundamentals extends JavaPlugin {
     private HashMap<FundamentalsDependencies, Boolean> dependenciesMap = new HashMap<>();
 
     private PermissionsHook[] permissionsHooks;
+    private PermissionsHook permissionsHook;
 
 
     @Override
@@ -56,6 +57,8 @@ public class Fundamentals extends JavaPlugin {
         pdf = this.getDescription();
         pluginName = pdf.getName();
         log.info("[" + pluginName + "] Is Loading, Version: " + pdf.getVersion());
+
+        long startTimeUnix = System.currentTimeMillis() / 1000L;
 
         //Load Core Start
         this.logger(Level.INFO, "Initializing player data map");
@@ -80,8 +83,11 @@ public class Fundamentals extends JavaPlugin {
         FundamentalsAPI.setFundamentals(plugin);
         economyAPI = new EconomyAPI(plugin);
 
-        this.logger(Level.INFO, "Initializing UUIDCache");
-        uuidCache = new UUIDCache(plugin);
+        //Permissions Hook
+        initializeHooks();
+
+        this.logger(Level.INFO, "Initializing Player Cache");
+        playerCache = new PlayerCache(plugin);
 
         this.logger(Level.INFO, "Initializing Economy Cache");
         economyCache = new EconomyCache(plugin);
@@ -111,9 +117,14 @@ public class Fundamentals extends JavaPlugin {
             discordCoreHook = true;
             debugLogger(Level.INFO, "Discord Core has been detected.", 1);
         }
-        //Permissions Hook
-        initializeHooks();
-        long startTimeUnix = System.currentTimeMillis() / 1000L;
+
+        //Prefix Import Check
+//        if (this.getFundamentalConfig().getConfigBoolean("settings.import-prefixes-next-start")) {
+//            this.debugLogger(Level.INFO, "Importing Player prefixes into their respective files", 2);
+//            importPrefixes();
+//            this.getFundamentalConfig().setProperty("settings.import-prefixes-next-start", false);
+//            this.getFundamentalConfig().save();
+//        }
 
 
         //Commands
@@ -153,7 +164,8 @@ public class Fundamentals extends JavaPlugin {
     public void saveData() {
         FundamentalsPlayerMap.getInstance().saveData();
         economyCache.saveData();
-        uuidCache.saveData();
+//        uuidCache.saveData();
+        playerCache.saveData();
         FundamentalsBank[] banks = new FundamentalsBank[this.banks.size()];
         int i = 0;
         for (String bankName : this.banks.keySet()) {
@@ -235,8 +247,8 @@ public class Fundamentals extends JavaPlugin {
         return null;
     }
 
-    public UUIDCache getUuidCache() {
-        return uuidCache;
+    public PlayerCache getPlayerCache() {
+        return playerCache;
     }
 
     public EconomyCache getEconomyCache() {
@@ -257,10 +269,14 @@ public class Fundamentals extends JavaPlugin {
 
 
     public PermissionsHook getPermissionsHook() {
+        if (this.permissionsHook != null) {
+            return this.permissionsHook;
+        }
         String preferredHook = plugin.getFundamentalConfig().getConfigString("settings.preferred-permissions-hook");
         for (PermissionsHook permissionsHook : permissionsHooks) {
             if (permissionsHook.isHookEnabled() && permissionsHook.getHookName().equalsIgnoreCase(preferredHook)) {
                 plugin.debugLogger(Level.INFO, "Preferred hook (" + preferredHook + ") was located and will be used", 2);
+                this.permissionsHook = permissionsHook;
                 return permissionsHook;
             }
         }
@@ -268,6 +284,7 @@ public class Fundamentals extends JavaPlugin {
         for (PermissionsHook permissionsHook : permissionsHooks) {
             if (permissionsHook.isHookEnabled()) {
                 plugin.debugLogger(Level.INFO, "Hook (" + preferredHook + ") was located and will be used", 2);
+                this.permissionsHook = permissionsHook;
                 return permissionsHook;
             }
         }
@@ -291,5 +308,30 @@ public class Fundamentals extends JavaPlugin {
 
     }
 
+//    public void importPrefixes() {
+//        int players = 0;
+//        int totalPlayers = plugin.getPlayerMap().getKnownPlayers().size();
+//        int skippedPlayers = 0;
+//        long nextPrintStatus = (System.currentTimeMillis() / 1000) + 5;
+//        for (UUID uuid : plugin.getPlayerMap().getKnownPlayers()) {
+//            FundamentalsPlayer player = plugin.getPlayerMap().getPlayer(uuid);
+//            String prefix = this.getPermissionsHook().getMainUserPrefix(uuid);
+//            if (prefix == null) {
+//                skippedPlayers++;
+//                continue;
+//            }
+//            player.saveInformation("prefix", prefix);
+//            player.saveIfModified();
+//            players++;
+//            //Print progress so people don't think the server has hanged
+//            if ((System.currentTimeMillis() / 1000L) > nextPrintStatus) {
+//                plugin.debugLogger(Level.INFO, (players + skippedPlayers) + "/" + totalPlayers + " have had their prefixed saved into their PlayerData file.", 1);
+//                nextPrintStatus = (System.currentTimeMillis() / 1000) + 5;
+//            }
+//        }
+//        plugin.debugLogger(Level.INFO, "Saved the prefixes of " + players + " into their player data file out of " + totalPlayers + " players."
+//                + skippedPlayers + " couldn't be loaded as the permission plugin returned null for their UUID.", 1);
+//
+//    }
 
 }

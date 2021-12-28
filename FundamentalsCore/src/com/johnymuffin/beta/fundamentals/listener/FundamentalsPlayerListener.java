@@ -41,8 +41,8 @@ public class FundamentalsPlayerListener implements Listener {
         if (event.getResult() != PlayerLoginEvent.Result.ALLOWED) {
             return;
         }
-        //Store UUID in cache
-        plugin.getUuidCache().addUser(event.getPlayer().getName(), event.getPlayer().getUniqueId());
+        //Store user in PlayerCache
+        plugin.getPlayerCache().updatePlayerProfile(event.getPlayer().getName(), plugin.getPermissionsHook().getMainUserPrefix(event.getPlayer().getUniqueId()), event.getPlayer().getUniqueId());
 
     }
 

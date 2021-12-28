@@ -83,7 +83,7 @@ public class FundamentalsLanguage extends Configuration {
         map.put("vanish_successful_other_enabled", "&bEnabled vanish for another player.");
         map.put("vanish_successful_other_disabled", "&4Disabled vanish for another player.");
         map.put("vanish_disabled", "&4Vanish Disabled.");
-        map.put("vanish_enable", "7bVanish Enabled.");
+        map.put("vanish_enable", "&7Vanish Enabled.");
         //Clear Inventory
         map.put("clearinventory_notice", "&9Your inventory has been cleared");
         map.put("clearinventory_successfully", "&9Inventory cleared successfully");
@@ -105,11 +105,12 @@ public class FundamentalsLanguage extends Configuration {
         map.put("bank_delete_unauthorized", "&4Sorry, you cannot delete this bank account as you are not the owner.");
         map.put("bank_add_unauthorized", "&4Sorry, you cannot add to this bank account as you are not the owner.");
         map.put("bank_remove_unauthorized", "&4Sorry, you cannot remove users from the bank account as you are not the owner.");
-        map.put("bank_add_successfully", "&6The user has been added successfully.\n&4PLEASE NOTE, Staff will not responsible nor will assist for any theft regarding a bank account. Only add people you trust to your account.");
+        map.put("bank_add_successfully", "&6The user has been added successfully.\n&4PLEASE NOTE, Staff will not be responsible nor will assist for any theft regarding a bank account. Only add people you trust to your account.");
         map.put("bank_remove_successfully", "&6The user has been removed successfully.");
         map.put("bank_deposit_successfully", "&6You have successfully deposited money.");
         map.put("bank_withdraw_successfully", "&6You have successfully withdrawn money.");
         map.put("bank_withdraw_unauthorized", "&4Sorry, you cannot withdraw from the bank account as you are not the owner or authorized.");
+        map.put("bank_invalid_integer", "&4Sorry, please specify a number without decimal places.");
 
 
     }

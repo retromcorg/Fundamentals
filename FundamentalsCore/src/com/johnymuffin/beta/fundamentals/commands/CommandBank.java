@@ -221,6 +221,11 @@ public class CommandBank implements CommandExecutor {
                     commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_info"));
                     return true;
                 }
+
+                if (!isInt(strings[2].replaceAll("[^0-9\\.]", ""))) {
+                    commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_invalid_integer"));
+                    return true;
+                }
                 double amount = Double.parseDouble(strings[2].replaceAll("[^0-9\\.]", ""));
                 //Subtract money from user
                 EconomyAPI.EconomyResult economyResult = FundamentalsAPI.getEconomy().subtractBalance(player.getUniqueId(), amount);
@@ -263,7 +268,10 @@ public class CommandBank implements CommandExecutor {
                     return true;
                 }
 
-
+                if (!isInt(strings[2].replaceAll("[^0-9\\.]", ""))) {
+                    commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_invalid_integer"));
+                    return true;
+                }
                 double amount = Double.parseDouble(strings[2].replaceAll("[^0-9\\.]", ""));
 
                 if (bank.getBalance() < amount) {
