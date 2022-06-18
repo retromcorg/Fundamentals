@@ -49,7 +49,8 @@ public class FSBPlayerListener implements Listener {
 
         //Towny & LWC Changer
 
-        if (fundamentalsPlayer.getInformation("last-username") != null && !String.valueOf(fundamentalsPlayer.getInformation("last-username")).equals(event.getPlayer().getName())) {
+        //if (fundamentalsPlayer.getInformation("last-username") != null && !String.valueOf(fundamentalsPlayer.getInformation("last-username")).equals(event.getPlayer().getName())) {
+        if (fundamentalsPlayer.getInformation("last-username") != null && !String.valueOf(fundamentalsPlayer.getInformation("last-username")).equalsIgnoreCase(event.getPlayer().getName())) {
             String newUsername = event.getPlayer().getName();
             String oldUsername = String.valueOf(fundamentalsPlayer.getInformation("last-username"));
 
@@ -93,6 +94,7 @@ public class FSBPlayerListener implements Listener {
                     for (String debug : debugTransfer) {
                         discordCore.getDiscordBot().discordSendToChannel(channelID, "- " + debug);
                     }
+
                 }
             } catch (Exception e) {
                 plugin.getFundamentals().debugLogger(Level.WARNING, "Failed to send transfer debug to Discord", 2);

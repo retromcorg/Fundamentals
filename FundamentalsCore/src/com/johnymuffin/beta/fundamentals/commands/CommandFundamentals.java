@@ -1,4 +1,4 @@
-package com.johnymuffin.beta.fundamentals.commands;
-
-public class CommandFundamentals {
-}
+//package com.johnymuffin.beta.fundamentals.commands;
+//
+//public class CommandFundamentals {
+//}
