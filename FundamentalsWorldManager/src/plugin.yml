@@ -1,0 +1,7 @@
+name: FundamentalsWorldManager
+description: Manage multiple worlds in Fundamentals alongside multiworld inventory.
+main: com.johnymuffin.fundamentals.worldmanager.FundamentalsWorldManager
+version: 1.0.0
+authors:
+  - JohnyMuffin
+depend: [Fundamentals]
