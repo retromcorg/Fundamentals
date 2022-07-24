@@ -14,22 +14,34 @@ public class EconomyAPI {
         this.plugin = plugin;
     }
 
+    @Deprecated
     public BalanceWrapper getBalance(UUID uuid) {
+        return getBalance(uuid, null);
+    }
+
+    public BalanceWrapper getBalance(UUID uuid, String world) {
         if (!plugin.getPlayerMap().isPlayerKnown(uuid)) {
             return new BalanceWrapper(0D, EconomyResult.userNotKnown);
         }
 
         try {
-            return new BalanceWrapper(plugin.getPlayerMap().getPlayer(uuid).getBalance(), EconomyResult.successful);
+            if (world == null) {
+                return new BalanceWrapper(plugin.getPlayerMap().getPlayer(uuid).getBalance(), EconomyResult.successful); //Fallback if world isn't provided
+            } else {
+                return new BalanceWrapper(plugin.getPlayerMap().getPlayer(uuid).getBalance(world), EconomyResult.successful);
+            }
         } catch (Exception e) {
             Fundamentals.getPlugin().logger(Level.WARNING, "An error occurred trying to change the balance of " + uuid.toString() + ": " + e.getMessage());
             return new BalanceWrapper(0D, EconomyResult.error);
         }
-
     }
 
-
+    @Deprecated
     public EconomyResult subtractBalance(UUID uuid, double amount) {
+        return subtractBalance(uuid, amount, null);
+    }
+
+    public EconomyResult subtractBalance(UUID uuid, double amount, String world) {
         if (!plugin.getPlayerMap().isPlayerKnown(uuid)) {
             return EconomyResult.userNotKnown;
         }
@@ -40,7 +52,11 @@ public class EconomyAPI {
             if (balance < 0) {
                 return EconomyResult.notEnoughFunds;
             }
-            player.setBalance(balance);
+            if (world == null) {
+                player.setBalance(balance);
+            } else {
+                player.setBalance(balance, world);
+            }
             FundamentalsEventFactory.callEconomyUpdateEvent(plugin, player); //Call event so other plugins can update
             return EconomyResult.successful;
         } catch (Exception e) {
@@ -50,15 +66,25 @@ public class EconomyAPI {
 
     }
 
+    @Deprecated
     public EconomyResult additionBalance(UUID uuid, double amount) {
+        return additionBalance(uuid, amount, null);
+    }
+
+    public EconomyResult additionBalance(UUID uuid, double amount, String world) {
         if (!plugin.getPlayerMap().isPlayerKnown(uuid)) {
             return EconomyResult.userNotKnown;
         }
 
         try {
             FundamentalsPlayer player = plugin.getPlayerMap().getPlayer(uuid);
-            double balance = player.getBalance() + amount;
-            player.setBalance(balance);
+            if (world == null) {
+                double balance = player.getBalance() + amount;
+                player.setBalance(balance);
+            } else {
+                double balance = player.getBalance(world) + amount;
+                player.setBalance(balance, world);
+            }
             FundamentalsEventFactory.callEconomyUpdateEvent(plugin, player); //Call event so other plugins can update
             return EconomyResult.successful;
         } catch (Exception e) {
@@ -68,14 +94,23 @@ public class EconomyAPI {
 
     }
 
+    @Deprecated
     public EconomyResult setBalance(UUID uuid, double amount) {
+        return setBalance(uuid, amount, null);
+    }
+
+    public EconomyResult setBalance(UUID uuid, double amount, String world) {
         if (!plugin.getPlayerMap().isPlayerKnown(uuid)) {
             return EconomyResult.userNotKnown;
         }
 
         try {
             FundamentalsPlayer player = plugin.getPlayerMap().getPlayer(uuid);
-            player.setBalance(amount);
+            if (world == null) {
+                player.setBalance(amount);
+            } else {
+                player.setBalance(amount, world);
+            }
             FundamentalsEventFactory.callEconomyUpdateEvent(plugin, player); //Call event so other plugins can update
             return EconomyResult.successful;
         } catch (Exception e) {
@@ -84,7 +119,7 @@ public class EconomyAPI {
         }
 
     }
-    
+
 
     public enum EconomyResult {
         successful,

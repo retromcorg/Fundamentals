@@ -10,6 +10,9 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+
+import static com.johnymuffin.beta.fundamentals.util.Utils.getPlayerFromUUID;
 
 public class FundamentalsPlayer extends FundamentalsPlayerFile {
     //Fundamentals
@@ -46,6 +49,87 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
             }
         }
         return null;
+    }
+
+    //Multiworld support hook
+    @Deprecated
+    public Double getBalance() {
+        if (this.plugin.isWorldManagerMultiWorldEconomy()) {
+            String username = this.plugin.getPlayerCache().getUsernameFromUUID(uuid);
+            if (username == null) username = "Unknown Player";
+
+            String world; //The world to lookup
+
+            //Get world of player if they are online and assume it.
+            Player player = getPlayerFromUUID(uuid);
+            if (player != null) {
+                world = player.getWorld().getName();
+                this.plugin.debugLogger(Level.WARNING, "Something called getBalance() for " + username + ". Assuming the world " + world + " as that is the one the player is in.", 2);
+            } else {
+                //Fallback to offline world
+                world = this.plugin.getFundamentalConfig().getConfigString("settings.per-world-economy.fallback.value");
+                this.plugin.debugLogger(Level.WARNING, "Fall back to default world " + world + " for getBalance() " + username + ". This isn't recommended and can be exploited.", 1);
+            }
+
+
+            return getBalance(world);
+
+
+        } else {
+            return super.getBalance();
+        }
+
+    }
+
+
+    public Double getBalance(String worldName) {
+        if (this.plugin.isWorldManagerMultiWorldEconomy()) {
+            String worldGroup = this.plugin.getFundamentalsWorldManager().getWorldGroup(worldName);
+
+            if (getInformation("balance." + worldGroup) == null) {
+                return 0.00D;
+            }
+            return Double.valueOf(String.valueOf(getInformation("balance." + worldGroup)));
+        }
+
+        return super.getBalance();
+    }
+
+
+    @Deprecated
+    public void setBalance(Double amount) {
+        if (this.plugin.isWorldManagerMultiWorldEconomy()) {
+            String username = this.plugin.getPlayerCache().getUsernameFromUUID(uuid);
+            if (username == null) username = "Unknown Player";
+
+            String world; //The world to lookup
+
+            //Get world of player if they are online and assume it.
+            Player player = getPlayerFromUUID(uuid);
+            if (player != null) {
+                world = player.getWorld().getName();
+                this.plugin.debugLogger(Level.WARNING, "Something called setBalance() for " + username + ". Assuming the world " + world + " as that is the one the player is in.", 2);
+            } else {
+                //Fallback to offline world
+                world = this.plugin.getFundamentalConfig().getConfigString("settings.per-world-economy.fallback.value");
+                this.plugin.debugLogger(Level.WARNING, "Fall back to default world " + world + " for setBalance() " + username + ". This isn't recommended and can be exploited.", 1);
+            }
+
+            setBalance(amount, world);
+
+
+        } else {
+            super.setBalance(amount);
+        }
+    }
+
+    public void setBalance(Double amount, String worldName) {
+        if (this.plugin.isWorldManagerMultiWorldEconomy()) {
+            String worldGroup = this.plugin.getFundamentalsWorldManager().getWorldGroup(worldName);
+            this.saveInformation("balance." + worldGroup, amount);
+        } else {
+            super.setBalance(amount);
+        }
     }
 
 

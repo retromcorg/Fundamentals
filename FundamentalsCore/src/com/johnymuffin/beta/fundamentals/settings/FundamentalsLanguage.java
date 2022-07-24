@@ -58,6 +58,11 @@ public class FundamentalsLanguage extends Configuration {
         map.put("pay_can't_pay_self", "&4Sorry, you can't send money to yourself!");
         map.put("pay_not_enough_funds", "&4Sorry, you don't have enough funds to send that much money!");
         map.put("pay_successful", "&6You have sent $%var1% to %var2%");
+        //Transfer
+        map.put("transfer_info", "&4You haven't provided enough arguments, /transfer (old_username) (new_username)");
+        map.put("transfer_unknown_uuid", "&4The UUID for the new username is unknown. Please get the player to join the server before issuing this command.");
+        map.put("transfer_unknown_player", "&4The new username doesn't have a Fundamentals player data file. Please get the player to join the server before issuing this command.");
+        map.put("transfer_complete", "&6The transfer has been scheduled.");
         //Economy
         map.put("economy_info", "&4You haven't provided enough arguments, /economy (username) (set|give|take) (amount)");
         map.put("economy_arg_1", "&4Please specify set, give or take");
