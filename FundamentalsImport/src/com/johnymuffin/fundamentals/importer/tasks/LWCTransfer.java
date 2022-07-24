@@ -1,4 +1,4 @@
-package com.johnymuffin.fundamentals.importer;
+package com.johnymuffin.fundamentals.importer.tasks;
 
 import com.griefcraft.lwc.LWC;
 import com.griefcraft.model.Protection;

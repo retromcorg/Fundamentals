@@ -56,25 +56,27 @@ public class EssentialsManager implements PluginDataManager {
     //Essentials Code End
 
     //Import Logic Start
-    public void importHomes(Player player, FundamentalsPlayer fPlayer, Fundamentals fundamentals) {
+    public void importHomes(String playerName, FundamentalsPlayer fPlayer, Fundamentals fundamentals) {
         //Check if player exists
-        if (!doesPlayerExist(player.getName())) {
-            fundamentals.debugLogger(Level.INFO, "Can't import data for " + player.getName() + " as they don't have any Essentials player data", 3);
+        if (!doesPlayerExist(playerName)) {
+            fundamentals.debugLogger(Level.INFO, "Can't import data for " + playerName + " as they don't have any Essentials player data", 3);
             return;
         }
-        EssentialsPlayerData ePlayer = getPlayerData(player.getName());
+        EssentialsPlayerData ePlayer = getPlayerData(playerName);
         //Loop through all homes
         int importCount = 0;
         for (String home : ePlayer.getHomes()) {
             LocationWrapper locationWrapper = ePlayer.getHome(home);
             if (locationWrapper == null) {
-                fundamentals.debugLogger(Level.WARNING, "Failed to import home " + home + " for player " + player.getName(), 1);
-                player.sendMessage(ChatColor.RED + "Failed to import home " + ChatColor.GOLD + home + ChatColor.RED + ", contact staff if you need help.");
+                fundamentals.debugLogger(Level.WARNING, "Failed to import home " + home + " for player " + playerName, 1);
+//                player.sendMessage(ChatColor.RED + "Failed to import home " + ChatColor.GOLD + home + ChatColor.RED + ", contact staff if you need help.");
+                sendMessage(playerName,ChatColor.RED + "Failed to import home " + ChatColor.GOLD + home + ChatColor.RED + ", contact staff if you need help.");
                 continue;
             }
             if (Bukkit.getServer().getWorld(locationWrapper.getWorld()) == null) {
-                fundamentals.debugLogger(Level.WARNING, "Failed to import home " + home + " for player " + player.getName() + " as it is in an invalid world.", 2);
-                player.sendMessage(ChatColor.RED + "Your home " + ChatColor.GOLD + home + ChatColor.RED + " couldn't be imported as it is in an invalid world.");
+                fundamentals.debugLogger(Level.WARNING, "Failed to import home " + home + " for player " + playerName + " as it is in an invalid world.", 2);
+//                player.sendMessage(ChatColor.RED + "Your home " + ChatColor.GOLD + home + ChatColor.RED + " couldn't be imported as it is in an invalid world.");
+                sendMessage(playerName, ChatColor.RED + "Your home " + ChatColor.GOLD + home + ChatColor.RED + " couldn't be imported as it is in an invalid world.");
                 continue;
             }
             if (!fPlayer.doesHomeExist(home)) {
@@ -84,7 +86,8 @@ public class EssentialsManager implements PluginDataManager {
                     while (true) {
                         home = String.valueOf((int) (Math.random() * 9999 + 1));
                         if (!fPlayer.doesHomeExist(home)) {
-                            player.sendMessage(ChatColor.BLUE + "Renamed home " + oldHomeName + " to " + home);
+//                            player.sendMessage(ChatColor.BLUE + "Renamed home " + oldHomeName + " to " + home);
+                            sendMessage(playerName, ChatColor.BLUE + "Renamed home " + oldHomeName + " to " + home);
                             break;
                         }
                     }
@@ -96,27 +99,41 @@ public class EssentialsManager implements PluginDataManager {
                 importCount = importCount + 1;
             } else {
                 //Home name already exists
-                fundamentals.debugLogger(Level.INFO, "Failed to import home  " + home + " for " + player.getName() + " as it already exists", 2);
-                player.sendMessage(ChatColor.RED + "Failed to import home " + ChatColor.GOLD + home + ChatColor.RED + " as it already exists.");
+                fundamentals.debugLogger(Level.INFO, "Failed to import home  " + home + " for " + playerName + " as it already exists", 2);
+//                player.sendMessage(ChatColor.RED + "Failed to import home " + ChatColor.GOLD + home + ChatColor.RED + " as it already exists.");
+                sendMessage(playerName, "Failed to import home " + ChatColor.GOLD + home + ChatColor.RED + " as it already exists.");
             }
         }
         if (importCount > 0) {
-            player.sendMessage(ChatColor.BLUE + "Imported " + importCount + " homes");
+//            player.sendMessage(ChatColor.BLUE + "Imported " + importCount + " homes");
+            sendMessage(playerName, ChatColor.BLUE + "Imported " + importCount + " homes");
         }
-        fundamentals.debugLogger(Level.INFO, "Imported " + importCount + " homes for " + player.getName(), 2);
+        fundamentals.debugLogger(Level.INFO, "Imported " + importCount + " homes for " + playerName, 2);
 
     }
 
-    public void importBalance(Player player, FundamentalsPlayer fPlayer, Fundamentals fundamentals) {
+    private void sendMessage(String playerName, String message) {
+        Player player = Bukkit.getPlayer(playerName);
+        if(player != null) {
+            player.sendMessage(message);
+        }
+    }
+
+    public void importBalance(String playerName, FundamentalsPlayer fPlayer, Fundamentals fundamentals, boolean setBalance) {
         //Check if player exists
-        if (!doesPlayerExist(player.getName())) {
-            fundamentals.debugLogger(Level.INFO, "Can't import data for " + player.getName() + " as they don't have any Essentials player data", 3);
+        if (!doesPlayerExist(playerName)) {
+            fundamentals.debugLogger(Level.INFO, "Can't import data for " + playerName + " as they don't have any Essentials player data", 3);
             return;
         }
-        EssentialsPlayerData ePlayer = getPlayerData(player.getName());
-        fPlayer.setBalance(ePlayer.getMoney());
-        player.sendMessage(ChatColor.BLUE + "Imported balance of $" + fPlayer.getBalance());
-        fundamentals.debugLogger(Level.INFO, "Imported the balance of $" + fPlayer.getBalance() + " for " + player.getName(), 2);
+        EssentialsPlayerData ePlayer = getPlayerData(playerName);
+        if(setBalance) {
+            fPlayer.setBalance(ePlayer.getMoney());
+        } else {
+            fPlayer.setBalance(fPlayer.getBalance() + ePlayer.getMoney());
+        }
+//        player.sendMessage(ChatColor.BLUE + "Imported balance of $" + fPlayer.getBalance());
+        sendMessage(playerName, ChatColor.BLUE + "Imported balance of $" + fPlayer.getBalance());
+        fundamentals.debugLogger(Level.INFO, "Imported the balance of $" + fPlayer.getBalance() + " for " + playerName, 2);
     }
 
     //Import Logic End
