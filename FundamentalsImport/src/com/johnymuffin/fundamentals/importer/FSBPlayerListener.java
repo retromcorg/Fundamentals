@@ -4,6 +4,8 @@ import com.earth2me.essentials.User;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.discordcore.DiscordCore;
 import com.johnymuffin.fundamentals.importer.essentials.EssentialsManager;
+import com.johnymuffin.fundamentals.importer.tasks.LWCTransfer;
+import com.johnymuffin.fundamentals.importer.tasks.TownyTransfer;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -36,11 +38,11 @@ public class FSBPlayerListener implements Listener {
         if (essM.doesPlayerExist(event.getPlayer().getName())) {
 //            plugin.getFundamentals().debugLogger(Level.INFO, "Importing Essentials data for " + event.getPlayer(), 2);
             if (!Utils.doesImportEntryExist("essentials-homes", fundamentalsPlayer)) {
-                essM.importHomes(event.getPlayer(), fundamentalsPlayer, plugin.getFundamentals());
+                essM.importHomes(event.getPlayer().getName(), fundamentalsPlayer, plugin.getFundamentals());
                 Utils.addImportEntry("essentials-homes", fundamentalsPlayer);
             }
             if (!Utils.doesImportEntryExist("essentials-money", fundamentalsPlayer)) {
-                essM.importBalance(event.getPlayer(), fundamentalsPlayer, plugin.getFundamentals());
+                essM.importBalance(event.getPlayer().getName(), fundamentalsPlayer, plugin.getFundamentals(), true);
                 Utils.addImportEntry("essentials-money", fundamentalsPlayer);
             }
         }

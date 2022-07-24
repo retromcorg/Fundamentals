@@ -1,4 +1,4 @@
-package com.johnymuffin.fundamentals.importer;
+package com.johnymuffin.fundamentals.importer.tasks;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
