@@ -11,6 +11,7 @@ import com.johnymuffin.beta.fundamentals.listener.FundamentalsEntityListener;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsPlayerListener;
 import com.johnymuffin.beta.fundamentals.settings.*;
 import com.johnymuffin.beta.fundamentals.util.FundamentalsDependencies;
+import com.johnymuffin.fundamentals.worldmanager.FundamentalsWorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -31,8 +32,11 @@ public class Fundamentals extends JavaPlugin {
     private PluginDescriptionFile pdf;
     private int debugLevel = 3;
     //Hook Status
+    //TODO: These should be migrated to the dependenciesMap system eventually.
     private boolean essentialsHook = false;
     private boolean discordCoreHook = false;
+
+    private boolean worldManagerMultiWorldEconomy = false;
     private Long lastAutoSaveTime = System.currentTimeMillis() / 1000l;
     //API
     private EconomyAPI economyAPI;
@@ -48,6 +52,8 @@ public class Fundamentals extends JavaPlugin {
 
     private PermissionsHook[] permissionsHooks;
     private PermissionsHook permissionsHook;
+
+    private FundamentalsWorldManager fundamentalsWorldManager;
 
 
     @Override
@@ -145,9 +151,11 @@ public class Fundamentals extends JavaPlugin {
         Bukkit.getPluginCommand("bank").setExecutor(new CommandBank(plugin));
         Bukkit.getPluginCommand("balancetop").setExecutor(new CommandBalanceTop(plugin));
         //Timer
+        //This async task is so TPS doesn't affect the timing of saving. This probably actually isn't needed TBH.
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, () -> {
+            //Change back to main thread for all logic.
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-                int autoSavePeriod = Integer.valueOf(String.valueOf(FundamentalsConfig.getInstance(plugin).getConfigOption("settings.auto-save-time")));
+                int autoSavePeriod = FundamentalsConfig.getInstance(plugin).getConfigInteger("settings.auto-save-time");
                 if (lastAutoSaveTime + autoSavePeriod < getUnix()) {
                     lastAutoSaveTime = getUnix();
                     debugLogger(Level.INFO, "Automatically saving data.", 2);
@@ -159,6 +167,25 @@ public class Fundamentals extends JavaPlugin {
 
         long endTimeUnix = System.currentTimeMillis() / 1000L;
         log.info("[" + pluginName + "] Has Loaded, loading took " + (int) (endTimeUnix - startTimeUnix) + " seconds.");
+
+        //Multi-balance per world support enabled.
+        //TODO: It is possible that the economy should be an additional plugin. I don't link the idea this plugin can depend on FundamentalsPerWorldManager which depends on FundamentalsCore
+        if (getFundamentalConfig().getConfigBoolean("settings.per-world-economy.enabled")) {
+            log.info("[" + pluginName + "] Will attempt to initialize per-world support when the server has finished loading.");
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    if (!Bukkit.getPluginManager().isPluginEnabled("FundamentalsWorldManager")){
+                        debugLogger(Level.WARNING, "The FundamentalsWorldManager plugin couldn't be located. Disabling per-world economy support.", 0);
+                    } else {
+                        worldManagerMultiWorldEconomy = true;
+                        fundamentalsWorldManager = (FundamentalsWorldManager) Bukkit.getPluginManager().getPlugin("FundamentalsWorldManager");
+                        debugLogger(Level.INFO, "FundamentalsWorldManager has been successfully loaded and hooked.", 0);
+                    }
+                }
+            });
+        }
+
     }
 
     public void saveData() {
@@ -307,6 +334,15 @@ public class Fundamentals extends JavaPlugin {
         }
 
     }
+
+    public boolean isWorldManagerMultiWorldEconomy() {
+        return worldManagerMultiWorldEconomy;
+    }
+
+    public FundamentalsWorldManager getFundamentalsWorldManager() {
+        return fundamentalsWorldManager;
+    }
+
 
 //    public void importPrefixes() {
 //        int players = 0;

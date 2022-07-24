@@ -26,17 +26,20 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.afk.time", 60 * 5);
         generateConfigOption("settings.afk.kick.enabled", true);
         generateConfigOption("settings.afk.kick.time", 60 * 25);
-        generateConfigOption("settings.import.player-stats-url", "https://example.com/player/stats?username=");
+//        generateConfigOption("settings.import.player-stats-url", "https://example.com/player/stats?username=");
         generateConfigOption("settings.vanish.block-interactions", true);
         generateConfigOption("settings.vanish-hidden-from-mobs", true);
         generateConfigOption("settings.preferred-permissions-hook", "JPerms");
 //        generateConfigOption("settings.import-prefixes-next-start", true);
 
 
+        generateConfigOption("settings.per-world-economy.info", "This setting enables per-world economy. FundamentalsWorldManager must be installed for this feature to function.");
+        generateConfigOption("settings.per-world-economy.enabled", true);
+        generateConfigOption("settings.per-world-economy.fallback.value", "world");
+
         generateConfigOption("settings.joinandleave.join-message", "%prefix% &c%player% &bJoined the game.");
         generateConfigOption("settings.joinandleave.leave-message", "%prefix% &c%player% &bLeft the game.");
         generateConfigOption("settings.joinandleave.kick-message", "%prefix% &c%player% &bWas kicked from the game.");
-
     }
 
     public void generateConfigOption(String key, Object defaultValue) {

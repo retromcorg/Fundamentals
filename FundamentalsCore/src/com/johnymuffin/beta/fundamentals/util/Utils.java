@@ -30,6 +30,15 @@ public class Utils {
         return null;
     }
 
+    public static Player getPlayerFromUUID(UUID uuid) {
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            if(player.getUniqueId().equals(uuid)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
     public static boolean isInt(String string) {
         try {
             Integer.parseInt(string);

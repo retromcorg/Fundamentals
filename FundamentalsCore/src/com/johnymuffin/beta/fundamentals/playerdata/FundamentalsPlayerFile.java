@@ -68,6 +68,8 @@ public class FundamentalsPlayerFile {
     }
 
     //Economy Start
+
+    //This balance function is only used if multi-world economy is disabled.
     public Double getBalance() {
         if (!jsonData.containsKey("balance")) {
             return 0.00D;
@@ -75,6 +77,7 @@ public class FundamentalsPlayerFile {
         return Double.valueOf(String.valueOf(jsonData.get("balance")));
     }
 
+    //This balance function is only used if multi-world economy is disabled.
     public void setBalance(Double amount) {
         modified = true;
         jsonData.put("balance", amount);
