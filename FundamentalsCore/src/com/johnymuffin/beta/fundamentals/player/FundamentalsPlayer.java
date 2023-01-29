@@ -123,6 +123,25 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         }
     }
 
+    public void updateDisplayName() {
+        Player player = getPlayerFromUUID(uuid);
+        updateDisplayName(player);
+    }
+
+    public void updateDisplayName(Player player) {
+        if (player != null) {
+            String displayName = player.getDisplayName();
+
+            if (player.hasPermission("fundamentals.nickname.color") || player.isOp()) {
+                displayName = displayName.replace('&', '§');
+                displayName = displayName + "§f";
+            }
+            player.setDisplayName(displayName);
+            System.out.println("Updating display name for " + player.getName() + " to " + displayName + ". (" + player.getUniqueId() + ")");
+        }
+    }
+
+
     public void setBalance(Double amount, String worldName) {
         if (this.plugin.isWorldManagerMultiWorldEconomy()) {
             String worldGroup = this.plugin.getFundamentalsWorldManager().getWorldGroup(worldName);

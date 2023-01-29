@@ -34,6 +34,24 @@ public class FundamentalsESSBridge extends JavaPlugin {
         //Generate some settings YAAAAAAAAAAA
         fundamentals.getFundamentalConfig().generateConfigOption("settings.fundamentals-importer.discordDebugEnabled", false);
         fundamentals.getFundamentalConfig().generateConfigOption("settings.fundamentals-importer.discordChannelID", "0");
+
+
+        fundamentals.getFundamentalConfig().generateConfigOption("settings.fundamentals-importer.importEssentialsHomes.enabled", true);
+        fundamentals.getFundamentalConfig().generateConfigOption("settings.fundamentals-importer.importEssentialsMoney.enabled", true);
+
+
+        //Automatic Transfer
+        fundamentals.getFundamentalConfig().generateConfigOption("settings.fundamentals-importer.auto-transfer.enabled", true);
+        fundamentals.getFundamentalConfig().generateConfigOption("settings.fundamentals-importer.auto-transfer.info", "When a player changes their username, this will automatically transfer their data to the new username.");
+
+        fundamentals.getFundamentalConfig().generateConfigOption("settings.fundamentals-importer.auto-transfer.towny.enabled", true);
+        fundamentals.getFundamentalConfig().generateConfigOption("settings.fundamentals-importer.auto-transfer.towny.info", "When a player changes their username, this will automatically transfer their towny data to the new username.");
+
+        fundamentals.getFundamentalConfig().generateConfigOption("settings.fundamentals-importer.auto-transfer.lwc.enabled", true);
+        fundamentals.getFundamentalConfig().generateConfigOption("settings.fundamentals-importer.auto-transfer.lwc.info", "When a player changes their username, this will automatically transfer their LWC data to the new username.");
+
+
+        //Save the config
         fundamentals.getFundamentalConfig().save();
 
 

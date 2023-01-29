@@ -1,6 +1,5 @@
 package com.johnymuffin.fundamentals.importer;
 
-import com.earth2me.essentials.User;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.discordcore.DiscordCore;
 import com.johnymuffin.fundamentals.importer.essentials.EssentialsManager;
@@ -30,20 +29,21 @@ public class FSBPlayerListener implements Listener {
             return;
         }
 
-        User user = plugin.getEssentials().getUser(event.getPlayer()); //Essentials Player
         FundamentalsPlayer fundamentalsPlayer = plugin.getFundamentals().getPlayerMap().getPlayer(event.getPlayer()); //Fundamental Player
 
 
         //Essentials Start
-        if (essM.doesPlayerExist(event.getPlayer().getName())) {
+        if (Bukkit.getPluginManager().isPluginEnabled("Essentials")) {
+            if (essM.doesPlayerExist(event.getPlayer().getName())) {
 //            plugin.getFundamentals().debugLogger(Level.INFO, "Importing Essentials data for " + event.getPlayer(), 2);
-            if (!Utils.doesImportEntryExist("essentials-homes", fundamentalsPlayer)) {
-                essM.importHomes(event.getPlayer().getName(), fundamentalsPlayer, plugin.getFundamentals());
-                Utils.addImportEntry("essentials-homes", fundamentalsPlayer);
-            }
-            if (!Utils.doesImportEntryExist("essentials-money", fundamentalsPlayer)) {
-                essM.importBalance(event.getPlayer().getName(), fundamentalsPlayer, plugin.getFundamentals(), true);
-                Utils.addImportEntry("essentials-money", fundamentalsPlayer);
+                if (!Utils.doesImportEntryExist("essentials-homes", fundamentalsPlayer)) {
+                    essM.importHomes(event.getPlayer().getName(), fundamentalsPlayer, plugin.getFundamentals());
+                    Utils.addImportEntry("essentials-homes", fundamentalsPlayer);
+                }
+                if (!Utils.doesImportEntryExist("essentials-money", fundamentalsPlayer)) {
+                    essM.importBalance(event.getPlayer().getName(), fundamentalsPlayer, plugin.getFundamentals(), true);
+                    Utils.addImportEntry("essentials-money", fundamentalsPlayer);
+                }
             }
         }
         //Essentials End
@@ -63,21 +63,29 @@ public class FSBPlayerListener implements Listener {
             ArrayList<String> debugTransfer = new ArrayList<String>();
 
             //Run Towny Transfer
-            try {
-                (new TownyTransfer(newUsername, oldUsername, plugin.getFundamentals(), fundamentalsPlayer, debugTransfer)).runTransfer();
-            } catch (Exception exception) {
-                plugin.getFundamentals().debugLogger(Level.WARNING, "An error occurred attempting to run the Towny transfer", 2);
-                debugTransfer.add("An error occurred attempting to run the Towny transfer");
-                exception.printStackTrace();
+            if (Bukkit.getPluginManager().isPluginEnabled("Towny")) {
+                try {
+                    (new TownyTransfer(newUsername, oldUsername, plugin.getFundamentals(), fundamentalsPlayer, debugTransfer)).runTransfer();
+                } catch (Exception exception) {
+                    plugin.getFundamentals().debugLogger(Level.WARNING, "An error occurred attempting to run the Towny transfer", 2);
+                    debugTransfer.add("An error occurred attempting to run the Towny transfer");
+                    exception.printStackTrace();
+                }
+            } else {
+                debugTransfer.add("Towny is not enabled");
             }
 
             //Run LWC Transfer
-            try {
-                (new LWCTransfer(newUsername, oldUsername, plugin.getFundamentals(), fundamentalsPlayer, debugTransfer)).runTransfer();
-            } catch (Exception exception) {
-                plugin.getFundamentals().debugLogger(Level.INFO, "An error occurred attempting to run the LWC transfer", 2);
-                debugTransfer.add("An error occurred attempting to run the LWC transfer");
-                exception.printStackTrace();
+            if (Bukkit.getPluginManager().isPluginEnabled("LWC")) {
+                try {
+                    (new LWCTransfer(newUsername, oldUsername, plugin.getFundamentals(), fundamentalsPlayer, debugTransfer)).runTransfer();
+                } catch (Exception exception) {
+                    plugin.getFundamentals().debugLogger(Level.INFO, "An error occurred attempting to run the LWC transfer", 2);
+                    debugTransfer.add("An error occurred attempting to run the LWC transfer");
+                    exception.printStackTrace();
+                }
+            } else {
+                debugTransfer.add("LWC is not enabled");
             }
 
 

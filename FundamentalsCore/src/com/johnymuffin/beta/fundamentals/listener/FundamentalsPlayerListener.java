@@ -25,7 +25,6 @@ import org.bukkit.event.player.*;
 import java.util.UUID;
 import java.util.logging.Level;
 
-import static com.johnymuffin.beta.fundamentals.util.Utils.formatColor;
 import static com.johnymuffin.beta.fundamentals.util.Utils.updateVanishedPlayers;
 
 public class FundamentalsPlayerListener implements Listener {
@@ -43,6 +42,8 @@ public class FundamentalsPlayerListener implements Listener {
         }
         //Store user in PlayerCache
         plugin.getPlayerCache().updatePlayerProfile(event.getPlayer().getName(), plugin.getPermissionsHook().getMainUserPrefix(event.getPlayer().getUniqueId()), event.getPlayer().getUniqueId());
+        FundamentalsPlayer fundamentalsPlayer = this.plugin.getPlayerMap().getPlayer(event.getPlayer().getUniqueId());
+        fundamentalsPlayer.updateDisplayName(event.getPlayer());
 
     }
 
@@ -85,13 +86,7 @@ public class FundamentalsPlayerListener implements Listener {
             fPlayer.playerJoinUpdate(event.getPlayer().getName());
 
             //Nickname Start
-            String displayName = fPlayer.getNickname();
-            if (displayName != null) {
-                if (event.getPlayer().hasPermission("fundamentals.nickname.color") || event.getPlayer().isOp()) {
-                    displayName = formatColor(displayName);
-                }
-//                event.getPlayer().setDisplayName("~" + displayName + "&f");
-            }
+            fPlayer.updateDisplayName();
             //Nickname End
 
 
@@ -131,24 +126,44 @@ public class FundamentalsPlayerListener implements Listener {
 
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = Event.Priority.Low)
     public void onPlayerChat(final PlayerChatEvent event) {
         Player player = event.getPlayer();
         FundamentalsPlayer fundamentalsPlayer = plugin.getPlayerMap().getPlayer(player);
 
 
         fundamentalsPlayer.updateActivity(); //Update AFK timer
+        fundamentalsPlayer.updateDisplayName(); //Update Nickname
 
         //Nickname Start
-        String displayName = fundamentalsPlayer.getNickname();
-        if (displayName != null) {
-            if (player.hasPermission("fundamentals.nickname.color") || player.isOp()) {
-                displayName = formatColor(displayName + "&f");
-            }
+//        String displayName = fundamentalsPlayer.getNickname();
+//        if (displayName != null) {
+//            if (player.hasPermission("fundamentals.nickname.color") || player.isOp()) {
+//                displayName = formatColor(displayName + "&f");
+//            }
 //            player.setDisplayName("~" + displayName);
-        }
+//        }
         //Nickname End
 
+
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
+        String command = event.getMessage();
+        UUID uuid = event.getPlayer().getUniqueId();
+
+        //Run nickname color check
+        if(command.toLowerCase().startsWith("/nick") || command.toLowerCase().startsWith("/nickname")) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    FundamentalsPlayer fundamentalsPlayer = plugin.getPlayerMap().getPlayer(uuid);
+                    fundamentalsPlayer.updateDisplayName();
+
+                }
+            }, 5L);
+        }
 
     }
 

@@ -92,10 +92,23 @@ public class FundamentalsWorldManager extends JavaPlugin {
     }
 
     public void savePlayerInventory(Player player, String world, Inventory inventory) {
-        FundamentalsPlayer fundamentalsPlayer = fundamentals.getPlayerMap().getPlayer(player.getUniqueId());
-        String serializedInventory = Utility.InventoryToString(inventory);
+        savePlayerInventory(player.getUniqueId(), world, inventory);
+//        FundamentalsPlayer fundamentalsPlayer = fundamentals.getPlayerMap().getPlayer(player.getUniqueId());
+//        String serializedInventory = Utility.InventoryToString(inventory);
+//        String worldGroup = getWorldGroup(world);
+//        fundamentalsPlayer.saveInformation("fundamentals-world-manager." + worldGroup + ".inventory", serializedInventory);
+    }
+
+    public Inventory getPlayerWorldInventory(UUID uuid, String world) {
+        FundamentalsPlayer fundamentalsPlayer = fundamentals.getPlayerMap().getPlayer(uuid);
         String worldGroup = getWorldGroup(world);
-        fundamentalsPlayer.saveInformation("fundamentals-world-manager." + worldGroup + ".inventory", serializedInventory);
+        Object serializedInventoryRaw = fundamentalsPlayer.getInformation("fundamentals-world-manager." + worldGroup + ".inventory");
+        if (serializedInventoryRaw == null) {
+            return new CraftInventory(null);
+        }
+        String serializedInventory = (String) serializedInventoryRaw;
+        return Utility.StringToInventory(serializedInventory);
+
     }
 
     public void savePlayerInventory(UUID player, String world, Inventory inventory) {
@@ -107,44 +120,32 @@ public class FundamentalsWorldManager extends JavaPlugin {
 
     public String getWorldGroup(String world) {
         String worldGroup = fundamentals.getFundamentalConfig().getConfigString("settings.world-manager.world." + world + ".group");
-        if(worldGroup == null) {
+        if (worldGroup == null) {
             worldGroup = "Default World Group";
-            fundamentals.debugLogger(Level.WARNING,"A inventory group for the world " + world + " couldn't be found. Using " + worldGroup + ".",2);
+            fundamentals.debugLogger(Level.WARNING, "A inventory group for the world " + world + " couldn't be found. Using " + worldGroup + ".", 2);
         }
         return worldGroup;
     }
 
-    public Inventory getPlayerWorldInventory(UUID uuid, String world) {
-        FundamentalsPlayer fundamentalsPlayer = fundamentals.getPlayerMap().getPlayer(uuid);
-        String worldGroup = getWorldGroup(world);
-        Object serializedInventoryRaw = fundamentalsPlayer.getInformation("fundamentals-world-manager." + worldGroup + ".inventory");
-        if(serializedInventoryRaw == null) {
-            return new CraftInventory(null);
-        }
-        String serializedInventory = (String) serializedInventoryRaw;
-        return Utility.StringToInventory(serializedInventory);
-
-    }
-
     public void balanceConversionProcess(World world) {
-        for(UUID uuid : fundamentals.getPlayerMap().getKnownPlayers()) {
+        for (UUID uuid : fundamentals.getPlayerMap().getKnownPlayers()) {
 //            ((WatchDogThread) WatchDogThread.currentThread()).tickUpdate(); //Does this work
             FundamentalsPlayer player = fundamentals.getPlayerMap().getPlayer(uuid);
-            if(player.getInformation("balance") == null) {
+            if (player.getInformation("balance") == null) {
                 continue; //Skip player
             }
 
             String playerName = PoseidonUUID.getPlayerUsernameFromUUID(uuid);
-            if(playerName == null) {
+            if (playerName == null) {
                 playerName = fundamentals.getPlayerCache().getUsernameFromUUID(uuid);
             }
-            if(playerName == null) {
+            if (playerName == null) {
                 playerName = "Unknown Player";
             }
 
             Double balance = Double.valueOf(String.valueOf(player.getInformation("balance")));
             player.setBalance(balance, world.getName()); //Get the old balance amount and set it with the world.
-            fundamentals.debugLogger(Level.INFO, "Converted the balance of $"+ balance + " to multi-world for " + playerName + " (" + uuid.toString() + ").", 1);
+            fundamentals.debugLogger(Level.INFO, "Converted the balance of $" + balance + " to multi-world for " + playerName + " (" + uuid.toString() + ").", 1);
         }
     }
 
@@ -152,7 +153,7 @@ public class FundamentalsWorldManager extends JavaPlugin {
         fundamentals.debugLogger(Level.INFO, "Loading all players that exist in world " + world.getName(), 1);
 
         File worldPlayerFolder = new File(world.getName(), "players");
-        if(!worldPlayerFolder.exists()) {
+        if (!worldPlayerFolder.exists()) {
             fundamentals.debugLogger(Level.WARNING, "Unable to find a player data folder for the world " + world.getName(), 0);
         }
 
@@ -165,7 +166,7 @@ public class FundamentalsWorldManager extends JavaPlugin {
             }
 
             String sanitizedUUID = string.replaceAll(".dat", "");
-            if(!uuidPattern.matcher(sanitizedUUID).matches()) {
+            if (!uuidPattern.matcher(sanitizedUUID).matches()) {
                 fundamentals.debugLogger(Level.WARNING, "A non UUID based player data file has been found called " + sanitizedUUID + " and will be skipped.", 2);
                 continue;
             }
@@ -174,10 +175,10 @@ public class FundamentalsWorldManager extends JavaPlugin {
 //            String playerName = fundamentals.getPlayerCache().getUsernameFromUUID(uuid);
             //Try Poseidon UUID Cache
             String playerName = PoseidonUUID.getPlayerUsernameFromUUID(uuid);
-            if(playerName == null) {
+            if (playerName == null) {
                 //Try Fundamentals cache
                 playerName = fundamentals.getPlayerCache().getUsernameFromUUID(uuid);
-                if(playerName == null) {
+                if (playerName == null) {
                     fundamentals.debugLogger(Level.WARNING, "Unable to find username for UUID " + uuid.toString() + ". Skipping player.", 1);
                     continue;
                 }
@@ -187,19 +188,16 @@ public class FundamentalsWorldManager extends JavaPlugin {
                 fundamentals.debugLogger(Level.WARNING, "Fundamentals fallback check has been able to find the username " + playerName + " for " + uuid.toString(), 1);
             }
 
-            MinecraftServer server = ((CraftServer)Bukkit.getServer()).getServer();
+            MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
             EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), playerName, new ItemInWorldManager(server.getWorldServer(0)));
             CraftPlayer craftPlayer = (entity == null) ? null : (CraftPlayer) entity.getBukkitEntity();
-            if(craftPlayer != null) {
+            if (craftPlayer != null) {
                 craftPlayer.loadData();
             }
             savePlayerInventory(uuid, world.getName(), craftPlayer.getInventory());
             fundamentals.debugLogger(Level.INFO, "Saved " + playerName + " as serialized data.", 1);
 
         }
-
-
-
 
 
     }

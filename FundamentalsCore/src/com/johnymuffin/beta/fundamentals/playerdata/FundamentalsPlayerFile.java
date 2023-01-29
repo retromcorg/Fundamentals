@@ -61,6 +61,7 @@ public class FundamentalsPlayerFile {
             jsonData.put("username", username);
             modified = true;
         }
+
     }
 
     protected void playerFileQuit(String username) {

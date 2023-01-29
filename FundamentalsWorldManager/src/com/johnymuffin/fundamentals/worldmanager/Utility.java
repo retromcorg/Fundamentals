@@ -1,5 +1,7 @@
 package com.johnymuffin.fundamentals.worldmanager;
 
+import com.johnymuffin.beta.fundamentals.simplejson.JSONArray;
+import com.johnymuffin.beta.fundamentals.simplejson.JSONObject;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftInventory;
 import org.bukkit.inventory.Inventory;
@@ -7,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class Utility {
 
-
+    @Deprecated
     public static String InventoryToString(Inventory invInventory) {
         String serialization = invInventory.getSize() + ";";
         for (int i = 0; i < invInventory.getSize(); i++) {
@@ -41,6 +43,54 @@ public class Utility {
         return serialization;
     }
 
+    public static JSONObject inventoryToJsonObject(Inventory inventory) {
+        JSONArray inventoryArray = new JSONArray();
+
+        for (int i = 0; i < inventory.getSize(); i++) {
+            ItemStack itemStack = inventory.getItem(i);
+            if (itemStack != null) {
+                if (itemStack != null) {
+                    JSONObject item = new JSONObject();
+                    item.put("slot", i);
+                    item.put("type", String.valueOf(itemStack.getType().getId()));
+                    if (itemStack.getDurability() != 0) {
+                        item.put("durability", String.valueOf(itemStack.getDurability()));
+                    }
+                    if (itemStack.getAmount() != 1) {
+                        item.put("amount", String.valueOf(itemStack.getAmount()));
+                    }
+                    inventoryArray.add(item);
+                }
+            }
+        }
+        JSONObject inventoryObject = new JSONObject();
+        inventoryObject.put("inventory", inventoryArray);
+        inventoryObject.put("size", inventory.getSize());
+        return inventoryObject;
+    }
+
+    public static Inventory JsonArrayToInventory(JSONObject inventoryArray) {
+        int inventorySize = Integer.valueOf(String.valueOf(inventoryArray.getOrDefault("size", 0)));
+        Inventory deserializedInventory = new CraftInventory(new FakeInventory(inventorySize));
+
+        for (Object item : ((JSONArray) inventoryArray.get("inventory"))) {
+            JSONObject jsonItem = (JSONObject) item;
+            int slot = Integer.valueOf(String.valueOf(jsonItem.get("slot")));
+            int type = Integer.valueOf(String.valueOf(jsonItem.get("type")));
+
+            ItemStack itemStack = new ItemStack(Material.getMaterial(Integer.valueOf(type)));
+            if (jsonItem.containsKey("durability")) {
+                itemStack.setDurability(Short.valueOf(String.valueOf(jsonItem.get("durability"))));
+            }
+            if (jsonItem.containsKey("amount")) {
+                itemStack.setAmount(Integer.valueOf(String.valueOf(jsonItem.get("amount"))));
+            }
+            deserializedInventory.setItem(slot, itemStack);
+        }
+        return deserializedInventory;
+    }
+
+    @Deprecated
     public static Inventory StringToInventory(String invString) {
         String[] serializedBlocks = invString.split(";");
         String invInfo = serializedBlocks[0];
