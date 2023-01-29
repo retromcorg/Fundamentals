@@ -37,6 +37,9 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.per-world-economy.enabled", true);
         generateConfigOption("settings.per-world-economy.fallback.value", "world");
 
+        generateConfigOption("settings.default-language-file.info", "Don't load the saved language file, instead use the specified language in the class.");
+        generateConfigOption("settings.default-language-file.enabled", true);
+
         generateConfigOption("settings.joinandleave.join-message", "%prefix% &c%player% &bJoined the game.");
         generateConfigOption("settings.joinandleave.leave-message", "%prefix% &c%player% &bLeft the game.");
         generateConfigOption("settings.joinandleave.kick-message", "%prefix% &c%player% &bWas kicked from the game.");
@@ -111,6 +114,7 @@ public class FundamentalsConfig extends Configuration {
         this.save();
     }
 
+    @Deprecated
     public static FundamentalsConfig getInstance() {
         if (FundamentalsConfig.singleton == null) {
             throw new RuntimeException("A instance of Fundamentals hasn't been passed into FundamentalsConfig yet.");
@@ -118,6 +122,7 @@ public class FundamentalsConfig extends Configuration {
         return FundamentalsConfig.singleton;
     }
 
+    @Deprecated
     public static FundamentalsConfig getInstance(Fundamentals plugin) {
         if (FundamentalsConfig.singleton == null) {
             FundamentalsConfig.singleton = new FundamentalsConfig(plugin);

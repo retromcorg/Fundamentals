@@ -14,7 +14,9 @@ public class FundamentalsLanguage extends Configuration {
         super(new File(plugin.getDataFolder(), String.valueOf(FundamentalsConfig.getInstance(plugin).getConfigOption("settings.message-file"))));
         map = new HashMap<String, String>();
         loadDefaults();
-        loadFile();
+        if(!plugin.getFundamentalConfig().getConfigBoolean("settings.default-language-file.enabled")) {
+            loadFile();
+        }
     }
 
     private void loadDefaults() {
@@ -72,7 +74,7 @@ public class FundamentalsLanguage extends Configuration {
         map.put("god_enable", "&6Godmode has been enabled");
         map.put("god_disable", "&6Godmode has been disabled");
         //Nickname
-        map.put("nickname_info", "&4You haven't used this command correctly, /nick (nickname)");
+        map.put("nickname_info", "&4Please use /nick <player> [nickname:off]");
         map.put("nickname_remove", "&6Your nickname has been removed");
         map.put("nickname_set", "&6Your nickname has been set to &f%var1%");
         map.put("nickname_set_others", "&6The nickname for %var1% has been set to &f%var2%");
@@ -140,7 +142,7 @@ public class FundamentalsLanguage extends Configuration {
         return msg;
     }
 
-
+    @Deprecated
     public static FundamentalsLanguage getInstance() {
         if (FundamentalsLanguage.singleton == null) {
             throw new RuntimeException("A instance of Fundamentals hasn't been passed into FundamentalsLanguage yet.");
@@ -148,6 +150,7 @@ public class FundamentalsLanguage extends Configuration {
         return FundamentalsLanguage.singleton;
     }
 
+    @Deprecated
     public static FundamentalsLanguage getInstance(Fundamentals plugin) {
         if (FundamentalsLanguage.singleton == null) {
             FundamentalsLanguage.singleton = new FundamentalsLanguage(plugin);

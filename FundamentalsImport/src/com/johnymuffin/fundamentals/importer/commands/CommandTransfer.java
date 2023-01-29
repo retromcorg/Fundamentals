@@ -30,17 +30,22 @@
 //        String newUsername = strings[1];
 //
 //        //Check if the new UUID is known. It is required to transfer the information of the player.
-//        UUID uuid = PoseidonUUID.getPlayerMojangUUID(newUsername);
-//        if(uuid == null) {
+//        UUID newUUID = PoseidonUUID.getPlayerMojangUUID(newUsername);
+//        UUID oldUUID = PoseidonUUID.getPlayerMojangUUID(oldUsername);
+//        if (newUUID == null || oldUUID == null) {
 //            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("transfer_unknown_uuid"));
 //            return true;
 //        }
 //        //Check if player is known by Fundamentals.
-//        if(!FundamentalsPlayerMap.getInstance().isPlayerKnown(uuid)) {
+//        if (!(FundamentalsPlayerMap.getInstance().isPlayerKnown(oldUUID) || FundamentalsPlayerMap.getInstance().isPlayerKnown(newUUID))) {
 //            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("transfer_unknown_player"));
 //            return true;
 //        }
 //
+//        //Run transfer from old username to new username.
+//
 //
 //    }
+//
+//
 //}

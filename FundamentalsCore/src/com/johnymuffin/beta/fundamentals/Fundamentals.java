@@ -11,6 +11,7 @@ import com.johnymuffin.beta.fundamentals.listener.FundamentalsEntityListener;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsPlayerListener;
 import com.johnymuffin.beta.fundamentals.settings.*;
 import com.johnymuffin.beta.fundamentals.util.FundamentalsDependencies;
+import com.johnymuffin.beta.fundamentals.util.Utils;
 import com.johnymuffin.fundamentals.worldmanager.FundamentalsWorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -54,7 +55,6 @@ public class Fundamentals extends JavaPlugin {
     private PermissionsHook permissionsHook;
 
     private FundamentalsWorldManager fundamentalsWorldManager;
-
 
     @Override
     public void onEnable() {
@@ -186,6 +186,15 @@ public class Fundamentals extends JavaPlugin {
             });
         }
 
+    }
+
+    //This method is case-insensitive.
+    public UUID getPlayerUUID(String playerName) {
+        UUID uuid = playerCache.getUUIDFromUsername(playerName);
+        if(uuid == null) {
+            uuid = Utils.getUUIDFromUsername(playerName);
+        }
+        return uuid;
     }
 
     public void saveData() {
