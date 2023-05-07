@@ -57,11 +57,18 @@ public class CommandBalance implements CommandExecutor {
         }
         return true;
     }
-
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+    
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
     private void printBalance(String playerName, CommandSender commandSender, EconomyAPI.BalanceWrapper balanceWrapper) {
         if (balanceWrapper.getEconomyResult() == EconomyAPI.EconomyResult.successful) {
             String message = FundamentalsLanguage.getInstance().getMessage("balance_successful");
-            message = message.replace("%var1%", String.valueOf((int) balanceWrapper.getBalance()));
+            to_return = round(balanceWrapper.getBalance(), 2)
+            message = message.replace("%var1%", String.valueOf((double) to_return);
             commandSender.sendMessage(message);
         } else if (balanceWrapper.getEconomyResult() == EconomyAPI.EconomyResult.userNotKnown) {
             String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
