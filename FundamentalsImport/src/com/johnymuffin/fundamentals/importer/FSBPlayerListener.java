@@ -56,7 +56,7 @@ public class FSBPlayerListener implements Listener {
             String newUsername = event.getPlayer().getName();
             String oldUsername = String.valueOf(fundamentalsPlayer.getInformation("last-username"));
 
-            plugin.getFundamentals().debugLogger(Level.INFO, "[Account Transfer] PLayer " + oldUsername + " ("
+            plugin.getFundamentals().debugLogger(Level.INFO, "[Account Transfer] Player " + oldUsername + " ("
                     + event.getPlayer().getUniqueId().toString() + ") has changed their username to " + newUsername, 2);
 
 

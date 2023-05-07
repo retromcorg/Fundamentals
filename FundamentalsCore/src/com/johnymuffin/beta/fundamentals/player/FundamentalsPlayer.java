@@ -137,7 +137,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
                 displayName = displayName + "§f";
             }
             player.setDisplayName(displayName);
-            System.out.println("Updating display name for " + player.getName() + " to " + displayName + ". (" + player.getUniqueId() + ")");
+//            System.out.println("Updating display name for " + player.getName() + " to " + displayName + ". (" + player.getUniqueId() + ")");
         }
     }
 
