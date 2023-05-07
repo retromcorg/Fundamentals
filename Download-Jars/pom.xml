@@ -85,6 +85,32 @@
                             <outputFileName>Discord-Core-1.1.0.jar</outputFileName>
                         </configuration>
                     </execution>
+                    <!-- Download JohnyPerms (https://api.johnymuffin.com/dependencies/fundamentals/JohnyPerms-1.0.1.jar) -->
+                    <execution>
+                        <id>download-johnyperms-jar</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://api.johnymuffin.com/dependencies/fundamentals/JohnyPerms-1.0.1.jar</url>
+                            <outputDirectory>${project.parent.build.directory}/libs</outputDirectory>
+                            <outputFileName>JohnyPerms-1.0.1.jar</outputFileName>
+                        </configuration>
+                    </execution>
+                    <!-- Download FundamentalsWorldManager (https://api.johnymuffin.com/dependencies/fundamentals/FundamentalsWorldManager-1.0.0.jar) -->
+                    <execution>
+                        <id>download-fundamentalsworldmanager-jar</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://api.johnymuffin.com/dependencies/fundamentals/FundamentalsWorldManager-1.0.0.jar</url>
+                            <outputDirectory>${project.parent.build.directory}/libs</outputDirectory>
+                            <outputFileName>FundamentalsWorldManager-1.0.0.jar</outputFileName>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 
