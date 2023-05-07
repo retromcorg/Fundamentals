@@ -2,10 +2,10 @@ package com.johnymuffin.beta.fundamentals.settings;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.banks.FundamentalsBank;
-import com.johnymuffin.beta.fundamentals.simplejson.JSONArray;
-import com.johnymuffin.beta.fundamentals.simplejson.JSONObject;
-import com.johnymuffin.beta.fundamentals.simplejson.parser.JSONParser;
-import com.johnymuffin.beta.fundamentals.simplejson.parser.ParseException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.FileReader;

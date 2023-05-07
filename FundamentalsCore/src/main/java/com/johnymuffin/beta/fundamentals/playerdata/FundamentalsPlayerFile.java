@@ -1,10 +1,10 @@
 package com.johnymuffin.beta.fundamentals.playerdata;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
-import com.johnymuffin.beta.fundamentals.simplejson.JSONArray;
-import com.johnymuffin.beta.fundamentals.simplejson.JSONObject;
-import com.johnymuffin.beta.fundamentals.simplejson.parser.JSONParser;
-import com.johnymuffin.beta.fundamentals.simplejson.parser.ParseException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

@@ -1,7 +1,7 @@
 package com.johnymuffin.fundamentals.importer;
 
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
-import com.johnymuffin.beta.fundamentals.simplejson.JSONArray;
+import org.json.simple.JSONArray;
 
 public class Utils {
 

@@ -1,8 +1,8 @@
 package com.johnymuffin.beta.fundamentals.util;
 
-import com.johnymuffin.beta.fundamentals.simplejson.JSONObject;
-import com.johnymuffin.beta.fundamentals.simplejson.parser.JSONParser;
-import com.johnymuffin.beta.fundamentals.simplejson.parser.ParseException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
 import java.io.*;

@@ -2,9 +2,9 @@ package com.johnymuffin.beta.fundamentals.settings;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
-import com.johnymuffin.beta.fundamentals.simplejson.JSONObject;
-import com.johnymuffin.beta.fundamentals.simplejson.parser.JSONParser;
-import com.johnymuffin.beta.fundamentals.simplejson.parser.ParseException;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileReader;
