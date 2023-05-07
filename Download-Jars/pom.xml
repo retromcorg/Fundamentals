@@ -1,0 +1,95 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.johnymuffin.beta.fundamentals</groupId>
+    <artifactId>Download-Jars</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>com.johnymuffin.beta.fundamentals</groupId>
+        <artifactId>fundamentals-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <version>1.7.0</version>
+                <executions>
+                    <!-- Download Project-Poseidon-Latest.jar -->
+                    <execution>
+                        <id>download-poseidon-jar</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://jenkins.glass-launcher.net/job/Project-Poseidon/lastSuccessfulBuild/artifact/target/project-poseidon-1.1.8.jar</url>
+                            <outputDirectory>${project.parent.build.directory}/libs</outputDirectory>
+                            <outputFileName>Project-Poseidon-Latest.jar</outputFileName>
+                        </configuration>
+                    </execution>
+
+                    <!-- Download Essentials.jar -->
+                    <execution>
+                        <id>download-essentials-jar</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://api.johnymuffin.com/dependencies/fundamentals/Essentials-2.5.8.jar</url>
+                            <outputDirectory>${project.parent.build.directory}/libs</outputDirectory>
+                            <outputFileName>Essentials-2.5.8.jar</outputFileName>
+                        </configuration>
+                    </execution>
+                    <!-- Download Towny.jar -->
+                    <execution>
+                        <id>download-towny-jar</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://api.johnymuffin.com/dependencies/fundamentals/Towny-0.76.0.jar</url>
+                            <outputDirectory>${project.parent.build.directory}/libs</outputDirectory>
+                            <outputFileName>Towny-0.76.0.jar</outputFileName>
+                        </configuration>
+                    </execution>
+                    <!-- Download LWC (https://api.johnymuffin.com/dependencies/fundamentals/LWC-3.52.jar) -->
+                    <execution>
+                        <id>download-lwc-jar</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://api.johnymuffin.com/dependencies/fundamentals/LWC-3.52.jar</url>
+                            <outputDirectory>${project.parent.build.directory}/libs</outputDirectory>
+                            <outputFileName>LWC-3.52.jar</outputFileName>
+                        </configuration>
+                    </execution>
+                    <!-- Download DiscordCore (https://api.johnymuffin.com/dependencies/fundamentals/Discord-Core-1.1.0.jar) -->
+                    <execution>
+                        <id>download-discordcore-jar</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://api.johnymuffin.com/dependencies/fundamentals/Discord-Core-1.1.0.jar</url>
+                            <outputDirectory>${project.parent.build.directory}/libs</outputDirectory>
+                            <outputFileName>Discord-Core-1.1.0.jar</outputFileName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+</project>
