@@ -1,7 +1,7 @@
 package com.johnymuffin.fundamentals.worldmanager;
 
-import com.johnymuffin.beta.fundamentals.simplejson.JSONArray;
-import com.johnymuffin.beta.fundamentals.simplejson.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftInventory;
 import org.bukkit.inventory.Inventory;

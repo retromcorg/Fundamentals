@@ -1,9 +1,9 @@
 package com.johnymuffin.beta.fundamentals.importer;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
-import com.johnymuffin.beta.fundamentals.simplejson.JSONObject;
-import com.johnymuffin.beta.fundamentals.simplejson.parser.JSONParser;
-import com.johnymuffin.beta.fundamentals.simplejson.parser.ParseException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import com.projectposeidon.api.PoseidonUUID;
 import com.projectposeidon.johnymuffin.UUIDManager;
 

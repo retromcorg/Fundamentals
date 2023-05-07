@@ -1,7 +1,7 @@
 package com.johnymuffin.beta.fundamentals.banks;
 
-import com.johnymuffin.beta.fundamentals.simplejson.JSONArray;
-import com.johnymuffin.beta.fundamentals.simplejson.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.util.UUID;
 
