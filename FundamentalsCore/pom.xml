@@ -21,16 +21,16 @@
             <artifactId>poseidon-craftbukkit</artifactId>
             <version>1.1.7</version>
             <scope>system</scope>
-            <systemPath>${basedir}/../libs/project-posiden-1.1.7.jar</systemPath>
+            <systemPath>${basedir}/../target/libs/Project-Poseidon-Latest.jar</systemPath>
         </dependency>
 
         <!-- Johny Perms Plugin -->
         <dependency>
             <groupId>com.johnymuffin.jperms</groupId>
             <artifactId>jperms-plugin</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.1</version>
             <scope>system</scope>
-            <systemPath>${basedir}/../libs/JohnyPerms.jar</systemPath>
+            <systemPath>${basedir}/../target/libs/JohnyPerms-1.0.1.jar</systemPath>
         </dependency>
 
         <!-- Fundamentals World Manager -->
@@ -38,9 +38,9 @@
         <dependency>
             <groupId>com.johnymuffin.beta.fundamentals</groupId>
             <artifactId>fundamentals-world-manager-jar</artifactId>
-            <version>1.0.0-SNAPSHOT-jar</version>
+            <version>1.0.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/../libs/FundamentalsWorldManager.jar</systemPath>
+            <systemPath>${basedir}/../target/libs/FundamentalsWorldManager-1.0.0.jar</systemPath>
         </dependency>
 
     </dependencies>
