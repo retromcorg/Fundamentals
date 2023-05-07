@@ -62,8 +62,7 @@ public class CommandBalance implements CommandExecutor {
     private void printBalance(String playerName, CommandSender commandSender, EconomyAPI.BalanceWrapper balanceWrapper) {
         if (balanceWrapper.getEconomyResult() == EconomyAPI.EconomyResult.successful) {
             String message = FundamentalsLanguage.getInstance().getMessage("balance_successful");
-            to_return = Utils.round(balanceWrapper.getBalance(), 2);
-            message = message.replace("%var1%", String.valueOf((double) to_return);
+            message = message.replace("%var1%", String.valueOf((double) Utils.round(balanceWrapper.getBalance(), 2)));
             commandSender.sendMessage(message);
         } else if (balanceWrapper.getEconomyResult() == EconomyAPI.EconomyResult.userNotKnown) {
             String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
