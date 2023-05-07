@@ -1,0 +1,50 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.johnymuffin.beta.fundamentals</groupId>
+    <artifactId>fundamentals-world-manager</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>com.johnymuffin.beta.fundamentals</groupId>
+        <artifactId>fundamentals-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <dependencies>
+        <!-- Dependencies for FundamentalsCore module -->
+
+        <!-- Project Poseidon CraftBukkit -->
+        <dependency>
+            <groupId>com.legacyminecraft.poseidon</groupId>
+            <artifactId>poseidon-craftbukkit</artifactId>
+            <version>1.1.7</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/../libs/project-posiden-1.1.7.jar</systemPath>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.johnymuffin.beta.fundamentals</groupId>
+            <artifactId>fundamentals-core</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <!-- Build configuration for FundamentalsCore module -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>../libs/*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
