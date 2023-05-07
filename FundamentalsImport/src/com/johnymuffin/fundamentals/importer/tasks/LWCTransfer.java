@@ -85,6 +85,12 @@ public class LWCTransfer {
         Iterator<Integer> iter = toRemove.iterator();
         String prefix = lwc.getPhysicalDatabase().getPrefix();
         Statement statement = lwc.getPhysicalDatabase().getConnection().createStatement();
+
+        //If no protections to transfer, add appropriate message to debug log
+        if (total == 0) {
+            transferDebug.add("No LWC protections to transfer");
+        }
+
         while (iter.hasNext()) {
             int protectionId = ((Integer) iter.next()).intValue();
             if (count % 100000 == 0) {
