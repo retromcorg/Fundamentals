@@ -1,5 +1,7 @@
 # Fundamentals
-Fundamentals is a group of plugins developed for Beta 1.7.3 aiming to provide essential functionality
+Fundamentals is a group of plugins developed for Beta 1.7.3 aiming to provide essential functionality. 
+
+Please note, these plugins are primarily designed for RetroMC and may not work on other servers.
 
 # How To Build
 1. Clone this repository
