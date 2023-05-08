@@ -1,7 +1,0 @@
-name: Essentials
-description: Essentials economy bridge for Fundamentals
-main: com.earth2me.essentials.Essentials
-version: 1.0.0
-authors:
-  - JohnyMuffin
-depend: [Fundamentals]
