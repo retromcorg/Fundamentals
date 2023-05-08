@@ -19,11 +19,10 @@
         <dependency>
             <groupId>com.legacyminecraft.poseidon</groupId>
             <artifactId>poseidon-craftbukkit</artifactId>
-            <version>1.1.7</version>
+            <version>1.1.8</version>
             <scope>system</scope>
-            <systemPath>${basedir}/../target/libs/Project-Poseidon-Latest.jar</systemPath>
+            <systemPath>${basedir}/../libs/Project-Poseidon-1.1.8.jar</systemPath>
         </dependency>
-
 
         <dependency>
             <groupId>com.johnymuffin.beta.fundamentals</groupId>
@@ -36,7 +35,7 @@
             <artifactId>Essentials</artifactId>
             <version>2.5.8</version>
             <scope>system</scope>
-            <systemPath>${basedir}/../target/libs/Essentials-2.5.8.jar</systemPath>
+            <systemPath>${basedir}/../libs/Essentials-2.5.8.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -44,7 +43,7 @@
             <artifactId>Towny</artifactId>
             <version>0.76.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/../target/libs/Towny-0.76.0.jar</systemPath>
+            <systemPath>${basedir}/../libs/Towny-0.76.0.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -52,7 +51,7 @@
             <artifactId>LWC</artifactId>
             <version>3.52</version>
             <scope>system</scope>
-            <systemPath>${basedir}/../target/libs/LWC-3.52.jar</systemPath>
+            <systemPath>${basedir}/../libs/LWC-3.52.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -60,7 +59,7 @@
             <artifactId>Discord-Core</artifactId>
             <version>1.1.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/../target/libs/Discord-Core-1.1.0.jar</systemPath>
+            <systemPath>${basedir}/../libs/Discord-Core-1.1.0.jar</systemPath>
         </dependency>
 
     </dependencies>
