@@ -43,6 +43,34 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.joinandleave.join-message", "%prefix% &c%player% &bJoined the game.");
         generateConfigOption("settings.joinandleave.leave-message", "%prefix% &c%player% &bLeft the game.");
         generateConfigOption("settings.joinandleave.kick-message", "%prefix% &c%player% &bWas kicked from the game.");
+
+
+        //Interest Settings
+
+        generateConfigOption("settings.interest.info", "This setting enables interest for players balances and banks.");
+        generateConfigOption("settings.interest.enabled", false);
+
+        generateConfigOption("settings.interest.rate.info", "This setting is the interest rate for players balances and banks. EG: 5.5% = 0.055");
+        generateConfigOption("settings.interest.rate.value", 5.5);
+
+        generateConfigOption("settings.interest.rate.last-month-applied.info", "The last month the interest rate was applied.");
+        generateConfigOption("settings.interest.rate.last-month-applied.value", "_JANUARY");
+
+        generateConfigOption("settings.interest.rate.use-live-interest-rate.info", "This setting will automatically update the interest rate from API Ninja.");
+        generateConfigOption("settings.interest.rate.use-live-interest-rate.enabled", false);
+
+        generateConfigOption("settings.interest.rate.use-live-interest-rate.last-updated.value", 0L);
+        generateConfigOption("settings.interest.rate.use-live-interest-rate.last-updated.info", "This setting is the last time (unix timestamp) the interest rate was updated from API Ninja.");
+
+        generateConfigOption("settings.interest.rate.use-live-interest-rate.api-key.info", "This setting is the API key for API Ninja.");
+        generateConfigOption("settings.interest.rate.use-live-interest-rate.api-key.value", "API_KEY_HERE");
+
+        generateConfigOption("settings.interest.rate.use-live-interest-rate.country.info", "This setting is the country for API Ninja.");
+        generateConfigOption("settings.interest.rate.use-live-interest-rate.country.value", "Australia");
+
+
+
+
     }
 
     public void generateConfigOption(String key, Object defaultValue) {

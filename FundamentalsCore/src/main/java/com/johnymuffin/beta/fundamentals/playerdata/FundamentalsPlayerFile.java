@@ -64,9 +64,61 @@ public class FundamentalsPlayerFile {
 
     }
 
-    protected void playerFileQuit(String username) {
+    protected void setLastSeen() {
         jsonData.put("lastSeen", System.currentTimeMillis() / 1000L);
+        modified = true;
     }
+
+
+    public long getLastSeen() {
+        if(isPlayerOnline()) {
+            return System.currentTimeMillis() / 1000L;
+        }
+        return Long.parseLong(String.valueOf(jsonData.get("lastSeen")));
+    }
+
+    public boolean isPlayerOnline() {
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            if (p.getUniqueId().equals(uuid)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String[] getNotifications() {
+        if (jsonData.get("notifications") == null) {
+            return new String[0];
+        }
+        JSONArray jsonArray = (JSONArray) jsonData.get("notifications");
+        String[] notifications = new String[jsonArray.size()];
+        for (int i = 0; i < jsonArray.size(); i++) {
+            notifications[i] = String.valueOf(jsonArray.get(i));
+        }
+        return notifications;
+    }
+
+    public void addNotification(String notification) {
+        JSONArray jsonArray;
+        if (jsonData.containsKey("notifications")) {
+            jsonArray = (JSONArray) jsonData.get("notifications");
+        } else {
+            jsonArray = new JSONArray();
+        }
+        if (!jsonArray.contains(notification)) {
+            jsonArray.add(notification);
+            jsonData.put("notifications", jsonArray);
+        }
+        modified = true;
+    }
+
+    public void clearNotifications() {
+        if (jsonData.containsKey("notifications")) {
+            jsonData.remove("notifications");
+        }
+        modified = true;
+    }
+
 
     //Economy Start
 

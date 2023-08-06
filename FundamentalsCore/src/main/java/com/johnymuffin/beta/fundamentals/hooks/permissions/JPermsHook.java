@@ -22,7 +22,7 @@ public class JPermsHook implements PermissionsHook, Listener {
         enabled = false;
         //Check if plugin is installed
         for (Plugin plugin1 : Bukkit.getPluginManager().getPlugins()) {
-            if (plugin1.isEnabled() && plugin1 instanceof JohnyPerms) {
+            if (plugin1.isEnabled() && plugin1.getDescription().getName().equalsIgnoreCase("JPerms")) {
                 fundamentals.debugLogger(Level.INFO, plugin1.getDescription().getName() + " (" + plugin1.getDescription().getVersion() + ") Has been hooked successfully.", 1);
                 enabled = true;
                 this.plugin = (JohnyPerms) plugin1;
@@ -33,7 +33,7 @@ public class JPermsHook implements PermissionsHook, Listener {
 
     @EventHandler
     public void onPluginLoadEvent(PluginEnableEvent event) {
-        if (event.getPlugin() instanceof JohnyPerms) {
+        if (event.getPlugin().getDescription().getName().equalsIgnoreCase("JPerms")) {
             fundamentals.debugLogger(Level.INFO, event.getPlugin().getDescription().getName() + " (" + event.getPlugin().getDescription().getVersion() + ") Has been hooked successfully.", 1);
             enabled = true;
             plugin = (JohnyPerms) event.getPlugin();
@@ -42,7 +42,7 @@ public class JPermsHook implements PermissionsHook, Listener {
 
     @EventHandler
     public void onPluginDisableEvent(PluginDisableEvent event) {
-        if (event.getPlugin() instanceof JohnyPerms) {
+        if (event.getPlugin().getDescription().getName().equalsIgnoreCase("JPerms")) {
             fundamentals.debugLogger(Level.INFO, event.getPlugin().getDescription().getName() + " (" + event.getPlugin().getDescription().getVersion() + ") Has been unhooked as the plugin has been disabled.", 1);
             enabled = false;
             plugin = null;

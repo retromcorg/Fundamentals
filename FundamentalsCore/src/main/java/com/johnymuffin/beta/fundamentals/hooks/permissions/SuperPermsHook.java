@@ -55,7 +55,7 @@ public class SuperPermsHook implements PermissionsHook{
     }
 
     public boolean isHookEnabled() {
-        return false;
+        return true;
     }
 
     public String getHookName() {

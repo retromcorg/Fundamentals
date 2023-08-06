@@ -25,6 +25,7 @@ import org.bukkit.event.player.*;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import static com.johnymuffin.beta.fundamentals.util.Utils.formatColor;
 import static com.johnymuffin.beta.fundamentals.util.Utils.updateVanishedPlayers;
 
 public class FundamentalsPlayerListener implements Listener {
@@ -89,6 +90,15 @@ public class FundamentalsPlayerListener implements Listener {
             fPlayer.updateDisplayName();
             //Nickname End
 
+            //Send Notifications
+            String[] notifications = fPlayer.getNotifications();
+            if (notifications != null) {
+                for (String notification : notifications) {
+                    event.getPlayer().sendMessage(formatColor(notification));
+                }
+                fPlayer.clearNotifications();
+            }
+
 
         }, 20L);
 
@@ -104,7 +114,7 @@ public class FundamentalsPlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerQuit(PlayerQuitEvent event) {
-        FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).playerQuitUpdate(event.getPlayer().getName());
+        FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).playerQuitUpdate();
 
         //Quit message
 //        String message = plugin.getFundamentalConfig().getConfigString("settings.joinandleave.leave-message");
@@ -116,7 +126,7 @@ public class FundamentalsPlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPLayerKick(PlayerKickEvent event) {
-        FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).playerQuitUpdate(event.getPlayer().getName());
+        FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).playerQuitUpdate();
 
         //Kick message
 //        String message = plugin.getFundamentalConfig().getConfigString("settings.joinandleave.kick-message");
