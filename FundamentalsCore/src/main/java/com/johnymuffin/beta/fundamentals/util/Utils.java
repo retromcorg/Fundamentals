@@ -15,10 +15,9 @@ import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Utils {
@@ -29,6 +28,16 @@ public class Utils {
         BigDecimal bd = BigDecimal.valueOf(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    public static String getCurrentMonth() {
+        // Get the current date
+        LocalDate date = LocalDate.now();
+
+        // Get the month and format it as a full name
+        String month = date.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
+
+        return month;
     }
 
     public static Player getPlayerFromString(String name) {

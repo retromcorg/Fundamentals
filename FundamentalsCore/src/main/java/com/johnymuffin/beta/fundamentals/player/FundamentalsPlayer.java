@@ -32,16 +32,6 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         this.quitTime = System.currentTimeMillis() / 1000L;
     }
 
-
-    public boolean isPlayerOnline() {
-        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            if (p.getUniqueId().equals(uuid)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public Player getBukkitPlayer() {
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             if (p.getUniqueId().equals(uuid)) {
@@ -80,7 +70,6 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         }
 
     }
-
 
     public Double getBalance(String worldName) {
         if (this.plugin.isWorldManagerMultiWorldEconomy()) {
@@ -218,8 +207,8 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         this.playerFileJoin(username);
     }
 
-    public void playerQuitUpdate(String username) {
-        this.playerFileQuit(username);
+    public void playerQuitUpdate() {
+        this.setLastSeen();
         quitTime = System.currentTimeMillis() / 1000L;
     }
 
@@ -246,7 +235,6 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     public long getQuitTime() {
         return quitTime;
     }
-
     public UUID getUuid() {
         return uuid;
     }

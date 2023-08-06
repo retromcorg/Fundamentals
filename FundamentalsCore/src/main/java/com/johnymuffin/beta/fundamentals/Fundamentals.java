@@ -10,6 +10,7 @@ import com.johnymuffin.beta.fundamentals.hooks.permissions.SuperPermsHook;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsEntityListener;
 import com.johnymuffin.beta.fundamentals.listener.FundamentalsPlayerListener;
 import com.johnymuffin.beta.fundamentals.settings.*;
+import com.johnymuffin.beta.fundamentals.task.InterestManager;
 import com.johnymuffin.beta.fundamentals.util.FundamentalsDependencies;
 import com.johnymuffin.beta.fundamentals.util.Utils;
 import com.johnymuffin.fundamentals.worldmanager.FundamentalsWorldManager;
@@ -20,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -55,6 +57,8 @@ public class Fundamentals extends JavaPlugin {
     private PermissionsHook permissionsHook;
 
     private FundamentalsWorldManager fundamentalsWorldManager;
+
+    private InterestManager interestManager;
 
     @Override
     public void onEnable() {
@@ -186,12 +190,92 @@ public class Fundamentals extends JavaPlugin {
             });
         }
 
+        //Interest Manager
+        interestManager = new InterestManager(plugin);
+        initializeInterest();
+    }
+
+    private void initializeInterest() {
+        boolean interestEnabled = this.getFundamentalConfig().getConfigBoolean("settings.interest.enabled");
+
+        if (!interestEnabled) {
+            return;
+        }
+
+        boolean useLiveInterest = this.getFundamentalConfig().getConfigBoolean("settings.interest.rate.use-live-interest-rate.enabled");
+        if (useLiveInterest) {
+            long lastInterestFetch = this.getFundamentalConfig().getConfigLong("settings.interest.rate.use-live-interest-rate.last-updated.value");
+
+            //If the last time we fetched the interest rate was more than 24 hours ago, fetch it again.
+            if (lastInterestFetch + 86400 < (System.currentTimeMillis() / 1000L)) {
+                fetchLiveInterest();
+            } else {
+                debugLogger(Level.INFO, "Live interest rate is enabled, but the interest rate was fetched less than 24 hours ago. Using cached interest rate.", 2);
+            }
+        }
+
+        //Check if interest has been payed this month.
+        String lastPayedMonth = this.getFundamentalConfig().getConfigString("settings.interest.rate.last-month-applied.value");
+        String currentMonth = Utils.getCurrentMonth();
+
+        if (!lastPayedMonth.equalsIgnoreCase(currentMonth)) {
+            //Interest hasn't been payed this month, so pay it.
+            debugLogger(Level.INFO, "Interest hasn't been payed this month. Paying interest. Please note this is a blocking operation and may hang temporarily.", 1);
+            interestManager.applyInterest();
+            this.getFundamentalConfig().setProperty("settings.interest.rate.last-month-applied.value", currentMonth);
+            this.getFundamentalConfig().save();
+        } else {
+            debugLogger(Level.INFO, "Interest has already been payed this month. Skipping interest payment.", 2);
+        }
+    }
+
+    private void fetchLiveInterest() {
+        //Attempt to fetch live interest rates from the internet.
+        final String url = "https://api.api-ninjas.com/v1/interestrate?name=";
+        final String apiKey = this.getFundamentalConfig().getConfigString("settings.interest.rate.use-live-interest-rate.api-key.value");
+
+        if (apiKey.equalsIgnoreCase("API_KEY_HERE")) {
+            this.debugLogger(Level.WARNING, "You have not set your API key for the interest rate API. Please set it in the config.yml file.", 1);
+            this.debugLogger(Level.WARNING, "Disabling live interest rate.", 1);
+            this.getFundamentalConfig().setProperty("settings.interest.rate.use-live-interest-rate.enabled", false);
+            this.getFundamentalConfig().save();
+            return;
+        }
+
+        final String country = this.getFundamentalConfig().getConfigString("settings.interest.rate.use-live-interest-rate.country.value");
+        boolean useLiveInterestRate = this.getFundamentalConfig().getConfigBoolean("settings.interest.rate.use-live-interest-rate.enabled");
+        if (!useLiveInterestRate) {
+            this.debugLogger(Level.INFO, "Live interest rate is disabled, using static interest rate: " + interestManager.getCurrentInterestRate(), 2);
+            return;
+        } else {
+            this.debugLogger(Level.INFO, "Live interest rate is enabled, attempting to fetch live interest rate.", 2);
+            Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, () -> {
+                try {
+                    Double interestRate = interestManager.fetchLiveInterestRate(url, apiKey, country);
+
+                    if (interestRate == null) {
+                        debugLogger(Level.WARNING, "Failed to fetch live interest rate, using static interest rate: " + interestManager.getCurrentInterestRate(), 1);
+                        return;
+                    }
+
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                        interestManager.setInterestRate(interestRate);
+                        this.debugLogger(Level.INFO, "Live interest rate has been fetched and set to: " + interestManager.getCurrentInterestRate() + "% based on " + country + ".", 1);
+                        getFundamentalConfig().setProperty("settings.interest.rate.use-live-interest-rate.last-updated.value", (System.currentTimeMillis() / 1000L));
+                        getFundamentalConfig().save();
+                    });
+                } catch (IOException e) {
+                    debugLogger(Level.WARNING, "Failed to fetch live interest rate, using static interest rate: " + interestManager.getCurrentInterestRate(), 1);
+                    e.printStackTrace();
+                }
+            });
+        }
     }
 
     //This method is case-insensitive.
     public UUID getPlayerUUID(String playerName) {
         UUID uuid = playerCache.getUUIDFromUsername(playerName);
-        if(uuid == null) {
+        if (uuid == null) {
             uuid = Utils.getUUIDFromUsername(playerName);
         }
         return uuid;
