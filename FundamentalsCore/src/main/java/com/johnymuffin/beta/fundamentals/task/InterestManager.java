@@ -76,7 +76,7 @@ public class InterestManager {
 
             this.fundamentals.getPlayerMap().getPlayer(uuid).setBalance(originalBalance + newInterestPayment);
 
-            String notification = ChatColor.GRAY + "You have been paid " + ChatColor.GREEN + "$" + round(newInterestPayment, 2) + ChatColor.GRAY + " in interest for " + ChatColor.GREEN + currentMonth + ChatColor.GRAY + " as you where active in the last 30 days.";
+            String notification = ChatColor.GRAY + "You have been paid " + ChatColor.GREEN + "$" + round(newInterestPayment, 2) + ChatColor.GRAY + " in interest for " + ChatColor.GREEN + currentMonth + ChatColor.GRAY + " as you were active in the last 30 days.";
             this.fundamentals.getPlayerMap().getPlayer(uuid).addNotification(notification);
         }
 
