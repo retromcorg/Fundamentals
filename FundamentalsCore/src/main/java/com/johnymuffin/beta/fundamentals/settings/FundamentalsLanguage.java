@@ -96,7 +96,12 @@ public class FundamentalsLanguage extends Configuration {
         map.put("clearinventory_successfully", "&9Inventory cleared successfully");
         //Time Command
         map.put("time_info", "/time [day|night|dawn|17:30|4pm|4000ticks] [worldname|all]");
-        map.put("time_change_successful", "The time has been changed");
+         map.put("time_change_successful", "The time has been changed to %var1% in %var2%");
+
+        // PTime Command
+        map.put("ptime_info", "/ptime [day|night|dawn|17:30|4pm|4000ticks]");
+        map.put("ptime_change_successful", "The time has been changed to %var1% for %var2%");
+
         //Bank Stuff
         map.put("bank_info", "&7Fundamentals Banking System\n&8/bank list - List your accounts\n&8/bank new (name) - Make account\n&8/bank delete (name) - Delete account\n&8/bank (name) - Show bank details\n&8/bank (name) (deposit/withdraw) (amount)\n&8/bank (name) (add/remove) (username/uuid)");
         map.put("bank_unknown", "&4Sorry, that bank account is unknown.");
