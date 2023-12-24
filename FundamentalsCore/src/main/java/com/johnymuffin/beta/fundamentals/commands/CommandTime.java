@@ -46,7 +46,12 @@ public class CommandTime implements CommandExecutor {
             }
             Player player = (Player) commandSender;
             player.getLocation().getWorld().setTime(ticks);
-            commandSender.sendMessage(lang.getMessage("time_change_successful"));
+
+            String timeChangeMsg = lang.getMessage("time_change_successful");
+            timeChangeMsg = timeChangeMsg.replace("%var1%",  TimeTickConverter.format24(ticks));
+            timeChangeMsg = timeChangeMsg.replace("%var2%", player.getWorld().getName());
+
+            commandSender.sendMessage(timeChangeMsg);
             return true;
         } else {
             Long ticks;
@@ -67,7 +72,13 @@ public class CommandTime implements CommandExecutor {
                     return true;
                 }
                 world.setTime(ticks);
-                commandSender.sendMessage(lang.getMessage("time_change_successful"));
+
+                String timeChangeMsg = lang.getMessage("time_change_successful");
+                timeChangeMsg = timeChangeMsg.replace("%var1%",   TimeTickConverter.format24(ticks));
+                timeChangeMsg = timeChangeMsg.replace("%var2%",  world.getName());
+
+                commandSender.sendMessage(timeChangeMsg);
+
                 return true;
             }
 
