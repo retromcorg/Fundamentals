@@ -62,10 +62,10 @@ commands:
  #   usage: /<command> [day|night|dawn|17:30|4pm|4000ticks] [worldname|all]
  #   aliases: [day, night]
 
-  #ptime:
-  #  description: player time change command
-  #  usage: /<command> [day|night|dawn|17:30|4pm|4000ticks]
-  #  aliases: [day, night]
+ # ptime:
+ #   description: player time change command
+ #   usage: /<command> [day|night|dawn|17:30|4pm|4000ticks]
+ #   aliases: [day, night]
   balancetop:
     description: a balance top command
     usage: /<command>

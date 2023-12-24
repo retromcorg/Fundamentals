@@ -99,7 +99,7 @@ public class FundamentalsLanguage extends Configuration {
          map.put("time_change_successful", "The time has been changed to %var1% in %var2%");
 
         // PTime Command
-        map.put("ptime_info", "/ptime [day|night|dawn|17:30|4pm|4000ticks]");
+        map.put("ptime_info", "/ptime [reset|off|day|night|dawn|17:30|4pm|4000ticks] [player]");
         map.put("ptime_change_successful", "The time has been changed to %var1% for %var2%");
 
         //Bank Stuff
