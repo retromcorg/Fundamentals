@@ -13,6 +13,32 @@
         <module>./FundamentalsImport</module>
     </modules>
 
+    <repositories>
+        <!-- Repository for resolving release dependencies -->
+        <repository>
+            <id>johnymuffin-nexus-releases</id>
+            <url>https://repository.johnymuffin.com/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <!-- Repository for resolving snapshot dependencies -->
+        <repository>
+            <id>johnymuffin-nexus-snapshots</id>
+            <url>https://repository.johnymuffin.com/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+
     <dependencies>
         <!-- Shared dependencies for all modules -->
 

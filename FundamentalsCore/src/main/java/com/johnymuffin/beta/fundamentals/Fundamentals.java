@@ -155,6 +155,7 @@ public class Fundamentals extends JavaPlugin {
         Bukkit.getPluginCommand("vanish").setExecutor(new CommandVanish(plugin));
         Bukkit.getPluginCommand("bank").setExecutor(new CommandBank(plugin));
         Bukkit.getPluginCommand("balancetop").setExecutor(new CommandBalanceTop(plugin));
+        Bukkit.getPluginCommand("fakequit").setExecutor(new CommandFakeQuit(plugin));
         //Timer
         //This async task is so TPS doesn't affect the timing of saving. This probably actually isn't needed TBH.
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, () -> {
@@ -171,6 +172,11 @@ public class Fundamentals extends JavaPlugin {
         }, 20, 20 * 10);
 
         long endTimeUnix = System.currentTimeMillis() / 1000L;
+
+        //bstats metrics
+        int pluginId = 20595; //Fundamentals Plugin ID
+        Metrics metrics = new Metrics(plugin, pluginId);
+
         log.info("[" + pluginName + "] Has Loaded, loading took " + (int) (endTimeUnix - startTimeUnix) + " seconds.");
 
         //Multi-balance per world support enabled.

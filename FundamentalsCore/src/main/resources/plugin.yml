@@ -70,3 +70,10 @@ commands:
     description: a balance top command
     usage: /<command>
     aliases: [baltop]
+  fakequit:
+    description: A command to "fake quit" from the server.
+    usage: /<command> <player>
+    aliases:
+      - fq
+      - fakejoin
+      - fj
