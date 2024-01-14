@@ -124,6 +124,12 @@ public class FundamentalsLanguage extends Configuration {
         map.put("bank_withdraw_unauthorized", "&4Sorry, you cannot withdraw from the bank account as you are not the owner or authorized.");
         map.put("bank_invalid_integer", "&4Sorry, please specify a number without decimal places.");
 
+        //FakeQuit
+        map.put("fakequit_quit_on_join", "&cYou were fake quit, so your join message was hidden.");
+        map.put("fakequit_disabled", "&cFakeQuit has been disabled.");
+        map.put("fakequit_enabled", "&cFakeQuit has been enabled.");
+        map.put("fakequit_vanish_enabled", "&cvanish has been enabled as you fake quit.");
+
 
     }
 

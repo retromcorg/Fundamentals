@@ -25,8 +25,7 @@ import org.bukkit.event.player.*;
 import java.util.UUID;
 import java.util.logging.Level;
 
-import static com.johnymuffin.beta.fundamentals.util.Utils.formatColor;
-import static com.johnymuffin.beta.fundamentals.util.Utils.updateVanishedPlayers;
+import static com.johnymuffin.beta.fundamentals.util.Utils.*;
 
 public class FundamentalsPlayerListener implements Listener {
     private Fundamentals plugin;
@@ -77,6 +76,11 @@ public class FundamentalsPlayerListener implements Listener {
 //        message = message.replace("%prefix%", getPrefix(fPlayer.getUuid()));
 //        event.setJoinMessage(formatColor(message));
 
+        // Hide Join Message if they are fakequit
+        if (fPlayer.isFakeQuit()) {
+            event.setJoinMessage(null);
+            fPlayer.addNotification(plugin.getFundamentalsLanguageConfig().getMessage("fakequit_quit_on_join"));
+        }
 
         //Online Player
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
@@ -102,6 +106,8 @@ public class FundamentalsPlayerListener implements Listener {
 
         }, 20L);
 
+        setEssentialsHidden(event.getPlayer(), fPlayer.isFakeQuit());
+
     }
 
     public String getPrefix(UUID uuid) {
@@ -114,7 +120,13 @@ public class FundamentalsPlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerQuit(PlayerQuitEvent event) {
-        FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).playerQuitUpdate();
+        FundamentalsPlayer fPlayer = FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer());
+
+        fPlayer.playerQuitUpdate();
+        //Don't print quit message if player is fakequit
+        if (fPlayer.isFakeQuit()) {
+            event.setQuitMessage(null);
+        }
 
         //Quit message
 //        String message = plugin.getFundamentalConfig().getConfigString("settings.joinandleave.leave-message");

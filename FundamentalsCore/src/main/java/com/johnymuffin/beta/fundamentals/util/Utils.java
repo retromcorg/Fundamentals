@@ -1,5 +1,6 @@
 package com.johnymuffin.beta.fundamentals.util;
 
+import com.earth2me.essentials.Essentials;
 import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
@@ -223,5 +224,14 @@ public class Utils {
         for (String string : strings) {
             sender.sendMessage(string);
         }
+    }
+
+    public static boolean setEssentialsHidden(Player player, boolean visible) {
+        if (Bukkit.getPluginManager().isPluginEnabled("Essentials")) {
+            Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
+            essentials.getUser(player).setHidden(visible);
+            return true;
+        }
+        return false;
     }
 }

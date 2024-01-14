@@ -40,9 +40,19 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.default-language-file.info", "Don't load the saved language file, instead use the specified language in the class.");
         generateConfigOption("settings.default-language-file.enabled", true);
 
-        generateConfigOption("settings.joinandleave.join-message", "%prefix% &c%player% &bJoined the game.");
-        generateConfigOption("settings.joinandleave.leave-message", "%prefix% &c%player% &bLeft the game.");
-        generateConfigOption("settings.joinandleave.kick-message", "%prefix% &c%player% &bWas kicked from the game.");
+//        generateConfigOption("settings.joinandleave.join-message", "%prefix% &c%player% &bJoined the game.");
+//        generateConfigOption("settings.joinandleave.leave-message", "%prefix% &c%player% &bLeft the game.");
+//        generateConfigOption("settings.joinandleave.kick-message", "%prefix% &c%player% &bWas kicked from the game.");
+
+        // Join And Lave Messages
+        generateConfigOption("settings.player.join-message.info", "This is the server's join message.");
+        generateConfigOption("settings.player.join-message.value", "{prefix} &c{name} &bjoined the game.");
+
+        generateConfigOption("settings.player.quit-message.info", "This is the server's leave message.");
+        generateConfigOption("settings.player.quit-message.value", "{prefix} &c{name} &bleft the game.");
+
+        generateConfigOption("settings.player.kick-message.info", "This is the server's kick message.");
+        generateConfigOption("settings.player.kick-message.value", "{prefix} &c{name} &bhas been kicked.");
 
 
         //Interest Settings
