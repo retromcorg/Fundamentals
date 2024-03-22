@@ -126,6 +126,7 @@ public class Utils {
         AIR_MATERIALS.add(Material.WOOD_PLATE.getId());
         AIR_MATERIALS.add(Material.IRON_DOOR_BLOCK.getId());
         AIR_MATERIALS.add(Material.WOODEN_DOOR.getId());
+        AIR_MATERIALS.add(Material.SNOW.getId());
     }
 
     public static Location getSafeDestination(final Location loc) throws Exception {
@@ -133,9 +134,9 @@ public class Utils {
             throw new Exception("Invalid Location Object");
         }
         final World world = loc.getWorld();
-        int x = (int) Math.round(loc.getX());
-        int y = (int) Math.round(loc.getY());
-        int z = (int) Math.round(loc.getZ());
+        int x = (int) Math.floor(loc.getX());
+        int y = (int) Math.ceil(loc.getY());
+        int z = (int) Math.floor(loc.getZ());
 
         while (isBlockAboveAir(world, x, y, z)) {
             y -= 1;
