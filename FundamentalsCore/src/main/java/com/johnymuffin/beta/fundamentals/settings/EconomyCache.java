@@ -18,7 +18,7 @@ public class EconomyCache {
     private File cacheFile;
     private boolean memoryOnly = false;
 
-    private int lowerLimit = 10; //The amount of money a player needs to have their economy information cached.
+    private int lowerLimit = 1; //The amount of money a player needs to have their economy information cached.
 
     public EconomyCache(Fundamentals plugin) {
         this.plugin = plugin;
@@ -96,6 +96,10 @@ public class EconomyCache {
             map.put(entry.getValue(), UUID.fromString(entry.getKey()));
         }
         return map;
+    }
+
+    public int getPlayerBalance(UUID uuid) {
+        return Integer.valueOf(String.valueOf( economyCache.getOrDefault(uuid.toString(), 0)));
     }
 
     public void saveData() {

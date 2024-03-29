@@ -60,6 +60,10 @@ public class Fundamentals extends JavaPlugin {
 
     private InterestManager interestManager;
 
+    private double economySize = 0;
+
+    private long lastEconomySizeUpdate = 0;
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -442,6 +446,32 @@ public class Fundamentals extends JavaPlugin {
     public FundamentalsWorldManager getFundamentalsWorldManager() {
         return fundamentalsWorldManager;
     }
+
+
+
+    public double getEconomySize() {
+        //If the economy size was updated less than 5 minutes ago, return the cached value.
+        if (lastEconomySizeUpdate + 300 > (System.currentTimeMillis() / 1000L)) {
+            return economySize;
+        }
+
+        double economySize = 0;
+
+        //Add all player balances to the economy size.
+        for (UUID uuid : getPlayerMap().getKnownPlayers()) {
+            economySize = economySize + economyCache.getPlayerBalance(uuid);
+        }
+
+        //Add all bank balances to the economy size.
+        for (FundamentalsBank bank : banks.values()) {
+            economySize = economySize + bank.getBalance();
+        }
+
+        this.economySize = economySize;
+        this.lastEconomySizeUpdate = System.currentTimeMillis() / 1000L;
+        return economySize;
+    }
+
 
 
 //    public void importPrefixes() {

@@ -76,7 +76,10 @@ public class CommandBalanceTop implements CommandExecutor {
             String username = plugin.getPlayerCache().getUsernameFromUUID(entry.getValue());
             if (username == null) {
                 username = "Unknown User";
-                System.out.println("Unknown User: " + entry.getValue());
+                //System.out.println("Unknown User: " + entry.getValue());
+
+                //Skipping the unknown user
+                continue;
             } else {
                 String prefix = plugin.getPlayerCache().getUserPrefix(entry.getValue());
                 if (prefix != null) {
@@ -87,6 +90,11 @@ public class CommandBalanceTop implements CommandExecutor {
                     ", $" + entry.getKey());
             index++;
         }
+        //Print economy size on final page with $ for the economy size
+        if(pageNumber == 0) {
+            commandSender.sendMessage(ChatColor.GOLD + "Economy Size: " + ChatColor.WHITE + "$" + plugin.getEconomySize());
+        }
+
         commandSender.sendMessage(ChatColor.GOLD + "Next Page: " + ChatColor.GRAY + "/baltop " + (pageNumber + 2));
 
 

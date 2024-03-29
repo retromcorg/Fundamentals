@@ -74,6 +74,9 @@ public class InterestManager {
             double newInterestPayment = FEBalanceInterestEvent.getInterestGained();
             interestPayed += newInterestPayment;
 
+            // Reset originalBalance to balance without bank accounts to prevent duplicating bank balance
+            originalBalance = fetchBalance(uuid, false);
+
             this.fundamentals.getPlayerMap().getPlayer(uuid).setBalance(originalBalance + newInterestPayment);
 
             String notification = ChatColor.GRAY + "You have been paid " + ChatColor.GREEN + "$" + round(newInterestPayment, 2) + ChatColor.GRAY + " in interest for " + ChatColor.GREEN + currentMonth + ChatColor.GRAY + " as you were active in the last 30 days.";
