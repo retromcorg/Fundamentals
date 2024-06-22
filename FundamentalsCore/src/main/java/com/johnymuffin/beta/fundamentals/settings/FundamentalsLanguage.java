@@ -33,6 +33,11 @@ public class FundamentalsLanguage extends Configuration {
         map.put("afk_toggle_off", "%var1% is no longer afk");
         map.put("afk_toggle_on", "%var1% is now afk");
         map.put("afk_kick_message", "&4You have been kicked for inactivity");
+        //Hat
+        map.put("hat_air", "&cWhy would you want air on your head?");
+        map.put("hat_dropping", "Was unable to put the old hat away, dropping it at your feet");
+        map.put("hat_success", "Enjoy your new hat!");
+        map.put("hat_invalid", "&cYou can't put that item on your head silly!");
         //Home
         map.put("home_non_recorded", "&6Sorry, you have no homes on record. Please set one with /sethome");
         map.put("home_not_on_record", "&6Sorry, we couldn't find a home with that name. Do /home for a list of homes");
