@@ -20,12 +20,15 @@ commands:
   home:
     description: a home command
     usage: /<command>
+    aliases: [h]
   sethome:
     description: a home command
     usage: /<command>
+    aliases: [sh]
   delhome:
     description: a home command
     usage: /<command>
+    aliases: [dh]
   balance:
     description: a balance command
     usage: /<command>
