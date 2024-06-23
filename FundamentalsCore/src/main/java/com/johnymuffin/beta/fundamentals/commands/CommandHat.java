@@ -48,7 +48,7 @@ public class CommandHat implements CommandExecutor {
                 if (item.getAmount() > 1) {
                     item.setAmount(item.getAmount() - 1);
                 } else {
-                    this.removeExact(inventory, item);
+                    this.removeExact(inv, item);
                 }
 
                 if (helmet.getAmount() > 0) {
@@ -76,14 +76,14 @@ public class CommandHat implements CommandExecutor {
         return material == null ? null : new ItemStack(material, count);
     }
 
-    private void removeExact(PlayerInventory inventory, ItemStack item) {
-        ItemStack[] contents = inventory.getContents();
+    private void removeExact(PlayerInventory inv, ItemStack item) {
+        ItemStack[] contents = inv.getContents();
         for (int i = 0; i < contents.length; i++) {
             if (contents[i] != null && contents[i].equals(item)) {
                 if (contents[i].getAmount() > 1) {
                     contents[i].setAmount(contents[i].getAmount() - 1);
                 } else {
-                    inventory.setItem(i, null);
+                    inv.setItem(i, null);
                 }
                 break;
             }
