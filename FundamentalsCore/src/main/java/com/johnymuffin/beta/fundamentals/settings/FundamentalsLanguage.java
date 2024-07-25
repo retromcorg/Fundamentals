@@ -36,6 +36,7 @@ public class FundamentalsLanguage extends Configuration {
         map.put("commencing_afk", "&7You will be marked as AFK in 3 seconds. Do not move or take damage.");
         map.put("afk_cancelled", "&cPending AFK request cancelled.");
         map.put("already_requesting_afk", "&cSlow down, you are already requesting AFK!");
+        map.put("moving_while_afk", "&cPlease type /afk to un-AFK!");
         //Hat
         map.put("hat_air", "&cWhy would you want air on your head?");
         map.put("hat_dropping", "Was unable to put the old hat away, dropping it at your feet");
