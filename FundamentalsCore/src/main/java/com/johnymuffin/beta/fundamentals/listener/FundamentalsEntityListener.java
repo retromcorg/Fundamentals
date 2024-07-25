@@ -36,10 +36,21 @@ public class FundamentalsEntityListener implements Listener {
                 player.setFireTicks(0);
                 player.setRemainingAir(player.getMaximumAir());
                 event.setCancelled(true);
+                return;
             }
         }
-    }
+        if(event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)){
+            EntityDamageByEntityEvent damageEvent = (EntityDamageByEntityEvent) event;
+            if(damageEvent.getDamager() != null && damageEvent.getDamager() instanceof Player){
+                FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) damageEvent.getDamager());
+                if(fPlayer.isAFK()){
+                    event.setCancelled(true);
+                }
+            }
 
+        }
+    }
+    // This event apparently doesn't even fire???
     @EventHandler
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player) {
