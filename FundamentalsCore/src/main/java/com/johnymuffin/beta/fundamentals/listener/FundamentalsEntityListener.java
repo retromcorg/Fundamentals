@@ -2,13 +2,12 @@ package com.johnymuffin.beta.fundamentals.listener;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityCombustEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.entity.*;
 
 public class FundamentalsEntityListener implements Listener {
     private Fundamentals plugin;
@@ -45,9 +44,19 @@ public class FundamentalsEntityListener implements Listener {
                 FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) damageEvent.getDamager());
                 if(fPlayer.isAFK()){
                     event.setCancelled(true);
+                    return;
                 }
             }
-
+        }
+        if(event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
+            EntityDamageByEntityEvent damageEvent = (EntityDamageByEntityEvent) event;
+            LivingEntity shooter = ((Projectile) damageEvent.getDamager()).getShooter();
+            if(shooter instanceof Player){
+                FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) shooter);
+                if(fPlayer.isAFK()){
+                    event.setCancelled(true);
+                }
+            }
         }
     }
     // This event apparently doesn't even fire???
