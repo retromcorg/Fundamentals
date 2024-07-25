@@ -1,6 +1,7 @@
 package com.johnymuffin.beta.fundamentals.listener;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
+import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,25 +19,34 @@ public class FundamentalsEntityListener implements Listener {
 
     @EventHandler
     public void onEntityCombust(EntityCombustEvent event) {
-        if (event.getEntity() instanceof Player && plugin.getPlayerMap().getPlayer((Player) event.getEntity()).getFileGodModeStatus()) {
-            event.setCancelled(true);
+        if (event.getEntity() instanceof Player) {
+            FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) event.getEntity());
+            if(fPlayer.isAFK() || fPlayer.getFileGodModeStatus()){
+                event.setCancelled(true);
+            }
         }
     }
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player && plugin.getPlayerMap().getPlayer((Player) event.getEntity()).getFileGodModeStatus()) {
-            final Player player = (Player) event.getEntity();
-            player.setFireTicks(0);
-            player.setRemainingAir(player.getMaximumAir());
-            event.setCancelled(true);
+        if (event.getEntity() instanceof Player) {
+            FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) event.getEntity());
+            if(fPlayer.isAFK() || fPlayer.getFileGodModeStatus()){
+                final Player player = (Player) event.getEntity();
+                player.setFireTicks(0);
+                player.setRemainingAir(player.getMaximumAir());
+                event.setCancelled(true);
+            }
         }
     }
 
     @EventHandler
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player && plugin.getPlayerMap().getPlayer((Player) event.getEntity()).getFileGodModeStatus()) {
-            event.setCancelled(true);
+        if (event.getEntity() instanceof Player) {
+            FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) event.getEntity());
+            if(fPlayer.isAFK() || fPlayer.getFileGodModeStatus()){
+                event.setCancelled(true);
+            }
         }
     }
 
