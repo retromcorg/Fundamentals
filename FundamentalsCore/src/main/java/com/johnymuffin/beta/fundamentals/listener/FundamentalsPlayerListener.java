@@ -223,6 +223,13 @@ public class FundamentalsPlayerListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
+    public void onPlayerPickupItem(PlayerPickupItemEvent event){
+        if(plugin.getPlayerMap().getPlayer(event.getPlayer().getUniqueId()).isAFK()){
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerPreLogin(PlayerPreLoginEvent event) {
         UUID uuid = PoseidonUUID.getPlayerGracefulUUID(event.getName());
         //Ensure validity of player data before letting players join
