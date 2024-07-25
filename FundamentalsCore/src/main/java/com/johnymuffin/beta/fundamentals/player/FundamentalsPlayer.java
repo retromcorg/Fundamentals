@@ -171,14 +171,13 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         }
         if (isAFK) {
             isAFK = false;
-            FundamentalsPlayerMap.getInstance().getPlayer(uuid).setFileGodModeStatus(false);
+            lastActivity = System.currentTimeMillis() / 1000l;
             String msg = FundamentalsLanguage.getInstance().getMessage("afk_toggle_off");
             msg = msg.replaceAll("%var1%", getBukkitPlayer().getDisplayName());
             Bukkit.broadcastMessage(msg);
 
         } else {
             isAFK = true;
-            FundamentalsPlayerMap.getInstance().getPlayer(uuid).setFileGodModeStatus(true);
             String msg = FundamentalsLanguage.getInstance().getMessage("afk_toggle_on");
             msg = msg.replaceAll("%var1%", getBukkitPlayer().getDisplayName());
             Bukkit.broadcastMessage(msg);
