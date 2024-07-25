@@ -44,11 +44,9 @@ public class FundamentalsEntityListener implements Listener {
                 FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) damageEvent.getDamager());
                 if(fPlayer.isAFK()){
                     event.setCancelled(true);
-                    return;
                 }
             }
-        }
-        if(event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
+        } else if(event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
             EntityDamageByEntityEvent damageEvent = (EntityDamageByEntityEvent) event;
             LivingEntity shooter = ((Projectile) damageEvent.getDamager()).getShooter();
             if(shooter instanceof Player){
@@ -73,13 +71,15 @@ public class FundamentalsEntityListener implements Listener {
     @EventHandler
     public void onEntityTarget(EntityTargetEvent event) {
         if (event.getTarget() instanceof Player) {
-            if (plugin.getPlayerMap().getPlayer((Player) event.getTarget()).isVanished()) {
+            FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) event.getTarget());
+            if(fPlayer.isVanished()){
                 if(plugin.getFundamentalConfig().getConfigBoolean("settings.vanish-hidden-from-mobs")) {
                     event.setCancelled(true);
                 }
+            } else if(fPlayer.isAFK()){
+                event.setCancelled(true);
             }
         }
     }
-
 
 }
