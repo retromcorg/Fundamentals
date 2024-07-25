@@ -20,6 +20,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.*;
 
 import java.util.UUID;
@@ -191,8 +192,32 @@ public class FundamentalsPlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerMove(final PlayerMoveEvent event) {
-        if (!((event.getFrom().getBlockX() == event.getTo().getBlockX()) && (event.getFrom().getBlockZ() == event.getTo().getBlockZ()))) {
-            FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
+        if(!plugin.getPlayerMap().getPlayer(event.getPlayer().getUniqueId()).isAFK()) return;
+        if(event.getFrom().getBlockX() == event.getTo().getBlockX() &&
+            event.getFrom().getBlockY() == event.getTo().getBlockY() &&
+            event.getFrom().getBlockZ() == event.getTo().getBlockZ()) return;
+        if(!event.getPlayer().hasPermission("fundamentals.afk") && !event.getPlayer().isOp()){
+            plugin.getPlayerMap().getPlayer(event.getPlayer().getUniqueId()).updateActivity();
+            return;
+        }
+        Location location = event.getFrom();
+        location.setPitch(event.getTo().getPitch());
+        location.setYaw(event.getTo().getYaw());
+        if(event.getFrom().getY() > event.getTo().getY()){
+            location.setY(event.getTo().getY());
+        }else{
+            location.setY(event.getFrom().getY());
+        }
+        event.getPlayer().teleport(location);
+        event.getPlayer().sendMessage(FundamentalsLanguage.getInstance().getMessage("moving_while_afk"));
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerDamaged(EntityDamageEvent event){
+        if(!(event.getEntity() instanceof Player)) return;
+        Player player = (Player) event.getEntity();
+        if(plugin.getPlayerMap().getPlayer(player.getUniqueId()).isAFK()){
+            event.setCancelled(true);
         }
     }
 
