@@ -23,13 +23,17 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.*;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 
 import static com.johnymuffin.beta.fundamentals.util.Utils.*;
 
 public class FundamentalsPlayerListener implements Listener {
+
     private Fundamentals plugin;
+    private Set<UUID> afkMovingPlayers = new HashSet<>();
 
     public FundamentalsPlayerListener(Fundamentals plugin) {
         this.plugin = plugin;
@@ -209,7 +213,13 @@ public class FundamentalsPlayerListener implements Listener {
             location.setY(event.getFrom().getY());
         }
         event.getPlayer().teleport(location);
-        event.getPlayer().sendMessage(FundamentalsLanguage.getInstance().getMessage("moving_while_afk"));
+        if(!afkMovingPlayers.contains(event.getPlayer().getUniqueId())){
+            afkMovingPlayers.add(event.getPlayer().getUniqueId());
+            event.getPlayer().sendMessage(FundamentalsLanguage.getInstance().getMessage("moving_while_afk"));
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin,
+                    () -> afkMovingPlayers.remove(event.getPlayer().getUniqueId()), 100);
+
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
