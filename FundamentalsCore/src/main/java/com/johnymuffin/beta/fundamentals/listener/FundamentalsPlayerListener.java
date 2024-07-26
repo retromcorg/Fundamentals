@@ -195,12 +195,7 @@ public class FundamentalsPlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerMove(final PlayerMoveEvent event) {
-        if(!plugin.getPlayerMap().getPlayer(event.getPlayer().getUniqueId()).isAFK()){
-            if (!((event.getFrom().getBlockX() == event.getTo().getBlockX()) && (event.getFrom().getBlockZ() == event.getTo().getBlockZ()))) {
-                FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
-            }
-            return;
-        }
+        if(!plugin.getPlayerMap().getPlayer(event.getPlayer().getUniqueId()).isAFK()) return;
         if(event.getFrom().getBlockX() == event.getTo().getBlockX() &&
             event.getFrom().getBlockY() == event.getTo().getBlockY() &&
             event.getFrom().getBlockZ() == event.getTo().getBlockZ()) return;
