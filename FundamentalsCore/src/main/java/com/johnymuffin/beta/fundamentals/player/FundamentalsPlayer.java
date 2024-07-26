@@ -1,7 +1,6 @@
 package com.johnymuffin.beta.fundamentals.player;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
-import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.banks.FundamentalsBank;
 import com.johnymuffin.beta.fundamentals.playerdata.FundamentalsPlayerFile;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
@@ -171,7 +170,6 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         }
         if (isAFK) {
             isAFK = false;
-            lastActivity = System.currentTimeMillis() / 1000l;
             String msg = FundamentalsLanguage.getInstance().getMessage("afk_toggle_off");
             msg = msg.replaceAll("%var1%", getBukkitPlayer().getDisplayName());
             Bukkit.broadcastMessage(msg);
