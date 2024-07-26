@@ -3,6 +3,7 @@ package com.johnymuffin.beta.fundamentals.commands;
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
+import com.johnymuffin.beta.fundamentals.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -92,25 +93,22 @@ public class CommandAFK implements CommandExecutor {
             this.player = player;
             health = player.getHealth();
             Location location = player.getLocation();
-            posX = roundPos(location.getX());
-            posY = roundPos(location.getY());
-            posZ = roundPos(location.getZ());
+            posX = Utils.round(location.getX(), 1);
+            posY = Utils.round(location.getY(), 1);
+            posZ = Utils.round(location.getZ(), 1);
             this.task = task;
             taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Fundamentals.getPlugin(), this, 0, 1);
         }
 
         @Override
         public void run(){
-            if(player.getHealth() < health || roundPos(player.getLocation().getX()) != posX
-                    || roundPos(player.getLocation().getY()) != posY || roundPos(player.getLocation().getZ()) != posZ){
+            if(player.getHealth() < health || Utils.round(player.getLocation().getX(), 1) != posX
+                    || Utils.round(player.getLocation().getY(), 1) != posY || Utils.round(player.getLocation().getZ(), 1) != posZ){
                 FundamentalsPlayerMap.getInstance().getPlayer(player.getUniqueId()).setAFKRequestStatus(false);
                 Bukkit.getScheduler().cancelTask(task.taskId);
                 Bukkit.getScheduler().cancelTask(taskId);
                 player.sendMessage(FundamentalsLanguage.getInstance().getMessage("afk_cancelled"));
             }
-        }
-        private double roundPos(double d){
-            return Math.round(d*10)/10f;
         }
     }
 }
