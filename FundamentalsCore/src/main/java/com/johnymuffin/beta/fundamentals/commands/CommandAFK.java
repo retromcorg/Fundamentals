@@ -50,7 +50,7 @@ public class CommandAFK implements CommandExecutor {
         if(!FundamentalsPlayerMap.getInstance().getPlayer(player.getUniqueId()).isAFK()){
             new ScheduleAFK(player);
         }else{
-            FundamentalsPlayerMap.getInstance().getPlayer(player).updateActivity();
+            FundamentalsPlayerMap.getInstance().getPlayer(player).toggleAFK();
         }
         return true;
     }
