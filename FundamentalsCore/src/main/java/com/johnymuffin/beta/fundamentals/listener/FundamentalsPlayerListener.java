@@ -219,7 +219,7 @@ public class FundamentalsPlayerListener implements Listener {
         }else{
             location.setY(event.getFrom().getY());
         }
-        event.getPlayer().teleport(location);
+        event.setTo(location);
         if(!afkMovingPlayers.contains(event.getPlayer().getUniqueId())){
             afkMovingPlayers.add(event.getPlayer().getUniqueId());
             event.getPlayer().sendMessage(FundamentalsLanguage.getInstance().getMessage("moving_while_afk"));
