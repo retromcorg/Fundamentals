@@ -176,6 +176,9 @@ public class FundamentalsPlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
+        if(plugin.getPlayerMap().getPlayer(event.getPlayer()).isAFK()){
+            plugin.getPlayerMap().getPlayer(event.getPlayer()).updateActivity();
+        }
         String command = event.getMessage();
         UUID uuid = event.getPlayer().getUniqueId();
 
