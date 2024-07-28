@@ -72,7 +72,9 @@ public class CommandAFK implements CommandExecutor {
 
         @Override
         public void run(){
-            FundamentalsPlayerMap.getInstance().getPlayer(player.getUniqueId()).toggleAFK();
+            if(!FundamentalsPlayerMap.getInstance().getPlayer(player.getUniqueId()).isAFK()){
+                FundamentalsPlayerMap.getInstance().getPlayer(player.getUniqueId()).toggleAFK();
+            }
             FundamentalsPlayerMap.getInstance().getPlayer(player.getUniqueId()).setAFKRequestStatus(false);
             Bukkit.getScheduler().cancelTask(checker.taskId);
         }
