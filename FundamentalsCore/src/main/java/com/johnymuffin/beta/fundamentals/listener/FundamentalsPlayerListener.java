@@ -22,13 +22,17 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.*;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 
 import static com.johnymuffin.beta.fundamentals.util.Utils.*;
 
 public class FundamentalsPlayerListener implements Listener {
+
     private Fundamentals plugin;
+    private Set<UUID> afkMovingPlayers = new HashSet<>();
 
     public FundamentalsPlayerListener(Fundamentals plugin) {
         this.plugin = plugin;
@@ -173,6 +177,11 @@ public class FundamentalsPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
         String command = event.getMessage();
+        if(plugin.getPlayerMap().getPlayer(event.getPlayer()).isAFK() &&
+                (!command.equalsIgnoreCase("/afk") && !command.equalsIgnoreCase("/afk " + event.getPlayer().getName()))){
+            plugin.getPlayerMap().getPlayer(event.getPlayer()).updateActivity();
+        }
+
         UUID uuid = event.getPlayer().getUniqueId();
 
         //Run nickname color check
@@ -191,8 +200,41 @@ public class FundamentalsPlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerMove(final PlayerMoveEvent event) {
-        if (!((event.getFrom().getBlockX() == event.getTo().getBlockX()) && (event.getFrom().getBlockZ() == event.getTo().getBlockZ()))) {
-            FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
+        if(!plugin.getPlayerMap().getPlayer(event.getPlayer().getUniqueId()).isAFK()){
+            if (!((event.getFrom().getBlockX() == event.getTo().getBlockX()) && (event.getFrom().getBlockZ() == event.getTo().getBlockZ()))){
+                FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).updateActivity();
+            }
+            return;
+        }
+        if(event.getFrom().getBlockX() == event.getTo().getBlockX() &&
+            event.getFrom().getBlockY() == event.getTo().getBlockY() &&
+            event.getFrom().getBlockZ() == event.getTo().getBlockZ()) return;
+        if(!event.getPlayer().hasPermission("fundamentals.afk") && !event.getPlayer().isOp()){
+            plugin.getPlayerMap().getPlayer(event.getPlayer().getUniqueId()).updateActivity();
+            return;
+        }
+        Location location = event.getFrom();
+        location.setPitch(event.getTo().getPitch());
+        location.setYaw(event.getTo().getYaw());
+        if(event.getFrom().getY() > event.getTo().getY()){
+            location.setY(event.getTo().getY());
+        }else{
+            location.setY(event.getFrom().getY());
+        }
+        event.setTo(location);
+        if(!afkMovingPlayers.contains(event.getPlayer().getUniqueId())){
+            afkMovingPlayers.add(event.getPlayer().getUniqueId());
+            event.getPlayer().sendMessage(FundamentalsLanguage.getInstance().getMessage("moving_while_afk"));
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin,
+                    () -> afkMovingPlayers.remove(event.getPlayer().getUniqueId()), 100);
+
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerPickupItem(PlayerPickupItemEvent event){
+        if(plugin.getPlayerMap().getPlayer(event.getPlayer().getUniqueId()).isAFK()){
+            event.setCancelled(true);
         }
     }
 
