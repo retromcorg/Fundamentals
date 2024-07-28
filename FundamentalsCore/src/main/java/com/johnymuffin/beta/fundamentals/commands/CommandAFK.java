@@ -34,6 +34,9 @@ public class CommandAFK implements CommandExecutor {
                 return true;
             }
             FundamentalsPlayerMap.getInstance().getPlayer(player).toggleAFK();
+            if(!FundamentalsPlayerMap.getInstance().getPlayer(player).isAFK()){
+                FundamentalsPlayerMap.getInstance().getPlayer(player).updateActivity();
+            }
             String message = FundamentalsLanguage.getInstance().getMessage("set_player_afk");
             message = message.replace("%username%", player.getName());
             commandSender.sendMessage(message);
