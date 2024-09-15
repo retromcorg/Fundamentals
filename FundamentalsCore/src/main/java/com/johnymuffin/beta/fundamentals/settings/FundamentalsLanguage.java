@@ -40,9 +40,10 @@ public class FundamentalsLanguage extends Configuration {
         map.put("hat_invalid", "&cYou can't put that item on your head silly!");
         //Home
         map.put("home_non_recorded", "&6Sorry, you have no homes on record. Please set one with /sethome");
-        map.put("home_not_on_record", "&6Sorry, we couldn't find a home with that name. Do /home for a list of homes");
+        map.put("home_not_on_record", "&6Sorry, we couldn't find a home with that name. Do /homes for a list of homes");
         map.put("home_in_invalid_world", "&4Sorry, your home is in an invalid world.");
         map.put("home_teleport_successfully", "&6You have been teleported to your home &b%var1%");
+        map.put("home_use_homes", "&6Use &a/homes&6 for a more feature rich home list.");
         //Sethome
         map.put("sethome_invalid_name", "&4Only alphanumeric characters can be used in a home name, A-Z,0-9");
         map.put("sethome_full", "&4Sorry, you are already have a home set");
@@ -51,9 +52,12 @@ public class FundamentalsLanguage extends Configuration {
         map.put("sethome_set_successfully", "&6Your home &b%var1% &6has been set.");
         //Delhome
         map.put("delhome_info", "&6Please specify a home name \"/delhome (home)\". A list of homes can be obtained with /home.");
-        map.put("delhome_unknown_home", "&6Sorry, we couldn't find a home with that name. Do /home to get a list of homes.");
+        map.put("delhome_unknown_home", "&6Sorry, we couldn't find a home with that name. Do /homes to get a list of homes.");
         map.put("delhome_unknown_successful", "&6You have successfully deleted a home");
         map.put("delhome_unknown_unsuccessful", "&4Sorry, an error was encountered when deleting that home. Please contact staff!");
+        //Homes
+        map.put("homes_list", "&6Home List (page &a%var1%&6/&a%var2%&6): ");
+        map.put("homes_invalid_usage", "&6Invalid usage: &a/homes [page number]");
         //Balance
         map.put("balance_successful", "&6Balance: $%var1%");
         //Baltop
