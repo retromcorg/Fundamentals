@@ -5,6 +5,7 @@ import com.johnymuffin.beta.fundamentals.banks.FundamentalsBank;
 import com.johnymuffin.beta.fundamentals.playerdata.FundamentalsPlayerFile;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 import static com.johnymuffin.beta.fundamentals.util.Utils.getPlayerFromUUID;
+import static com.johnymuffin.beta.fundamentals.util.Utils.formatColor;
 
 public class FundamentalsPlayer extends FundamentalsPlayerFile {
     //Fundamentals
@@ -112,6 +114,17 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         }
     }
 
+    public void updateNickname() {
+        String displayName = getNickname();
+        Player player = getPlayerFromUUID(uuid);
+        if (displayName != null) {
+            if (player.hasPermission("fundamentals.nickname.color") || player.isOp()) {
+                displayName = formatColor(displayName + "&f");
+            }
+            player.setDisplayName("~" + displayName);
+        }
+    }
+
     public void updateDisplayName() {
         Player player = getPlayerFromUUID(uuid);
         updateDisplayName(player);
@@ -130,6 +143,13 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         }
     }
 
+    public String getFullDisplayName() {
+        String prefix = plugin.getPermissionsHook().getMainUserPrefix(uuid);
+        if (prefix == null) {
+            prefix = "";
+        }
+        return formatColor(prefix) + ChatColor.WHITE + getBukkitPlayer().getDisplayName();
+    }
 
     public void setBalance(Double amount, String worldName) {
         if (this.plugin.isWorldManagerMultiWorldEconomy()) {
@@ -170,13 +190,13 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         if (isAFK) {
             isAFK = false;
             String msg = FundamentalsLanguage.getInstance().getMessage("afk_toggle_off");
-            msg = msg.replaceAll("%var1%", getBukkitPlayer().getDisplayName());
+            msg = msg.replaceAll("%var1%", getFullDisplayName());
             Bukkit.broadcastMessage(msg);
 
         } else {
             isAFK = true;
             String msg = FundamentalsLanguage.getInstance().getMessage("afk_toggle_on");
-            msg = msg.replaceAll("%var1%", getBukkitPlayer().getDisplayName());
+            msg = msg.replaceAll("%var1%", getFullDisplayName());
             Bukkit.broadcastMessage(msg);
         }
     }
