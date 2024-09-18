@@ -26,6 +26,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 import static com.johnymuffin.beta.fundamentals.util.Utils.*;
+import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
 
 public class FundamentalsPlayerListener implements Listener {
     private Fundamentals plugin;
@@ -91,6 +92,7 @@ public class FundamentalsPlayerListener implements Listener {
             fPlayer.playerJoinUpdate(event.getPlayer().getName());
 
             //Nickname Start
+            fPlayer.updateNickname();
             fPlayer.updateDisplayName();
             //Nickname End
 
@@ -137,7 +139,7 @@ public class FundamentalsPlayerListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onPLayerKick(PlayerKickEvent event) {
+    public void onPlayerKick(PlayerKickEvent event) {
         FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).playerQuitUpdate();
 
         //Kick message
@@ -157,17 +159,13 @@ public class FundamentalsPlayerListener implements Listener {
         fundamentalsPlayer.updateActivity(); //Update AFK timer
         fundamentalsPlayer.updateDisplayName(); //Update Nickname
 
-        //Nickname Start
-//        String displayName = fundamentalsPlayer.getNickname();
-//        if (displayName != null) {
-//            if (player.hasPermission("fundamentals.nickname.color") || player.isOp()) {
-//                displayName = formatColor(displayName + "&f");
-//            }
-//            player.setDisplayName("~" + displayName);
-//        }
-        //Nickname End
+        String fullDisplayName = fundamentalsPlayer.getFullDisplayName();
+        String message = isPlayerAuthorized(player, "fundamentals.chat.color") ? formatColor(event.getMessage()) : event.getMessage();
+        String format = formatColor(plugin.getFundamentalConfig().getConfigString("settings.chat.public-chat-format"))
+                .replace("{displayname}", fullDisplayName)
+                .replace("{message}", message);
 
-
+        event.setFormat(format);
     }
 
     @EventHandler(ignoreCancelled = true)
