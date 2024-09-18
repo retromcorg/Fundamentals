@@ -54,6 +54,9 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.player.kick-message.info", "This is the server's kick message.");
         generateConfigOption("settings.player.kick-message.value", "{prefix} &c{name} &bhas been kicked.");
 
+        // Chat Format
+
+        generateConfigOption("settings.chat.public-chat-format", "{displayname}&f: {message}");
 
         //Interest Settings
 
