@@ -217,6 +217,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     }
 
     public void playerQuitUpdate() {
+        isAFK = false;
         this.setLastSeen();
         quitTime = System.currentTimeMillis() / 1000L;
     }
