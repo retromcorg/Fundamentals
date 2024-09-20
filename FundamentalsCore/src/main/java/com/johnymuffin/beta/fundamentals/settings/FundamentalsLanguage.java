@@ -78,6 +78,14 @@ public class FundamentalsLanguage extends Configuration {
         //God Mode
         map.put("god_enable", "&6Godmode has been enabled");
         map.put("god_disable", "&6Godmode has been disabled");
+        //Mute
+        map.put("mute_info", "&4You haven't provided enough arguments, /mute (player) (duration)");
+        map.put("mute_successful", "&7Muted %player% %duration%");
+        map.put("mute_unmute_successful", "&7Unmuted %player%");
+        map.put("mute_player_not_found", "&cCould not find player %player%");
+        map.put("mute_player_muted", "&7You have been muted %duration%");
+        map.put("mute_player_unmuted", "&7You have been unmuted");
+        map.put("mute_player_chat", "&cYou cannot chat as you are muted %duration%");
         //Nickname
         map.put("nickname_info", "&4Please use /nick <player> [nickname:off]");
         map.put("nickname_remove", "&6Your nickname has been removed");
