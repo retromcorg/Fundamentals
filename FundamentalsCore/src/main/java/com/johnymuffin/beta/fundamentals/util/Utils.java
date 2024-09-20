@@ -19,6 +19,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utils {
@@ -39,6 +40,132 @@ public class Utils {
         String month = date.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
 
         return month;
+    }
+
+    public static String formatDateDiff(long diff) {
+        Calendar now = new GregorianCalendar();
+        Calendar toDate = new GregorianCalendar();
+        toDate.setTimeInMillis(diff);
+        return formatDateDiff(now, toDate);
+    }
+
+    public static String formatDateDiff(long from, long to){
+        Calendar fromDate = new GregorianCalendar();
+        Calendar toDate = new GregorianCalendar();
+        fromDate.setTimeInMillis(from);
+        toDate.setTimeInMillis(to);
+        return formatDateDiff(fromDate, toDate);
+    }
+
+    public static String formatDateDiff(Calendar fromDate, Calendar toDate) {
+        boolean future = false;
+        if (toDate.equals(fromDate)) return "now";
+        if (toDate.after(fromDate)) future = true;
+
+        StringBuilder sb = new StringBuilder();
+        int[] types = new int[] {
+            Calendar.YEAR,
+            Calendar.MONTH,
+            Calendar.DAY_OF_MONTH,
+            Calendar.HOUR_OF_DAY,
+            Calendar.MINUTE,
+            Calendar.SECOND
+        };
+        String[] names = new String[] {
+            "year",
+            "years",
+            "month",
+            "months",
+            "day",
+            "days",
+            "hour",
+            "hours",
+            "minute",
+            "minutes",
+            "second",
+            "seconds"
+        };
+        for (int i = 0; i < types.length; i++) {
+            int diff = dateDiff(types[i], fromDate, toDate, future);
+            if (diff > 0) {
+                sb.append(" ").append(diff).append(" ").append(names[i * 2 + (diff > 1 ? 1 : 0)]);
+            }
+        }
+        if (sb.length() == 0) return "now";
+        return sb.toString();
+    }
+
+    public static long parseDateDiff(String time, boolean future) throws Exception {
+        Calendar c = new GregorianCalendar();
+
+        Pattern timePattern = Pattern.compile(
+                "(?:([0-9]+)\\s*y[a-z]*[,\\s]*)?"
+                        + "(?:([0-9]+)\\s*mo[a-z]*[,\\s]*)?"
+                        + "(?:([0-9]+)\\s*w[a-z]*[,\\s]*)?"
+                        + "(?:([0-9]+)\\s*d[a-z]*[,\\s]*)?"
+                        + "(?:([0-9]+)\\s*h[a-z]*[,\\s]*)?"
+                        + "(?:([0-9]+)\\s*m[a-z]*[,\\s]*)?"
+                        + "(?:([0-9]+)\\s*(?:s[a-z]*)?)?", Pattern.CASE_INSENSITIVE);
+        Matcher m = timePattern.matcher(time);
+        boolean found = false;
+        while (m.find()) {
+            if (m.group() == null || m.group().isEmpty()) continue;
+
+            for (int i = 0; i < m.groupCount(); i++) {
+                if (m.group(i) != null && !m.group(i).isEmpty()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                for (int i = 1; i <= 7; i++) {
+                    if (m.group(i) != null && !m.group(i).isEmpty()) {
+                        int group = -1;
+                        switch (i) {
+                            case 1:
+                                group = Calendar.YEAR;
+                                break;
+                            case 2:
+                                group = Calendar.MONTH;
+                                break;
+                            case 3:
+                                group = Calendar.WEEK_OF_YEAR;
+                                break;
+                            case 4:
+                                group = Calendar.DAY_OF_MONTH;
+                                break;
+                            case 5:
+                                group = Calendar.HOUR_OF_DAY;
+                                break;
+                            case 6:
+                                group = Calendar.MINUTE;
+                                break;
+                            case 7:
+                                group = Calendar.SECOND;
+                                break;
+                        }
+                        if (group != -1) c.add(group, Integer.parseInt(m.group(i)) * (future ? 1 : -1));
+                    }
+                }
+            }
+        }
+        if (!found) {
+            throw new Exception("Illegal Date");
+        }
+        return c.getTimeInMillis();
+    }
+
+    private static int dateDiff(int type, Calendar fromDate, Calendar toDate, boolean future) {
+        int diff = 0;
+        long savedDate = fromDate.getTimeInMillis();
+        while ((future && !fromDate.after(toDate)) || (!future && !fromDate.before(toDate))) {
+            savedDate = fromDate.getTimeInMillis();
+            fromDate.add(type, future ? 1 : -1);
+            diff++;
+        }
+        diff--;
+        fromDate.setTimeInMillis(savedDate);
+        return diff;
     }
 
     public static Player getPlayerFromString(String name) {
