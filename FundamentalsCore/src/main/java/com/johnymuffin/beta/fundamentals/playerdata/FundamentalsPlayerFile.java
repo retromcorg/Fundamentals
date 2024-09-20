@@ -198,12 +198,12 @@ public class FundamentalsPlayerFile {
         }
     }
 
-    public List<String> getIgnoreList() {
-        List<String> list = new ArrayList<String>();
+    public List<UUID> getIgnoreList() {
+        List<UUID> list = new ArrayList<UUID>();
         if (jsonData.containsKey("ignore")) {
-            JSONArray jsonArray = (JSONArray) jsonData.get("ignores");
+            JSONArray jsonArray = (JSONArray) jsonData.get("ignore");
             for (int i = 0; i < jsonArray.size(); i++) {
-                list.add(String.valueOf(jsonArray.get(i)));
+                list.add(UUID.fromString(String.valueOf(jsonArray.get(i))));
             }
         }
         return list;
