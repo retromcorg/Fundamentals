@@ -5,6 +5,7 @@ import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.events.FEconomyUpdateEvent;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
+import com.johnymuffin.beta.fundamentals.util.Utils;
 import com.projectposeidon.api.PoseidonUUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,6 +23,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.*;
 
+import java.util.Iterator;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -91,6 +93,12 @@ public class FundamentalsPlayerListener implements Listener {
             fPlayer.updateActivity();
             fPlayer.playerJoinUpdate(event.getPlayer().getName());
 
+            //Mute Start
+            if(!fPlayer.isMuted()){
+                fPlayer.setMuteTimer(null);
+            }
+            //Mute End
+
             //Nickname Start
             fPlayer.updateNickname();
             fPlayer.updateDisplayName();
@@ -153,19 +161,34 @@ public class FundamentalsPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = Event.Priority.Low)
     public void onPlayerChat(final PlayerChatEvent event) {
         Player player = event.getPlayer();
-        FundamentalsPlayer fundamentalsPlayer = plugin.getPlayerMap().getPlayer(player);
+        FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer(player);
 
 
-        fundamentalsPlayer.updateActivity(); //Update AFK timer
-        fundamentalsPlayer.updateDisplayName(); //Update Nickname
+        fPlayer.updateActivity(); //Update AFK timer
+        fPlayer.updateDisplayName(); //Update Nickname
+        if(fPlayer.isMuted()) {
+            event.setCancelled(true);
+            String mutedMessage = plugin.getFundamentalsLanguageConfig().getMessage("mute_player_chat")
+                    .replace("%duration%", fPlayer.getMuteStatus() == -1 ? "permanently" : "for" + Utils.formatDateDiff(fPlayer.getMuteStatus()));
+            player.sendMessage(mutedMessage);
+            return;
+        }
 
-        String fullDisplayName = fundamentalsPlayer.getFullDisplayName();
+        String fullDisplayName = fPlayer.getFullDisplayName();
         String message = isPlayerAuthorized(player, "fundamentals.chat.color") ? formatColor(event.getMessage()) : event.getMessage();
         String format = formatColor(plugin.getFundamentalConfig().getConfigString("settings.chat.public-chat-format"))
                 .replace("{displayname}", fullDisplayName)
                 .replace("{message}", message);
 
         event.setFormat(format);
+
+        Iterator<Player> it = event.getRecipients().iterator();
+        while (it.hasNext()) {
+            FundamentalsPlayer recipient = plugin.getPlayerMap().getPlayer(it.next());
+            if(recipient.getIgnoreList().contains(fPlayer.getUuid())){
+                it.remove();
+            }
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
