@@ -251,6 +251,10 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         return (FundamentalsBank[]) accounts.toArray();
     }
 
+    public boolean isMuted() {
+        Long muteStatus = getMuteStatus();
+        return muteStatus != null && (muteStatus == -1 || System.currentTimeMillis() < muteStatus);
+    }
 
     public long getQuitTime() {
         return quitTime;
