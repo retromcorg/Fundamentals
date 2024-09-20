@@ -57,6 +57,9 @@ commands:
 #    description: Clear all items in your inventory.
 #    usage: /<command>
 #    aliases: [ci]
+  mute:
+    description: Command to mute players.
+    usage: /<command> <player> [duration]
   vanish:
     description: Command to vanish player.
     usage: /<command>
