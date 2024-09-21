@@ -181,8 +181,8 @@ public class FundamentalsPlayerFile {
         } else {
             ignores = new JSONArray();
         }
-        if (!ignores.contains(uuid)) {
-            ignores.add(uuid);
+        if (!ignores.contains(uuid.toString())) {
+            ignores.add(uuid.toString());
             jsonData.put("ignore", ignores);
         }
     }
@@ -193,8 +193,8 @@ public class FundamentalsPlayerFile {
             return;
         }
         ignores = (JSONArray) jsonData.get("ignore");
-        if (ignores.contains(uuid)) {
-            ignores.remove(uuid);
+        if (ignores.contains(uuid.toString())) {
+            ignores.remove(uuid.toString());
         }
     }
 
