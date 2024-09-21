@@ -30,11 +30,14 @@ public class CommandMute implements CommandExecutor {
             commandSender.sendMessage(plugin.getFundamentalsLanguageConfig().getMessage("mute_info"));
             return true;
         }
-
         UUID uuid = plugin.getPlayerCache().getUUIDFromUsername(strings[0]);
         if (uuid == null) {
-            commandSender.sendMessage(plugin.getFundamentalsLanguageConfig().getMessage("mute_player_not_found")
-                    .replace("%player%", strings[0]));
+            commandSender.sendMessage(plugin.getFundamentalsLanguageConfig().getMessage("player_not_found_full")
+                    .replace("%username%", strings[0]));
+            return true;
+        }
+        if (commandSender instanceof Player && uuid.equals(((Player) commandSender).getUniqueId())){
+            commandSender.sendMessage(plugin.getFundamentalsLanguageConfig().getMessage("mute_self"));
             return true;
         }
 
