@@ -60,6 +60,9 @@ commands:
   mute:
     description: Command to mute players.
     usage: /<command> <player> [duration]
+  ignore:
+    description: Command to ignore players.
+    usage: /<command> <player>
   vanish:
     description: Command to vanish player.
     usage: /<command>
