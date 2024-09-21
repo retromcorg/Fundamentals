@@ -82,10 +82,15 @@ public class FundamentalsLanguage extends Configuration {
         map.put("mute_info", "&4You haven't provided enough arguments, /mute (player) (duration)");
         map.put("mute_successful", "&7Muted %player% %duration%");
         map.put("mute_unmute_successful", "&7Unmuted %player%");
-        map.put("mute_player_not_found", "&cCould not find player %player%");
         map.put("mute_player_muted", "&7You have been muted %duration%");
         map.put("mute_player_unmuted", "&7You have been unmuted");
         map.put("mute_player_chat", "&cYou cannot chat as you are muted %duration%");
+        map.put("mute_self", "&4You can't mute yourself!");
+        //Ignore
+        map.put("ignore_info", "&4You haven't provided enough arguments, /ignore (player)");
+        map.put("ignore_add", "&7You are now ignoring %player%");
+        map.put("ignore_remove", "&7You are no longer ignoring %player%");
+        map.put("ignore_self", "&4You can't ignore yourself!");
         //Nickname
         map.put("nickname_info", "&4Please use /nick <player> [nickname:off]");
         map.put("nickname_remove", "&6Your nickname has been removed");
