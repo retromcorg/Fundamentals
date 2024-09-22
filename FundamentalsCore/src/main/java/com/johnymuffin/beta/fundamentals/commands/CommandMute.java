@@ -55,14 +55,7 @@ public class CommandMute implements CommandExecutor {
             return true;
         }
 
-        final StringBuilder bldr = new StringBuilder();
-        for (int i = 1; i < strings.length; i++) {
-            if (i != 1) {
-                bldr.append(" ");
-            }
-            bldr.append(strings[i]);
-        }
-        String time = bldr.toString();
+        String time = Utils.getFullArg(strings, 1);
         long unixTime = System.currentTimeMillis();
         long duration;
         try {
