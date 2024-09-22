@@ -362,4 +362,15 @@ public class Utils {
         }
         return false;
     }
+
+    public static String getFullArg(String[] strings, int start) {
+        final StringBuilder bldr = new StringBuilder();
+        for (int i = start; i < strings.length; i++) {
+            if (i != start) {
+                bldr.append(" ");
+            }
+            bldr.append(strings[i]);
+        }
+        return bldr.toString();
+    }
 }
