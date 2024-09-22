@@ -78,6 +78,13 @@ public class FundamentalsLanguage extends Configuration {
         //God Mode
         map.put("god_enable", "&6Godmode has been enabled");
         map.put("god_disable", "&6Godmode has been disabled");
+        //Msg
+        map.put("msg_info", "&4You haven't provided enough arguments, /msg (player) (message)");
+        map.put("msg_player_ignored", "&cYou cannot message %player% as you are ignoring them");
+        //R
+        map.put("r_info", "&4You haven't provided enough arguments, /r (message)");
+        map.put("r_no_recipient", "&cYou have no one to reply to");
+        map.put("r_player_offline", "&cYou cannot reply to %player% as they are offline");
         //Mute
         map.put("mute_info", "&4You haven't provided enough arguments, /mute (player) (duration)");
         map.put("mute_successful", "&7Muted %player% %duration%");
