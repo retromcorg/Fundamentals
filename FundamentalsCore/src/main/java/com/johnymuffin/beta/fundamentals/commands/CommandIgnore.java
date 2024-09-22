@@ -25,18 +25,18 @@ public class CommandIgnore implements CommandExecutor {
             commandSender.sendMessage(plugin.getFundamentalsLanguageConfig().getMessage("no_permission"));
             return true;
         }
-        if (strings.length == 0) {
-            commandSender.sendMessage(plugin.getFundamentalsLanguageConfig().getMessage("ignore_info"));
-            return true;
-        }
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage(plugin.getFundamentalsLanguageConfig().getMessage("unavailable_to_console"));
+            return true;
+        }
+        if (strings.length == 0) {
+            commandSender.sendMessage(plugin.getFundamentalsLanguageConfig().getMessage("ignore_info"));
             return true;
         }
         UUID uuid = plugin.getPlayerCache().getUUIDFromUsername(strings[0]);
         if (uuid == null) {
             commandSender.sendMessage(plugin.getFundamentalsLanguageConfig().getMessage("player_not_found_full")
-                    .replace("%player%", strings[0]));
+                    .replace("%username%", strings[0]));
             return true;
         }
         if (uuid.equals(((Player) commandSender).getUniqueId())){
