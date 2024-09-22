@@ -22,6 +22,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     //Player
     private UUID uuid;
     private long lastActivity = System.currentTimeMillis() / 1000l;
+    private Player replyTo = null;
     private boolean isAFK = false;
     private boolean isFirstJoin = false;
     private long quitTime = 0L;
@@ -160,7 +161,6 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         }
     }
 
-
     //AFK Logic
     public void updateActivity() {
         //Confirm Player Is Online
@@ -269,6 +269,14 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
 
     public boolean isFirstJoin() {
         return isFirstJoin;
+    }
+
+    public Player getReplyTo() {
+        return replyTo;
+    }
+
+    public void setReplyTo(Player replyTo) {
+        this.replyTo = replyTo;
     }
 
     public boolean isFakeQuit() {
