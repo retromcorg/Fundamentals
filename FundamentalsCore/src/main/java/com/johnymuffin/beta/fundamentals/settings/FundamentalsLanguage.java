@@ -104,6 +104,10 @@ public class FundamentalsLanguage extends Configuration {
         map.put("nickname_set", "&6Your nickname has been set to &f%var1%");
         map.put("nickname_set_others", "&6The nickname for %var1% has been set to &f%var2%");
         map.put("nickname_remove_others", "&4You have removed a nickname");
+        //Realname
+        map.put("realname_info", "&4You haven't provided enough arguments, /realname (nickname)");
+        map.put("realname_successful", "%displayname%&f is %player%");
+        map.put("realname_player_not_found", "&4Can't find a player with the nickname &9%nickname%");
         //InvSee
         map.put("invsee_deny", "&cSorry, you can't do that while you are in InvSee");
         map.put("invsee_info", "&4You haven't provided enough arguments, /invsee (username)");
