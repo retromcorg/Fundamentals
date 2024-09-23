@@ -50,6 +50,9 @@ commands:
 #    description: a nickname command
 #    usage: /<command>
 #    aliases: [nick]
+  realname:
+    description: Command to get the real name of a nicked user.
+    usage: /realname <nickname>
 #  invsee:
 #    description: a inventory command
 #    usage: /<command>
