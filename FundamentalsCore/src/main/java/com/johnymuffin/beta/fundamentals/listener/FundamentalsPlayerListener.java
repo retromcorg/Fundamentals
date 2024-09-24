@@ -90,6 +90,7 @@ public class FundamentalsPlayerListener implements Listener {
             if (!event.getPlayer().isOnline()) {
                 return;
             }
+            fPlayer.setLoginTime();
             fPlayer.updateActivity();
             fPlayer.playerJoinUpdate(event.getPlayer().getName());
 
