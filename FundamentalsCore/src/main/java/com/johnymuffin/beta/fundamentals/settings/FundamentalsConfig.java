@@ -59,6 +59,7 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.chat.public-chat-format", "{displayname}&f: {message}");
         generateConfigOption("settings.chat.msg-send-format", "&7[me -> {displayname}&7]&f {message}");
         generateConfigOption("settings.chat.msg-receive-format", "&7[{displayname}&7 -> me]&f {message}");
+        generateConfigOption("settings.chat.broadcast-format", "&f[&cBroadcast&f]&a {message}");
 
         //Interest Settings
 

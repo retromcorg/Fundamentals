@@ -21,6 +21,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     private Fundamentals plugin;
     //Player
     private UUID uuid;
+    private long loginTime = System.currentTimeMillis();
     private long lastActivity = System.currentTimeMillis() / 1000l;
     private Player replyTo = null;
     private boolean isAFK = false;
@@ -269,6 +270,14 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
 
     public boolean isFirstJoin() {
         return isFirstJoin;
+    }
+
+    public void setLoginTime() {
+        this.loginTime = System.currentTimeMillis();
+    }
+
+    public long getLoginTime() {
+        return loginTime;
     }
 
     public Player getReplyTo() {

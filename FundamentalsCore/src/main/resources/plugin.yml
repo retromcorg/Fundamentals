@@ -52,7 +52,10 @@ commands:
 #    aliases: [nick]
   realname:
     description: Command to get the real name of a nicked user.
-    usage: /realname <nickname>
+    usage: /<command> <nickname>
+  seen:
+    description: Command to show when a player was last seen.
+    usage: /<command> <player>
 #  invsee:
 #    description: a inventory command
 #    usage: /<command>
@@ -60,12 +63,18 @@ commands:
 #    description: Clear all items in your inventory.
 #    usage: /<command>
 #    aliases: [ci]
+  broadcast:
+    description: Command to broadcast to the whole server.
+    usage: /<command> <message>
+    aliases: [bc]
   msg:
     description: Command to message players.
     usage: /<command> <player> <message>
+    aliases: [m, t, tell, whisper, w]
   r:
     description: Command to reply to players.
     usage: /<command> <message>
+    aliases: [reply]
   mute:
     description: Command to mute players.
     usage: /<command> <player> [duration]

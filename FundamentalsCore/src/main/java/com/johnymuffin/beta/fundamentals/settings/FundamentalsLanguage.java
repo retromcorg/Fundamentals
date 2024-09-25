@@ -78,6 +78,8 @@ public class FundamentalsLanguage extends Configuration {
         //God Mode
         map.put("god_enable", "&6Godmode has been enabled");
         map.put("god_disable", "&6Godmode has been disabled");
+        //Broadcast
+        map.put("broadcast_info", "&4You haven't provided enough arguments, /broadcast (message)");
         //Msg
         map.put("msg_info", "&4You haven't provided enough arguments, /msg (player) (message)");
         map.put("msg_player_ignored", "&cYou cannot message %player% as you are ignoring them");
@@ -108,6 +110,10 @@ public class FundamentalsLanguage extends Configuration {
         map.put("realname_info", "&4You haven't provided enough arguments, /realname (nickname)");
         map.put("realname_successful", "%displayname%&f is %player%");
         map.put("realname_player_not_found", "&4Can't find a player with the nickname &9%nickname%");
+        //Seen
+        map.put("seen_info", "&4You haven't provided enough arguments, /seen (player)");
+        map.put("seen_online", "%displayname%&f has been online for%time%");
+        map.put("seen_offline", "%player% was last seen%time% ago");
         //InvSee
         map.put("invsee_deny", "&cSorry, you can't do that while you are in InvSee");
         map.put("invsee_info", "&4You haven't provided enough arguments, /invsee (username)");
