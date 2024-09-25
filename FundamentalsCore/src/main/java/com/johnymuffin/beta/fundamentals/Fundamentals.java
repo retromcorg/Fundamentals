@@ -163,6 +163,7 @@ public class Fundamentals extends JavaPlugin {
         Bukkit.getPluginCommand("mute").setExecutor(new CommandMute(plugin));
         Bukkit.getPluginCommand("ignore").setExecutor(new CommandIgnore(plugin));
         Bukkit.getPluginCommand("vanish").setExecutor(new CommandVanish(plugin));
+        Bukkit.getPluginCommand("weather").setExecutor(new CommandWeather(plugin));
         Bukkit.getPluginCommand("bank").setExecutor(new CommandBank(plugin));
         Bukkit.getPluginCommand("balancetop").setExecutor(new CommandBalanceTop(plugin));
         Bukkit.getPluginCommand("fakequit").setExecutor(new CommandFakeQuit(plugin));
