@@ -63,6 +63,10 @@ commands:
 #    description: Clear all items in your inventory.
 #    usage: /<command>
 #    aliases: [ci]
+  broadcast:
+    description: Command to broadcast to the whole server.
+    usage: /<command> <message>
+    aliases: [bc]
   msg:
     description: Command to message players.
     usage: /<command> <player> <message>
