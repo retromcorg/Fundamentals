@@ -159,6 +159,7 @@ public class Fundamentals extends JavaPlugin {
 //        Bukkit.getPluginCommand("clearinventory").setExecutor(new CommandClearInventory(plugin));
 //        Bukkit.getPluginCommand("time").setExecutor(new CommandTime(plugin));
 //        Bukkit.getPluginCommand("ptime").setExecutor(new CommandPTime(plugin));
+        Bukkit.getPluginCommand("broadcast").setExecutor(new CommandBroadcast(plugin));
         Bukkit.getPluginCommand("msg").setExecutor(new CommandMsg(plugin));
         Bukkit.getPluginCommand("r").setExecutor(new CommandR(plugin));
         Bukkit.getPluginCommand("mute").setExecutor(new CommandMute(plugin));
