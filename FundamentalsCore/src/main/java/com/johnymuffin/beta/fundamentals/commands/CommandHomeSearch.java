@@ -145,6 +145,12 @@ public class CommandHomeSearch implements CommandExecutor {
             }
 
             Location homeLocation = player.getPlayerHome(homeName);
+
+            // only show homes in the same dimension as the player who ran the command
+            if (!homeLocation.getWorld().equals(playerLocation.getWorld())) {
+                continue;  // Skip this home if they are in different dimensions
+            }
+
             double distance = homeLocation.distance(playerLocation);
 
             if (distance <= radius) {
