@@ -10,6 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,27 +92,43 @@ public class CommandHomeSearch implements CommandExecutor {
         return true;
     }
 
-    private void searchHomesInRadius(Player player, FundamentalsPlayer targetPlayer, int radius) {
-        Location playerLocation = player.getLocation();
+    private void searchHomesInRadius(final Player player, final FundamentalsPlayer targetPlayer, final int radius) {
+        final Location playerLocation = player.getLocation();
+        final ArrayList<String> homes = new ArrayList<>();
+        final HashMap<String, ArrayList<String>> homesByOwner = new HashMap<>();
+        final BukkitScheduler scheduler = Bukkit.getScheduler();
 
-        ArrayList<String> homes = new ArrayList<>();
-        HashMap<String, ArrayList<String>> homesByOwner = new HashMap<>();
-
-        // when searching for one specific player
         if (targetPlayer != null) {
-            homes = targetPlayer.getPlayerHomes();
+            // When targeting a specific player, don't need async task
+            homes.addAll(targetPlayer.getPlayerHomes());
             processPlayerHomes(targetPlayer, homes, playerLocation, radius, homesByOwner);
-        } else { // search through every player on the server
-            ArrayList<UUID> knownPlayers = FundamentalsPlayerMap.getInstance().getKnownPlayers();
+            displayResults(player, homesByOwner, radius);
+        } else {
+            // When targeting all players, use async task to prevent lag
+            scheduler.scheduleAsyncDelayedTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    ArrayList<UUID> knownPlayers = FundamentalsPlayerMap.getInstance().getKnownPlayers();
 
-            for (UUID uuid : knownPlayers) {
-                FundamentalsPlayer currentPlayer = FundamentalsPlayerMap.getInstance().getPlayer(uuid);
-                homes = currentPlayer.getPlayerHomes();
-                processPlayerHomes(currentPlayer, homes, playerLocation, radius, homesByOwner);
-            }
+                    for (UUID uuid : knownPlayers) {
+                        FundamentalsPlayer currentPlayer = FundamentalsPlayerMap.getInstance().getPlayer(uuid);
+                        ArrayList<String> playerHomes = currentPlayer.getPlayerHomes();
+                        processPlayerHomes(currentPlayer, playerHomes, playerLocation, radius, homesByOwner);
+                    }
+
+                    // on main thread, display the results
+                    scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            displayResults(player, homesByOwner, radius);
+                        }
+                    });
+                }
+            });
         }
+    }
 
-        // Display results
+    private void displayResults(Player player, HashMap<String, ArrayList<String>> homesByOwner, int radius) {
         if (homesByOwner.isEmpty()) {
             String msg = FundamentalsLanguage.getInstance().getMessage("homesearch_no_homes_found");
             msg = msg.replaceAll("%radius%", String.valueOf(radius));
@@ -124,7 +141,14 @@ public class CommandHomeSearch implements CommandExecutor {
             player.sendMessage(msg);
 
             // Display homes grouped by player
+            int numDisplayedOwners = 0;
             for (Map.Entry<String, ArrayList<String>> entry : homesByOwner.entrySet()) {
+                // check if printed message is getting too long
+                if (numDisplayedOwners > 25) {
+                    player.sendMessage(FundamentalsLanguage.getInstance().getMessage("homesearch_too_many_results"));
+                    break;
+                }
+
                 String ownerName = entry.getKey();
                 ArrayList<String> ownerHomes = entry.getValue();
                 String homeList = String.join(", ", ownerHomes);
@@ -133,11 +157,11 @@ public class CommandHomeSearch implements CommandExecutor {
                 msg = msg.replaceAll("%player%", ownerName);
                 msg = msg.replaceAll("%homes%", homeList);
                 player.sendMessage(msg);
+                numDisplayedOwners++;
             }
         }
     }
 
-    // Helper method to process homes for a player and group them by owner
     private void processPlayerHomes(FundamentalsPlayer player, ArrayList<String> homes, Location playerLocation, int radius, HashMap<String, ArrayList<String>> homesByOwner) {
         for (String homeName : homes) {
             if (!player.isHomeInValidWorld(homeName)) {
@@ -148,7 +172,7 @@ public class CommandHomeSearch implements CommandExecutor {
 
             // only show homes in the same dimension as the player who ran the command
             if (!homeLocation.getWorld().equals(playerLocation.getWorld())) {
-                continue;  // Skip this home if they are in different dimensions
+                continue;  // skip over homes in different dimensions
             }
 
             double distance = homeLocation.distance(playerLocation);
