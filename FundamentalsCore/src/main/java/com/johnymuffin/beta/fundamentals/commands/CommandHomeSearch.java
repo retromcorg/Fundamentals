@@ -156,6 +156,10 @@ public class CommandHomeSearch implements CommandExecutor {
             if (distance <= radius) {
                 String ownerName = getPlayerName(player.getUuid());
 
+                if (ownerName == null){
+                    continue; // skip over null player names
+                }
+
                 homesByOwner.putIfAbsent(ownerName, new ArrayList<>());
                 homesByOwner.get(ownerName).add(homeName);
             }
