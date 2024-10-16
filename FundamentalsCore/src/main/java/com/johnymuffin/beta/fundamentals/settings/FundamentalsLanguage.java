@@ -80,6 +80,8 @@ public class FundamentalsLanguage extends Configuration {
         map.put("god_disable", "&6Godmode has been disabled");
         //Broadcast
         map.put("broadcast_info", "&4You haven't provided enough arguments, /broadcast (message)");
+        //List
+        map.put("list_online", "&9There are &c%online% &9out of a maximum &c%maximum% &9players online.");
         //Msg
         map.put("msg_info", "&4You haven't provided enough arguments, /msg (player) (message)");
         map.put("msg_player_ignored", "&cYou cannot message %player% as you are ignoring them");
