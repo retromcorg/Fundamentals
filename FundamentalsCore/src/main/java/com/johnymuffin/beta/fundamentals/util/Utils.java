@@ -363,6 +363,14 @@ public class Utils {
         return false;
     }
 
+    public static boolean isEssentialsHidden(Player player) {
+        if (Bukkit.getPluginManager().isPluginEnabled("Essentials")) {
+            Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
+            return essentials.getUser(player).isHidden();
+        }
+        return false;
+    }
+
     public static String getFullArg(String[] strings, int start) {
         final StringBuilder bldr = new StringBuilder();
         for (int i = start; i < strings.length; i++) {
