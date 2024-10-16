@@ -31,6 +31,7 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.vanish-hidden-from-mobs", true);
         generateConfigOption("settings.preferred-permissions-hook", "JPerms");
 //        generateConfigOption("settings.import-prefixes-next-start", true);
+        generateConfigOption("settings.list.sort-groups", true);
 
 
         generateConfigOption("settings.per-world-economy.info", "This setting enables per-world economy. FundamentalsWorldManager must be installed for this feature to function.");
