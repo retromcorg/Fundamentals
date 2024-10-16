@@ -67,6 +67,10 @@ commands:
     description: Command to broadcast to the whole server.
     usage: /<command> <message>
     aliases: [bc]
+  list:
+    description: Command to list all online players.
+    usage: /<command>
+    aliases: [playerlist, who, online]
   msg:
     description: Command to message players.
     usage: /<command> <player> <message>
