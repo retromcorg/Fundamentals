@@ -5,6 +5,7 @@ import com.johnymuffin.beta.fundamentals.banks.FundamentalsBank;
 import com.johnymuffin.beta.fundamentals.playerdata.FundamentalsPlayerFile;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -13,13 +14,16 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 import static com.johnymuffin.beta.fundamentals.util.Utils.getPlayerFromUUID;
+import static com.johnymuffin.beta.fundamentals.util.Utils.formatColor;
 
 public class FundamentalsPlayer extends FundamentalsPlayerFile {
     //Fundamentals
     private Fundamentals plugin;
     //Player
     private UUID uuid;
+    private long loginTime = System.currentTimeMillis();
     private long lastActivity = System.currentTimeMillis() / 1000l;
+    private Player replyTo = null;
     private boolean isAFK = false;
     private boolean isFirstJoin = false;
     private long quitTime = 0L;
@@ -112,6 +116,17 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         }
     }
 
+    public void updateNickname() {
+        String displayName = getNickname();
+        Player player = getPlayerFromUUID(uuid);
+        if (displayName != null) {
+            if (player.hasPermission("fundamentals.nickname.color") || player.isOp()) {
+                displayName = formatColor(displayName + "&f");
+            }
+            player.setDisplayName("~" + displayName);
+        }
+    }
+
     public void updateDisplayName() {
         Player player = getPlayerFromUUID(uuid);
         updateDisplayName(player);
@@ -130,6 +145,13 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         }
     }
 
+    public String getFullDisplayName() {
+        String prefix = plugin.getPermissionsHook().getMainUserPrefix(uuid);
+        if (prefix == null) {
+            prefix = "";
+        }
+        return formatColor(prefix) + ChatColor.WHITE + getBukkitPlayer().getDisplayName();
+    }
 
     public void setBalance(Double amount, String worldName) {
         if (this.plugin.isWorldManagerMultiWorldEconomy()) {
@@ -139,7 +161,6 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
             super.setBalance(amount);
         }
     }
-
 
     //AFK Logic
     public void updateActivity() {
@@ -170,13 +191,13 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         if (isAFK) {
             isAFK = false;
             String msg = FundamentalsLanguage.getInstance().getMessage("afk_toggle_off");
-            msg = msg.replaceAll("%var1%", getBukkitPlayer().getDisplayName());
+            msg = msg.replaceAll("%var1%", getFullDisplayName());
             Bukkit.broadcastMessage(msg);
 
         } else {
             isAFK = true;
             String msg = FundamentalsLanguage.getInstance().getMessage("afk_toggle_on");
-            msg = msg.replaceAll("%var1%", getBukkitPlayer().getDisplayName());
+            msg = msg.replaceAll("%var1%", getFullDisplayName());
             Bukkit.broadcastMessage(msg);
         }
     }
@@ -231,6 +252,10 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
         return (FundamentalsBank[]) accounts.toArray();
     }
 
+    public boolean isMuted() {
+        Long muteStatus = getMuteStatus();
+        return muteStatus != null && (muteStatus == -1 || System.currentTimeMillis() < muteStatus);
+    }
 
     public long getQuitTime() {
         return quitTime;
@@ -245,6 +270,22 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
 
     public boolean isFirstJoin() {
         return isFirstJoin;
+    }
+
+    public void setLoginTime() {
+        this.loginTime = System.currentTimeMillis();
+    }
+
+    public long getLoginTime() {
+        return loginTime;
+    }
+
+    public Player getReplyTo() {
+        return replyTo;
+    }
+
+    public void setReplyTo(Player replyTo) {
+        this.replyTo = replyTo;
     }
 
     public boolean isFakeQuit() {
