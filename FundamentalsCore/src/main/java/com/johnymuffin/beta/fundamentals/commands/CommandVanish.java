@@ -36,7 +36,11 @@ public class CommandVanish implements CommandExecutor {
             return true;
         }
 
-        if (strings.length > 0) {
+        if (!isPlayerAuthorized(commandSender, "fundamentals.vanish.others")) {
+            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
+            return true;
+        }
+        else {
             UUID uuid = getUUIDFromUsername(strings[0]);
             if (uuid == null || !plugin.getPlayerMap().isPlayerKnown(uuid)) {
                 String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
@@ -51,10 +55,9 @@ public class CommandVanish implements CommandExecutor {
             } else {
                 commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("vanish_successful_other_disabled"));
             }
-            return true;
-
         }
         return true;
+
     }
 
     public void toggleVanish(FundamentalsPlayer fPlayer) {
