@@ -3,13 +3,11 @@
 
     <groupId>com.johnymuffin.beta.fundamentals</groupId>
     <artifactId>fundamentals-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.7-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>./Download-Jars</module>
         <module>./FundamentalsCore</module>
-        <module>./FundamentalsWorldManager</module>
         <module>./FundamentalsImport</module>
     </modules>
 
@@ -37,19 +35,6 @@
             </snapshots>
         </repository>
     </repositories>
-
-
-    <dependencies>
-        <!-- Shared dependencies for all modules -->
-
-        <dependency>
-            <groupId>com.googlecode.maven-download-plugin</groupId>
-            <artifactId>download-maven-plugin</artifactId>
-            <version>1.7.0</version>
-            <type>maven-plugin</type>
-        </dependency>
-
-    </dependencies>
 
     <build>
         <!-- Shared build configuration for all modules -->
