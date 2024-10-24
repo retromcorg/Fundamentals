@@ -43,6 +43,13 @@ public class FundamentalsLanguage extends Configuration {
         map.put("home_not_on_record", "&6Sorry, we couldn't find a home with that name. Do /home for a list of homes");
         map.put("home_in_invalid_world", "&4Sorry, your home is in an invalid world.");
         map.put("home_teleport_successfully", "&6You have been teleported to your home &b%var1%");
+        //Homesearch
+        map.put("homesearch_invalid_radius", "Please enter a valid number for radius.");
+        map.put("homesearch_usage", "Usage: /homesearch <username> <radius>");
+        map.put("homesearch_no_homes_found", "&3No homes found within a &6%radius% &3block radius.");
+        map.put("homesearch_found_homes", "&3Found &6%count% &3home(s) in a &6%radius% &3block radius:");
+        map.put("homesearch_found_entries", "&b%player% &8- &7%homes%");
+        map.put("homesearch_too_many_results", "&cToo many results to display! &7Use a smaller radius.");
         //Sethome
         map.put("sethome_invalid_name", "&4Only alphanumeric characters can be used in a home name, A-Z,0-9");
         map.put("sethome_full", "&4Sorry, you are already have a home set");

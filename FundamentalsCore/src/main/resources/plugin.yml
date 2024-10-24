@@ -24,6 +24,10 @@ commands:
     description: a home command
     usage: /<command>
     aliases: [h]
+  homesearch:
+    description: searches through player homes
+    usage: /<command> <player> <radius>
+    aliases: [hs]
   sethome:
     description: a home command
     usage: /<command>
