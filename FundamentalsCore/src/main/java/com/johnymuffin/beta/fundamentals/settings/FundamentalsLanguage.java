@@ -85,12 +85,44 @@ public class FundamentalsLanguage extends Configuration {
         //God Mode
         map.put("god_enable", "&6Godmode has been enabled");
         map.put("god_disable", "&6Godmode has been disabled");
+        //Broadcast
+        map.put("broadcast_info", "&4You haven't provided enough arguments, /broadcast (message)");
+        //List
+        map.put("list_online", "&9There are &c%online% &9out of a maximum &c%maximum% &9players online.");
+        //Msg
+        map.put("msg_info", "&4You haven't provided enough arguments, /msg (player) (message)");
+        map.put("msg_player_ignored", "&cYou cannot message %player% as you are ignoring them");
+        //R
+        map.put("r_info", "&4You haven't provided enough arguments, /r (message)");
+        map.put("r_no_recipient", "&cYou have no one to reply to");
+        map.put("r_player_offline", "&cYou cannot reply to %player% as they are offline");
+        //Mute
+        map.put("mute_info", "&4You haven't provided enough arguments, /mute (player) (duration)");
+        map.put("mute_successful", "&7Muted %player% %duration%");
+        map.put("mute_unmute_successful", "&7Unmuted %player%");
+        map.put("mute_player_muted", "&7You have been muted %duration%");
+        map.put("mute_player_unmuted", "&7You have been unmuted");
+        map.put("mute_player_chat", "&cYou cannot chat as you are muted %duration%");
+        map.put("mute_self", "&4You can't mute yourself!");
+        //Ignore
+        map.put("ignore_info", "&4You haven't provided enough arguments, /ignore (player)");
+        map.put("ignore_add", "&7You are now ignoring %player%");
+        map.put("ignore_remove", "&7You are no longer ignoring %player%");
+        map.put("ignore_self", "&4You can't ignore yourself!");
         //Nickname
         map.put("nickname_info", "&4Please use /nick <player> [nickname:off]");
         map.put("nickname_remove", "&6Your nickname has been removed");
         map.put("nickname_set", "&6Your nickname has been set to &f%var1%");
         map.put("nickname_set_others", "&6The nickname for %var1% has been set to &f%var2%");
         map.put("nickname_remove_others", "&4You have removed a nickname");
+        //Realname
+        map.put("realname_info", "&4You haven't provided enough arguments, /realname (nickname)");
+        map.put("realname_successful", "%displayname%&f is %player%");
+        map.put("realname_player_not_found", "&4Can't find a player with the nickname &9%nickname%");
+        //Seen
+        map.put("seen_info", "&4You haven't provided enough arguments, /seen (player)");
+        map.put("seen_online", "%displayname%&f has been online for%time%");
+        map.put("seen_offline", "%player% was last seen%time% ago");
         //InvSee
         map.put("invsee_deny", "&cSorry, you can't do that while you are in InvSee");
         map.put("invsee_info", "&4You haven't provided enough arguments, /invsee (username)");
@@ -103,6 +135,9 @@ public class FundamentalsLanguage extends Configuration {
         map.put("vanish_successful_other_disabled", "&4Disabled vanish for another player.");
         map.put("vanish_disable", "&4Vanish Disabled.");
         map.put("vanish_enable", "&7Vanish Enabled.");
+        //Weather
+        map.put("weather_invalid_usage", "&6Invalid usage: &a/weather <clear|sun|rain|storm> [worldname|all]");
+        map.put("weather_set_weather", "&7Weather has been set to %var1% in %var2%");
         //Clear Inventory
         map.put("clearinventory_notice", "&9Your inventory has been cleared");
         map.put("clearinventory_successfully", "&9Inventory cleared successfully");
