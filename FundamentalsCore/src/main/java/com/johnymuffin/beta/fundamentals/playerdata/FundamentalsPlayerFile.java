@@ -71,7 +71,7 @@ public class FundamentalsPlayerFile {
 
 
     public long getLastSeen() {
-        if(isPlayerOnline()) {
+        if (isPlayerOnline()) {
             return System.currentTimeMillis() / 1000L;
         }
         return Long.parseLong(String.valueOf(jsonData.get("lastSeen")));
@@ -181,8 +181,8 @@ public class FundamentalsPlayerFile {
         } else {
             ignores = new JSONArray();
         }
-        if (!ignores.contains(uuid)) {
-            ignores.add(uuid);
+        if (!ignores.contains(uuid.toString())) {
+            ignores.add(uuid.toString());
             jsonData.put("ignore", ignores);
         }
     }
@@ -193,17 +193,17 @@ public class FundamentalsPlayerFile {
             return;
         }
         ignores = (JSONArray) jsonData.get("ignore");
-        if (ignores.contains(uuid)) {
-            ignores.remove(uuid);
+        if (ignores.contains(uuid.toString())) {
+            ignores.remove(uuid.toString());
         }
     }
 
-    public List<String> getIgnoreList() {
-        List<String> list = new ArrayList<String>();
+    public List<UUID> getIgnoreList() {
+        List<UUID> list = new ArrayList<UUID>();
         if (jsonData.containsKey("ignore")) {
-            JSONArray jsonArray = (JSONArray) jsonData.get("ignores");
+            JSONArray jsonArray = (JSONArray) jsonData.get("ignore");
             for (int i = 0; i < jsonArray.size(); i++) {
-                list.add(String.valueOf(jsonArray.get(i)));
+                list.add(UUID.fromString(String.valueOf(jsonArray.get(i))));
             }
         }
         return list;
