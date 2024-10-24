@@ -72,14 +72,14 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     }
 
     public Double getBalance(String worldName) {
-        if (this.plugin.isWorldManagerMultiWorldEconomy()) {
-            String worldGroup = this.plugin.getFundamentalsWorldManager().getWorldGroup(worldName);
-
-            if (getInformation("balance." + worldGroup) == null) {
-                return 0.00D;
-            }
-            return Double.valueOf(String.valueOf(getInformation("balance." + worldGroup)));
-        }
+//        if (this.plugin.isWorldManagerMultiWorldEconomy()) {
+//            String worldGroup = this.plugin.getFundamentalsWorldManager().getWorldGroup(worldName);
+//
+//            if (getInformation("balance." + worldGroup) == null) {
+//                return 0.00D;
+//            }
+//            return Double.valueOf(String.valueOf(getInformation("balance." + worldGroup)));
+//        }
 
         return super.getBalance();
     }
@@ -132,12 +132,12 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
 
 
     public void setBalance(Double amount, String worldName) {
-        if (this.plugin.isWorldManagerMultiWorldEconomy()) {
-            String worldGroup = this.plugin.getFundamentalsWorldManager().getWorldGroup(worldName);
-            this.saveInformation("balance." + worldGroup, amount);
-        } else {
+//        if (this.plugin.isWorldManagerMultiWorldEconomy()) {
+//            String worldGroup = this.plugin.getFundamentalsWorldManager().getWorldGroup(worldName);
+//            this.saveInformation("balance." + worldGroup, amount);
+//        } else {
             super.setBalance(amount);
-        }
+//        }
     }
 
 

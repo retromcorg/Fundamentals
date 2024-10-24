@@ -13,7 +13,7 @@ import com.johnymuffin.beta.fundamentals.settings.*;
 import com.johnymuffin.beta.fundamentals.task.InterestManager;
 import com.johnymuffin.beta.fundamentals.util.FundamentalsDependencies;
 import com.johnymuffin.beta.fundamentals.util.Utils;
-import com.johnymuffin.fundamentals.worldmanager.FundamentalsWorldManager;
+//import com.johnymuffin.fundamentals.worldmanager.FundamentalsWorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -56,7 +56,7 @@ public class Fundamentals extends JavaPlugin {
     private PermissionsHook[] permissionsHooks;
     private PermissionsHook permissionsHook;
 
-    private FundamentalsWorldManager fundamentalsWorldManager;
+//    private FundamentalsWorldManager fundamentalsWorldManager;
 
     private InterestManager interestManager;
 
@@ -186,21 +186,21 @@ public class Fundamentals extends JavaPlugin {
 
         //Multi-balance per world support enabled.
         //TODO: It is possible that the economy should be an additional plugin. I don't link the idea this plugin can depend on FundamentalsPerWorldManager which depends on FundamentalsCore
-        if (getFundamentalConfig().getConfigBoolean("settings.per-world-economy.enabled")) {
-            log.info("[" + pluginName + "] Will attempt to initialize per-world support when the server has finished loading.");
-            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                @Override
-                public void run() {
-                    if (!Bukkit.getPluginManager().isPluginEnabled("FundamentalsWorldManager")){
-                        debugLogger(Level.WARNING, "The FundamentalsWorldManager plugin couldn't be located. Disabling per-world economy support.", 0);
-                    } else {
-                        worldManagerMultiWorldEconomy = true;
-                        fundamentalsWorldManager = (FundamentalsWorldManager) Bukkit.getPluginManager().getPlugin("FundamentalsWorldManager");
-                        debugLogger(Level.INFO, "FundamentalsWorldManager has been successfully loaded and hooked.", 0);
-                    }
-                }
-            });
-        }
+//        if (getFundamentalConfig().getConfigBoolean("settings.per-world-economy.enabled")) {
+//            log.info("[" + pluginName + "] Will attempt to initialize per-world support when the server has finished loading.");
+//            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+//                @Override
+//                public void run() {
+//                    if (!Bukkit.getPluginManager().isPluginEnabled("FundamentalsWorldManager")){
+//                        debugLogger(Level.WARNING, "The FundamentalsWorldManager plugin couldn't be located. Disabling per-world economy support.", 0);
+//                    } else {
+//                        worldManagerMultiWorldEconomy = true;
+//                        fundamentalsWorldManager = (FundamentalsWorldManager) Bukkit.getPluginManager().getPlugin("FundamentalsWorldManager");
+//                        debugLogger(Level.INFO, "FundamentalsWorldManager has been successfully loaded and hooked.", 0);
+//                    }
+//                }
+//            });
+//        }
 
         //Interest Manager
         interestManager = new InterestManager(plugin);
@@ -444,9 +444,9 @@ public class Fundamentals extends JavaPlugin {
         return worldManagerMultiWorldEconomy;
     }
 
-    public FundamentalsWorldManager getFundamentalsWorldManager() {
-        return fundamentalsWorldManager;
-    }
+//    public FundamentalsWorldManager getFundamentalsWorldManager() {
+//        return fundamentalsWorldManager;
+//    }
 
 
 
