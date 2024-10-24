@@ -241,3 +241,4 @@ buildNumber.properties
 .classpath
 
 libs/
+old-libs/

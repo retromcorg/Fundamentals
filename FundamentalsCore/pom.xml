@@ -56,13 +56,13 @@
 
         <!-- Fundamentals World Manager -->
         <!-- I have had to do some hacky stuff due to the cyclical dependency between FundamentalsCore and FundamentalsWorldManager -->
-        <dependency>
-            <groupId>com.johnymuffin.beta.fundamentals</groupId>
-            <artifactId>fundamentals-world-manager-jar</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/../libs/FundamentalsWorldManager-1.0.0.jar</systemPath>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.johnymuffin.beta.fundamentals</groupId>-->
+<!--            <artifactId>fundamentals-world-manager-jar</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--            <scope>system</scope>-->
+<!--            <systemPath>${basedir}/../libs/FundamentalsWorldManager-1.0.0.jar</systemPath>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.earth2me</groupId>
