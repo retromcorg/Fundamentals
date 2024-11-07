@@ -21,6 +21,7 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.auto-save-time", 300);
         generateConfigOption("settings.debug-level", 1);
         generateConfigOption("settings.multiple-homes", 5);
+        generateConfigOption("settings.homes-per-page", 50);
         generateConfigOption("settings.load-all-players-into-cache", false);
         generateConfigOption("settings.afk.enabled", true);
         generateConfigOption("settings.afk.time", 60 * 5);
@@ -31,6 +32,7 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.vanish-hidden-from-mobs", true);
         generateConfigOption("settings.preferred-permissions-hook", "JPerms");
 //        generateConfigOption("settings.import-prefixes-next-start", true);
+        generateConfigOption("settings.list.sort-groups", true);
 
 
         generateConfigOption("settings.per-world-economy.info", "This setting enables per-world economy. FundamentalsWorldManager must be installed for this feature to function.");
@@ -54,6 +56,12 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.player.kick-message.info", "This is the server's kick message.");
         generateConfigOption("settings.player.kick-message.value", "{prefix} &c{name} &bhas been kicked.");
 
+        // Chat Format
+
+        generateConfigOption("settings.chat.public-chat-format", "{displayname}&f: {message}");
+        generateConfigOption("settings.chat.msg-send-format", "&7[me -> {displayname}&7]&f {message}");
+        generateConfigOption("settings.chat.msg-receive-format", "&7[{displayname}&7 -> me]&f {message}");
+        generateConfigOption("settings.chat.broadcast-format", "&f[&cBroadcast&f]&a {message}");
 
         //Interest Settings
 

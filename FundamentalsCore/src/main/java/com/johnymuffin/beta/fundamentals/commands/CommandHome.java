@@ -95,6 +95,7 @@ public class CommandHome implements CommandExecutor {
             }
             msg = msg.substring(0, msg.length() - 2);
             commandSender.sendMessage(formatColor(msg));
+            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("home_use_homes"));
             return true;
         } else {
             if (!targetPlayer.doesHomeExist(homeName)) {

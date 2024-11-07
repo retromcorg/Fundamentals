@@ -44,9 +44,17 @@ public class FundamentalsLanguage extends Configuration {
         map.put("hat_invalid", "&cYou can't put that item on your head silly!");
         //Home
         map.put("home_non_recorded", "&6Sorry, you have no homes on record. Please set one with /sethome");
-        map.put("home_not_on_record", "&6Sorry, we couldn't find a home with that name. Do /home for a list of homes");
+        map.put("home_not_on_record", "&6Sorry, we couldn't find a home with that name. Do /homes for a list of homes");
         map.put("home_in_invalid_world", "&4Sorry, your home is in an invalid world.");
         map.put("home_teleport_successfully", "&6You have been teleported to your home &b%var1%");
+        map.put("home_use_homes", "&6Use &a/homes&6 for a more feature rich home list.");
+        //Homesearch
+        map.put("homesearch_invalid_radius", "Please enter a valid number for radius.");
+        map.put("homesearch_usage", "Usage: /homesearch <username> <radius>");
+        map.put("homesearch_no_homes_found", "&3No homes found within a &6%radius% &3block radius.");
+        map.put("homesearch_found_homes", "&3Found &6%count% &3home(s) in a &6%radius% &3block radius:");
+        map.put("homesearch_found_entries", "&b%player% &8- &7%homes%");
+        map.put("homesearch_too_many_results", "&cToo many results to display! &7Use a smaller radius.");
         //Sethome
         map.put("sethome_invalid_name", "&4Only alphanumeric characters can be used in a home name, A-Z,0-9");
         map.put("sethome_full", "&4Sorry, you are already have a home set");
@@ -55,9 +63,12 @@ public class FundamentalsLanguage extends Configuration {
         map.put("sethome_set_successfully", "&6Your home &b%var1% &6has been set.");
         //Delhome
         map.put("delhome_info", "&6Please specify a home name \"/delhome (home)\". A list of homes can be obtained with /home.");
-        map.put("delhome_unknown_home", "&6Sorry, we couldn't find a home with that name. Do /home to get a list of homes.");
+        map.put("delhome_unknown_home", "&6Sorry, we couldn't find a home with that name. Do /homes to get a list of homes.");
         map.put("delhome_unknown_successful", "&6You have successfully deleted a home");
         map.put("delhome_unknown_unsuccessful", "&4Sorry, an error was encountered when deleting that home. Please contact staff!");
+        //Homes
+        map.put("homes_list", "&6Home List (page &a%var1%&6/&a%var2%&6): ");
+        map.put("homes_invalid_usage", "&6Invalid usage: &a/homes [page number]");
         //Balance
         map.put("balance_successful", "&6Balance: $%var1%");
         //Baltop
@@ -82,12 +93,44 @@ public class FundamentalsLanguage extends Configuration {
         //God Mode
         map.put("god_enable", "&6Godmode has been enabled");
         map.put("god_disable", "&6Godmode has been disabled");
+        //Broadcast
+        map.put("broadcast_info", "&4You haven't provided enough arguments, /broadcast (message)");
+        //List
+        map.put("list_online", "&9There are &c%online% &9out of a maximum &c%maximum% &9players online.");
+        //Msg
+        map.put("msg_info", "&4You haven't provided enough arguments, /msg (player) (message)");
+        map.put("msg_player_ignored", "&cYou cannot message %player% as you are ignoring them");
+        //R
+        map.put("r_info", "&4You haven't provided enough arguments, /r (message)");
+        map.put("r_no_recipient", "&cYou have no one to reply to");
+        map.put("r_player_offline", "&cYou cannot reply to %player% as they are offline");
+        //Mute
+        map.put("mute_info", "&4You haven't provided enough arguments, /mute (player) (duration)");
+        map.put("mute_successful", "&7Muted %player% %duration%");
+        map.put("mute_unmute_successful", "&7Unmuted %player%");
+        map.put("mute_player_muted", "&7You have been muted %duration%");
+        map.put("mute_player_unmuted", "&7You have been unmuted");
+        map.put("mute_player_chat", "&cYou cannot chat as you are muted %duration%");
+        map.put("mute_self", "&4You can't mute yourself!");
+        //Ignore
+        map.put("ignore_info", "&4You haven't provided enough arguments, /ignore (player)");
+        map.put("ignore_add", "&7You are now ignoring %player%");
+        map.put("ignore_remove", "&7You are no longer ignoring %player%");
+        map.put("ignore_self", "&4You can't ignore yourself!");
         //Nickname
         map.put("nickname_info", "&4Please use /nick <player> [nickname:off]");
         map.put("nickname_remove", "&6Your nickname has been removed");
         map.put("nickname_set", "&6Your nickname has been set to &f%var1%");
         map.put("nickname_set_others", "&6The nickname for %var1% has been set to &f%var2%");
         map.put("nickname_remove_others", "&4You have removed a nickname");
+        //Realname
+        map.put("realname_info", "&4You haven't provided enough arguments, /realname (nickname)");
+        map.put("realname_successful", "%displayname%&f is %player%");
+        map.put("realname_player_not_found", "&4Can't find a player with the nickname &9%nickname%");
+        //Seen
+        map.put("seen_info", "&4You haven't provided enough arguments, /seen (player)");
+        map.put("seen_online", "%displayname%&f has been online for%time%");
+        map.put("seen_offline", "%player% was last seen%time% ago");
         //InvSee
         map.put("invsee_deny", "&cSorry, you can't do that while you are in InvSee");
         map.put("invsee_info", "&4You haven't provided enough arguments, /invsee (username)");
@@ -100,6 +143,9 @@ public class FundamentalsLanguage extends Configuration {
         map.put("vanish_successful_other_disabled", "&4Disabled vanish for another player.");
         map.put("vanish_disable", "&4Vanish Disabled.");
         map.put("vanish_enable", "&7Vanish Enabled.");
+        //Weather
+        map.put("weather_invalid_usage", "&6Invalid usage: &a/weather <clear|sun|rain|storm> [worldname|all]");
+        map.put("weather_set_weather", "&7Weather has been set to %var1% in %var2%");
         //Clear Inventory
         map.put("clearinventory_notice", "&9Your inventory has been cleared");
         map.put("clearinventory_successfully", "&9Inventory cleared successfully");
