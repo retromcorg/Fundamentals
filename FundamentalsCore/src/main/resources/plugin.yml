@@ -36,6 +36,9 @@ commands:
     description: a home command
     usage: /<command>
     aliases: [dh]
+  homes:
+    description: a home command
+    usage: /<command>
   balance:
     description: a balance command
     usage: /<command>

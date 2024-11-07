@@ -21,6 +21,7 @@ public class FundamentalsConfig extends Configuration {
         generateConfigOption("settings.auto-save-time", 300);
         generateConfigOption("settings.debug-level", 1);
         generateConfigOption("settings.multiple-homes", 5);
+        generateConfigOption("settings.homes-per-page", 50);
         generateConfigOption("settings.load-all-players-into-cache", false);
         generateConfigOption("settings.afk.enabled", true);
         generateConfigOption("settings.afk.time", 60 * 5);
