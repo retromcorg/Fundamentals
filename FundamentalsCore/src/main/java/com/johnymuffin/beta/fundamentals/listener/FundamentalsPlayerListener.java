@@ -5,7 +5,6 @@ import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.events.FEconomyUpdateEvent;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
-import com.johnymuffin.beta.fundamentals.util.Utils;
 import com.projectposeidon.api.PoseidonUUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,12 +22,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.*;
 
-import java.util.Iterator;
 import java.util.UUID;
 import java.util.logging.Level;
 
 import static com.johnymuffin.beta.fundamentals.util.Utils.*;
-import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
 
 public class FundamentalsPlayerListener implements Listener {
     private Fundamentals plugin;
@@ -90,18 +87,10 @@ public class FundamentalsPlayerListener implements Listener {
             if (!event.getPlayer().isOnline()) {
                 return;
             }
-            fPlayer.setLoginTime();
             fPlayer.updateActivity();
             fPlayer.playerJoinUpdate(event.getPlayer().getName());
 
-            //Mute Start
-            if(!fPlayer.isMuted()){
-                fPlayer.setMuteTimer(null);
-            }
-            //Mute End
-
             //Nickname Start
-            fPlayer.updateNickname();
             fPlayer.updateDisplayName();
             //Nickname End
 
@@ -148,7 +137,7 @@ public class FundamentalsPlayerListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onPlayerKick(PlayerKickEvent event) {
+    public void onPLayerKick(PlayerKickEvent event) {
         FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer()).playerQuitUpdate();
 
         //Kick message
@@ -162,34 +151,23 @@ public class FundamentalsPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = Event.Priority.Low)
     public void onPlayerChat(final PlayerChatEvent event) {
         Player player = event.getPlayer();
-        FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer(player);
+        FundamentalsPlayer fundamentalsPlayer = plugin.getPlayerMap().getPlayer(player);
 
 
-        fPlayer.updateActivity(); //Update AFK timer
-        fPlayer.updateDisplayName(); //Update Nickname
-        if (fPlayer.isMuted()) {
-            event.setCancelled(true);
-            String mutedMessage = plugin.getFundamentalsLanguageConfig().getMessage("mute_player_chat")
-                    .replace("%duration%", fPlayer.getMuteStatus() == -1 ? "permanently" : "for" + Utils.formatDateDiff(fPlayer.getMuteStatus()));
-            player.sendMessage(mutedMessage);
-            return;
-        }
+        fundamentalsPlayer.updateActivity(); //Update AFK timer
+        fundamentalsPlayer.updateDisplayName(); //Update Nickname
 
-        String fullDisplayName = fPlayer.getFullDisplayName();
-        String message = isPlayerAuthorized(player, "fundamentals.chat.color") ? formatColor(event.getMessage()) : event.getMessage();
-        String format = formatColor(plugin.getFundamentalConfig().getConfigString("settings.chat.public-chat-format"))
-                .replace("{displayname}", fullDisplayName)
-                .replace("{message}", message);
+        //Nickname Start
+//        String displayName = fundamentalsPlayer.getNickname();
+//        if (displayName != null) {
+//            if (player.hasPermission("fundamentals.nickname.color") || player.isOp()) {
+//                displayName = formatColor(displayName + "&f");
+//            }
+//            player.setDisplayName("~" + displayName);
+//        }
+        //Nickname End
 
-        event.setFormat(format);
 
-        Iterator<Player> it = event.getRecipients().iterator();
-        while (it.hasNext()) {
-            FundamentalsPlayer recipient = plugin.getPlayerMap().getPlayer(it.next());
-            if (recipient.getIgnoreList().contains(fPlayer.getUuid())) {
-                it.remove();
-            }
-        }
     }
 
     @EventHandler(ignoreCancelled = true)

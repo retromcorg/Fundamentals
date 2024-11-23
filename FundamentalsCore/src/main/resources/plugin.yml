@@ -57,12 +57,6 @@ commands:
 #    description: a nickname command
 #    usage: /<command>
 #    aliases: [nick]
-  realname:
-    description: Command to get the real name of a nicked user.
-    usage: /<command> <nickname>
-  seen:
-    description: Command to show when a player was last seen.
-    usage: /<command> <player>
 #  invsee:
 #    description: a inventory command
 #    usage: /<command>
@@ -70,34 +64,9 @@ commands:
 #    description: Clear all items in your inventory.
 #    usage: /<command>
 #    aliases: [ci]
-  broadcast:
-    description: Command to broadcast to the whole server.
-    usage: /<command> <message>
-    aliases: [bc]
-  list:
-    description: Command to list all online players.
-    usage: /<command>
-    aliases: [playerlist, who, online]
-  msg:
-    description: Command to message players.
-    usage: /<command> <player> <message>
-    aliases: [m, t, tell, whisper, w]
-  r:
-    description: Command to reply to players.
-    usage: /<command> <message>
-    aliases: [reply]
-  mute:
-    description: Command to mute players.
-    usage: /<command> <player> [duration]
-  ignore:
-    description: Command to ignore players.
-    usage: /<command> <player>
   vanish:
     description: Command to vanish player.
     usage: /<command>
-  weather:
-    description: Command to change the weather in a world.
-    usage: /<command> <clear|sun|rain|storm> [worldname|all]
   bank:
     description: Command to do bank stuff.
     usage: /<command>
