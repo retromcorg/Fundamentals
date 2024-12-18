@@ -42,6 +42,7 @@ public class FundamentalsLanguage extends Configuration {
         map.put("home_non_recorded", "&6Sorry, you have no homes on record. Please set one with /sethome");
         map.put("home_not_on_record", "&6Sorry, we couldn't find a home with that name. Do /homes for a list of homes");
         map.put("home_in_invalid_world", "&4Sorry, your home is in an invalid world.");
+        map.put("home_is_sleeping", "&6Sorry, you can't teleport to a home while sleeping.");
         map.put("home_teleport_successfully", "&6You have been teleported to your home &b%var1%");
         map.put("home_use_homes", "&6Use &a/homes&6 for a more feature rich home list.");
         //Homesearch

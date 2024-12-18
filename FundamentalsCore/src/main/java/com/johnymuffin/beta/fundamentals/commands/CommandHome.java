@@ -106,6 +106,10 @@ public class CommandHome implements CommandExecutor {
                 commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("home_in_invalid_world"));
                 return true;
             }
+            if (player.isSleeping()) {
+                commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("home_is_sleeping"));
+                return true;
+            }
             Location home = targetPlayer.getPlayerHome(homeName);
             Location safeLocation;
             try {
