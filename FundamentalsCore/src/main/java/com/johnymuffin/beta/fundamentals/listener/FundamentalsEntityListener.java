@@ -20,7 +20,7 @@ public class FundamentalsEntityListener implements Listener {
     public void onEntityCombust(EntityCombustEvent event) {
         if (event.getEntity() instanceof Player) {
             FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) event.getEntity());
-            if(fPlayer.isAFK() || fPlayer.getFileGodModeStatus()){
+            if (fPlayer.isAFK() || fPlayer.getFileGodModeStatus()) {
                 event.setCancelled(true);
             }
         }
@@ -29,31 +29,30 @@ public class FundamentalsEntityListener implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player) {
-            FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) event.getEntity());
-            if(fPlayer.isAFK() || fPlayer.getFileGodModeStatus()){
-                final Player player = (Player) event.getEntity();
+            Player player = (Player) event.getEntity();
+            FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer(player);
+            if (fPlayer.isAFK() || fPlayer.getFileGodModeStatus()) {
                 player.setFireTicks(0);
                 player.setRemainingAir(player.getMaximumAir());
                 event.setCancelled(true);
                 return;
             }
         }
-        if(event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)){
-            EntityDamageByEntityEvent damageEvent = (EntityDamageByEntityEvent) event;
-            if(damageEvent.getDamager() != null && damageEvent.getDamager() instanceof Player){
-                FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) damageEvent.getDamager());
-                if(fPlayer.isAFK()){
-                    event.setCancelled(true);
-                }
+
+        if (!(event instanceof EntityDamageByEntityEvent)) return;
+        EntityDamageByEntityEvent dmgEvent = (EntityDamageByEntityEvent) event;
+
+        switch (event.getCause()) {
+            case ENTITY_ATTACK: {
+                if (dmgEvent.getDamager() == null || !(dmgEvent.getDamager() instanceof Player)) return;
+                FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) dmgEvent.getDamager());
+                if (fPlayer.isAFK()) event.setCancelled(true);
             }
-        } else if(event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
-            EntityDamageByEntityEvent damageEvent = (EntityDamageByEntityEvent) event;
-            LivingEntity shooter = ((Projectile) damageEvent.getDamager()).getShooter();
-            if(shooter instanceof Player){
+            case PROJECTILE: {
+                LivingEntity shooter = ((Projectile) dmgEvent.getDamager()).getShooter();
+                if (!(shooter instanceof Player)) return;
                 FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) shooter);
-                if(fPlayer.isAFK()){
-                    event.setCancelled(true);
-                }
+                if (fPlayer.isAFK()) event.setCancelled(true);
             }
         }
     }
@@ -62,7 +61,7 @@ public class FundamentalsEntityListener implements Listener {
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player) {
             FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) event.getEntity());
-            if(fPlayer.isAFK() || fPlayer.getFileGodModeStatus()){
+            if (fPlayer.isAFK() || fPlayer.getFileGodModeStatus()) {
                 event.setCancelled(true);
             }
         }
@@ -72,11 +71,11 @@ public class FundamentalsEntityListener implements Listener {
     public void onEntityTarget(EntityTargetEvent event) {
         if (event.getTarget() instanceof Player) {
             FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) event.getTarget());
-            if(fPlayer.isVanished()){
-                if(plugin.getFundamentalConfig().getConfigBoolean("settings.vanish-hidden-from-mobs")) {
+            if (fPlayer.isVanished()) {
+                if (plugin.getFundamentalConfig().getConfigBoolean("settings.vanish-hidden-from-mobs")) {
                     event.setCancelled(true);
                 }
-            } else if(fPlayer.isAFK()){
+            } else if (fPlayer.isAFK()) {
                 event.setCancelled(true);
             }
         }
