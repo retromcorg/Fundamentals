@@ -32,6 +32,7 @@ public class CommandSetHome implements CommandExecutor {
                 commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("sethome_invalid_name"));
                 return true;
             }
+
         }
         //Check home limit
         int limit = Integer.valueOf(String.valueOf(FundamentalsConfig.getInstance().getConfigOption("settings.multiple-homes")));
