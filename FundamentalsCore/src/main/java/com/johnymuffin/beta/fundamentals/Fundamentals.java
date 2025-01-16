@@ -164,18 +164,16 @@ public class Fundamentals extends JavaPlugin {
         Bukkit.getPluginCommand("balancetop").setExecutor(new CommandBalanceTop(plugin));
         Bukkit.getPluginCommand("fakequit").setExecutor(new CommandFakeQuit(plugin));
         //Timer
-        //This async task is so TPS doesn't affect the timing of saving. This probably actually isn't needed TBH.
+        //This async task is here to prevent lags from occuring when data is being saved,
+        //and to ensure TPS doesn't affect the timing of saving.
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, () -> {
-            //Change back to main thread for all logic.
-            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-                int autoSavePeriod = FundamentalsConfig.getInstance(plugin).getConfigInteger("settings.auto-save-time");
-                if (lastAutoSaveTime + autoSavePeriod < getUnix()) {
-                    lastAutoSaveTime = getUnix();
-                    debugLogger(Level.INFO, "Automatically saving data.", 2);
-                    saveData();
-                }
-                FundamentalsPlayerMap.getInstance(plugin).runTimerTasks();
-            });
+            int autoSavePeriod = getFundamentalConfig().getConfigInteger("settings.auto-save-time");
+            if (lastAutoSaveTime + autoSavePeriod < getUnix()) {
+                lastAutoSaveTime = getUnix();
+                debugLogger(Level.INFO, "Automatically saving data.", 2);
+                saveData();
+            }
+            getPlayerMap().runTimerTasks();
         }, 20, 20 * 10);
 
         long endTimeUnix = System.currentTimeMillis() / 1000L;
@@ -296,7 +294,7 @@ public class Fundamentals extends JavaPlugin {
     }
 
     public void saveData() {
-        FundamentalsPlayerMap.getInstance().saveData();
+        getPlayerMap().saveData();
         economyCache.saveData();
 //        uuidCache.saveData();
         playerCache.saveData();
