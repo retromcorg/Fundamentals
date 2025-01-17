@@ -7,15 +7,15 @@ import org.bukkit.event.player.PlayerEvent;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 public class FundamentalsPlayerMap {
     private static FundamentalsPlayerMap singleton;
     private Fundamentals plugin;
-    private ConcurrentHashMap<UUID, FundamentalsPlayer> playerMap = new ConcurrentHashMap<>();
+    private HashMap<UUID, FundamentalsPlayer> playerMap = new HashMap<UUID, FundamentalsPlayer>();
     private ArrayList<UUID> knownPlayers = new ArrayList<UUID>();
     private boolean cacheAllPlayers = false;
     private int playersLoaded = 0;
@@ -98,7 +98,7 @@ public class FundamentalsPlayerMap {
 
 
     public void runTimerTasks() {
-        long currentUnix = System.currentTimeMillis() / 1000L;
+        Long currentUnix = System.currentTimeMillis() / 1000L;
         playerMap.keySet().removeIf(key -> {
             FundamentalsPlayer player = playerMap.get(key);
             if (!player.isPlayerOnline()) {
