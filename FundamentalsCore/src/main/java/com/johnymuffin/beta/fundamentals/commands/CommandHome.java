@@ -81,7 +81,6 @@ public class CommandHome implements CommandExecutor {
             }
         }
 
-
         if (homeName == null) {
             // No home specified, list homes
             ArrayList<String> homes = targetPlayer.getPlayerHomes();
@@ -131,17 +130,17 @@ public class CommandHome implements CommandExecutor {
                 return true;
             }
             player.teleport(safeLocation);
+            String msg;
             if (!viewingHomesFromAnotherPlayer) {
-                String msg = FundamentalsLanguage.getInstance().getMessage("home_teleport_successfully");
+                msg = FundamentalsLanguage.getInstance().getMessage("home_teleport_successfully");
                 msg = msg.replaceAll("%var1%", homeName);
-                commandSender.sendMessage(msg);
             }
             else {
-                String msg = FundamentalsLanguage.getInstance().getMessage("home_teleport_successfully_others");
+                msg = FundamentalsLanguage.getInstance().getMessage("home_teleport_successfully_others");
                 msg = msg.replaceAll("%var1%", targetPlayerUsername);
                 msg = msg.replaceAll("%var2%", homeName);
-                commandSender.sendMessage(msg);
             }
+            commandSender.sendMessage(msg);
             // Username
             String target = getPlayerName(targetPlayer.getUuid());
             if (target == null) {

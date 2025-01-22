@@ -62,10 +62,11 @@ public class FundamentalsLanguage extends Configuration {
         map.put("sethome_already_exists", "&6Sorry, a home with the name &b%var1%&6 already exists. Please delete the existing home before creating another with the same name.");
         map.put("sethome_set_successfully", "&6Your home &b%var1% &6has been set.");
         //Delhome
-        map.put("delhome_info", "&6Please specify a home name \"/delhome (home)\". A list of homes can be obtained with /home.");
+        map.put("delhome_info", "&6Please specify a home name \"/delhome (home)\". A list of homes can be obtained with /homes.");
         map.put("delhome_unknown_home", "&6Sorry, we couldn't find a home with that name. Do /homes to get a list of homes.");
         map.put("delhome_unknown_successful", "&6You have successfully deleted a home");
         map.put("delhome_unknown_unsuccessful", "&4Sorry, an error was encountered when deleting that home. Please contact staff!");
+        map.put("delhome_empty_player_home_target", "&6Sorry, the player home delete target cannot be empty.");
         //Homes
         map.put("homes_list", "&6Home List (page &a%var1%&6/&a%var2%&6): ");
         map.put("homes_invalid_usage", "&6Invalid usage: &a/homes [page number]");
