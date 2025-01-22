@@ -36,7 +36,7 @@ public class CommandDelhome implements CommandExecutor {
         else {
             if (strings[0].contains(":") && strings[0].length() > 1) {
                 // User is requesting another user
-                if (!isPlayerAuthorized(commandSender, "fundamentals.home.others")) {
+                if (!isPlayerAuthorized(commandSender, "fundamentals.delhome.others")) {
                     commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
                     return true;
                 }

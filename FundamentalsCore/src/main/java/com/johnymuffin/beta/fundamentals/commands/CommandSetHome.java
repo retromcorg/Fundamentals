@@ -35,7 +35,7 @@ public class CommandSetHome implements CommandExecutor {
 
         }
         //Check home limit
-        int limit = Integer.valueOf(String.valueOf(FundamentalsConfig.getInstance().getConfigOption("settings.multiple-homes")));
+        int limit = Integer.parseInt(String.valueOf(FundamentalsConfig.getInstance().getConfigOption("settings.multiple-homes")));
         int homeCount = fundamentalsPlayerFile.getPlayerHomes().size();
 
         if (!(commandSender.hasPermission("fundamentals.sethome.unlimited") || commandSender.isOp())) {
