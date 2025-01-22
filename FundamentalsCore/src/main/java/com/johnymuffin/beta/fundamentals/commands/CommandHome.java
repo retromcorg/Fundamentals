@@ -95,7 +95,13 @@ public class CommandHome implements CommandExecutor {
                 }
                 return true;
             }
-            String msg = "&6Home List: ";
+            String msg;
+            if (!viewingHomesFromAnotherPlayer) {
+                msg = "&6Home List: ";
+            }
+            else {
+                msg = "&a" + targetPlayerUsername + "&6's Home List: ";
+            }
             for (String hn : homes) {
                 if (targetPlayer.isHomeInValidWorld(hn)) {
                     msg = msg + "&a" + hn + "&6, ";
