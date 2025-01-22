@@ -61,6 +61,8 @@ public class FundamentalsLanguage extends Configuration {
         map.put("sethome_limit_reached", "&6Sorry, you are already at your limit of &4%var1% &6homes.");
         map.put("sethome_already_exists", "&6Sorry, a home with the name &b%var1%&6 already exists. Please delete the existing home before creating another with the same name.");
         map.put("sethome_set_successfully", "&6Your home &b%var1% &6has been set.");
+        map.put("sethome_set_successfully_others", "&6The home &b%var1% &6has been set to &b%var2%&6's home list.");
+        map.put("sethome_empty_player_home_target", "&6Sorry, the player home set target cannot be empty.");
         //Delhome
         map.put("delhome_info", "&6Please specify a home name \"/delhome (home)\". A list of homes can be obtained with /homes.");
         map.put("delhome_unknown_home", "&6Sorry, we couldn't find a home with that name. Do /homes to get a list of homes.");
