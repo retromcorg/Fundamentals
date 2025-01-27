@@ -21,6 +21,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     private UUID uuid;
     private long lastActivity = System.currentTimeMillis() / 1000l;
     private boolean isAFK = false;
+    private boolean pendingAFKRequest = false;
     private boolean isFirstJoin = false;
     private long quitTime = 0L;
     private boolean fakeQuit = false;
@@ -201,6 +202,14 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
             }
         }
     }
+
+    public void setAFKRequestStatus(boolean status){
+        pendingAFKRequest = status;
+    }
+
+    public boolean isRequestingAFK(){
+        return pendingAFKRequest;
+    }
     //AFK End
 
     public void playerJoinUpdate(String username) {
@@ -208,6 +217,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
     }
 
     public void playerQuitUpdate() {
+        isAFK = false;
         this.setLastSeen();
         quitTime = System.currentTimeMillis() / 1000L;
     }
