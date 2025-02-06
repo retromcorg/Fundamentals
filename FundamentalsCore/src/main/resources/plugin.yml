@@ -39,7 +39,7 @@ commands:
   homes:
     description: a home command
     usage: /<command>
-    aliases: [hl]
+    aliases: [hl, homelist]
   balance:
     description: a balance command
     usage: /<command>
