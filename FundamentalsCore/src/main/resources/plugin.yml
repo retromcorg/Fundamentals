@@ -67,6 +67,7 @@ commands:
   vanish:
     description: Command to vanish player.
     usage: /<command>
+    aliases: [v]
   weather:
     description: Command to change the weather in a world.
     usage: /<command> <clear|sun|rain|storm> [worldname|all]
@@ -89,7 +90,4 @@ commands:
   fakequit:
     description: A command to "fake quit" from the server.
     usage: /<command> <player>
-    aliases:
-      - fq
-      - fakejoin
-      - fj
+    aliases: [fq,fakejoin,fj]
