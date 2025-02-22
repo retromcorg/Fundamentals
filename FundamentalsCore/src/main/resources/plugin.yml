@@ -67,7 +67,6 @@ commands:
   vanish:
     description: Command to vanish player.
     usage: /<command>
-    aliases: [v]
   weather:
     description: Command to change the weather in a world.
     usage: /<command> <clear|sun|rain|storm> [worldname|all]
