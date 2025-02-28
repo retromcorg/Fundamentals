@@ -114,6 +114,9 @@ public class FundamentalsLanguage extends Configuration {
         map.put("vanish_successful_other_disabled", "&4Disabled vanish for another player.");
         map.put("vanish_disable", "&4Vanish Disabled.");
         map.put("vanish_enable", "&7Vanish Enabled.");
+        //Weather
+        map.put("weather_invalid_usage", "&6Invalid usage: &a/weather <clear|sun|rain|storm> [worldname|all]");
+        map.put("weather_set_weather", "&7Weather has been set to %var1% in %var2%");
         //Clear Inventory
         map.put("clearinventory_notice", "&9Your inventory has been cleared");
         map.put("clearinventory_successfully", "&9Inventory cleared successfully");
