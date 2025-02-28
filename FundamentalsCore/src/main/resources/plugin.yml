@@ -90,7 +90,5 @@ commands:
   fakequit:
     description: A command to "fake quit" from the server.
     usage: /<command> <player>
-    aliases:
-      - fq
-      - fakejoin
-      - fj
+    aliases: [fq,fakejoin,fj]
+    
