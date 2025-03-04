@@ -64,7 +64,7 @@ public class CommandHomes implements CommandExecutor {
         int homesPerPage = FundamentalsConfig.getInstance().getConfigInteger("settings.homes-per-page");
         int pageCount = (int) Math.ceil((double) homeList.size() / homesPerPage);
 
-        if (page <= pageCount) {
+        if (page <= pageCount && page > 0) {
             String message = FundamentalsLanguage.getInstance().getMessage("homes_list");
             message = message.replace("%var1%", String.valueOf(page));
             message = message.replace("%var2%", String.valueOf(pageCount));
@@ -82,7 +82,7 @@ public class CommandHomes implements CommandExecutor {
             homes = homes.substring(0, homes.length() - 2);
             commandSender.sendMessage(formatColor(homes));
         } else {
-            // specified page count too high
+            // specified page count too high or invalid
             commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("homes_invalid_usage"));
             return true;
         }

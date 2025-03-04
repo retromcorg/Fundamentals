@@ -44,10 +44,13 @@ public class FundamentalsLanguage extends Configuration {
         map.put("hat_invalid", "&cYou can't put that item on your head silly!");
         //Home
         map.put("home_non_recorded", "&6Sorry, you have no homes on record. Please set one with /sethome");
+        map.put("home_non_recorded_others", "&6Sorry, &b%var1%&6 has no homes on record.");
         map.put("home_not_on_record", "&6Sorry, we couldn't find a home with that name. Do /homes for a list of homes");
         map.put("home_in_invalid_world", "&4Sorry, your home is in an invalid world.");
         map.put("home_is_sleeping", "&6Sorry, you can't teleport to a home while sleeping.");
+        map.put("home_empty_player_target", "&6Sorry, the player home teleport target cannot be empty.");
         map.put("home_teleport_successfully", "&6You have been teleported to your home &b%var1%");
+        map.put("home_teleport_successfully_others", "&6You have been teleported to &b%var1%&6's home &b%var2%");
         map.put("home_use_homes", "&6Use &a/homes&6 for a more feature rich home list.");
         //Homesearch
         map.put("homesearch_invalid_radius", "Please enter a valid number for radius.");
@@ -62,11 +65,14 @@ public class FundamentalsLanguage extends Configuration {
         map.put("sethome_limit_reached", "&6Sorry, you are already at your limit of &4%var1% &6homes.");
         map.put("sethome_already_exists", "&6Sorry, a home with the name &b%var1%&6 already exists. Please delete the existing home before creating another with the same name.");
         map.put("sethome_set_successfully", "&6Your home &b%var1% &6has been set.");
+        map.put("sethome_set_successfully_others", "&6The home &b%var1% &6has been set to &b%var2%&6's home list.");
+        map.put("sethome_empty_player_home_target", "&6Sorry, the player home set target cannot be empty.");
         //Delhome
-        map.put("delhome_info", "&6Please specify a home name \"/delhome (home)\". A list of homes can be obtained with /home.");
+        map.put("delhome_info", "&6Please specify a home name \"/delhome (home)\". A list of homes can be obtained with /homes.");
         map.put("delhome_unknown_home", "&6Sorry, we couldn't find a home with that name. Do /homes to get a list of homes.");
         map.put("delhome_unknown_successful", "&6You have successfully deleted a home");
         map.put("delhome_unknown_unsuccessful", "&4Sorry, an error was encountered when deleting that home. Please contact staff!");
+        map.put("delhome_empty_player_home_target", "&6Sorry, the player home delete target cannot be empty.");
         //Homes
         map.put("homes_list", "&6Home List (page &a%var1%&6/&a%var2%&6): ");
         map.put("homes_invalid_usage", "&6Invalid usage: &a/homes [page number]");
@@ -112,6 +118,9 @@ public class FundamentalsLanguage extends Configuration {
         map.put("vanish_successful_other_disabled", "&4Disabled vanish for another player.");
         map.put("vanish_disable", "&4Vanish Disabled.");
         map.put("vanish_enable", "&7Vanish Enabled.");
+        //Weather
+        map.put("weather_invalid_usage", "&6Invalid usage: &a/weather <clear|sun|rain|storm> [worldname|all]");
+        map.put("weather_set_weather", "&7Weather has been set to %var1% in %var2%");
         //Clear Inventory
         map.put("clearinventory_notice", "&9Your inventory has been cleared");
         map.put("clearinventory_successfully", "&9Inventory cleared successfully");

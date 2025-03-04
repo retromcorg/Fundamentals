@@ -39,6 +39,7 @@ commands:
   homes:
     description: a home command
     usage: /<command>
+    aliases: [hl, homelist]
   balance:
     description: a balance command
     usage: /<command>
@@ -67,6 +68,9 @@ commands:
   vanish:
     description: Command to vanish player.
     usage: /<command>
+  weather:
+    description: Command to change the weather in a world.
+    usage: /<command> <clear|sun|rain|storm> [worldname|all]
   bank:
     description: Command to do bank stuff.
     usage: /<command>
@@ -86,7 +90,5 @@ commands:
   fakequit:
     description: A command to "fake quit" from the server.
     usage: /<command> <player>
-    aliases:
-      - fq
-      - fakejoin
-      - fj
+    aliases: [fq,fakejoin,fj]
+    

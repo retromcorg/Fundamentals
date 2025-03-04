@@ -161,6 +161,7 @@ public class Fundamentals extends JavaPlugin {
 //        Bukkit.getPluginCommand("time").setExecutor(new CommandTime(plugin));
 //        Bukkit.getPluginCommand("ptime").setExecutor(new CommandPTime(plugin));
         Bukkit.getPluginCommand("vanish").setExecutor(new CommandVanish(plugin));
+        Bukkit.getPluginCommand("weather").setExecutor(new CommandWeather());
         Bukkit.getPluginCommand("bank").setExecutor(new CommandBank(plugin));
         Bukkit.getPluginCommand("balancetop").setExecutor(new CommandBalanceTop(plugin));
         Bukkit.getPluginCommand("fakequit").setExecutor(new CommandFakeQuit(plugin));
@@ -297,10 +298,9 @@ public class Fundamentals extends JavaPlugin {
     }
 
     public void saveData() {
-        FundamentalsPlayerMap.getInstance().saveData();
-        economyCache.saveData();
-//        uuidCache.saveData();
-        playerCache.saveData();
+        FundamentalsPlayerMap.getInstance().saveData(); // Save player data files that have been modified.
+
+        // Save Fundamentals Banks
         FundamentalsBank[] banks = new FundamentalsBank[this.banks.size()];
         int i = 0;
         for (String bankName : this.banks.keySet()) {
@@ -324,6 +324,10 @@ public class Fundamentals extends JavaPlugin {
 
         //Save Player Data
         saveData();
+
+        // Save caches
+        playerCache.saveData();
+        economyCache.saveData();
     }
 
     public void logger(Level level, String message) {
