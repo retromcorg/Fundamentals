@@ -47,12 +47,14 @@ public class FundamentalsEntityListener implements Listener {
                 if (dmgEvent.getDamager() == null || !(dmgEvent.getDamager() instanceof Player)) return;
                 FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) dmgEvent.getDamager());
                 if (fPlayer.isAFK()) event.setCancelled(true);
+                break;
             }
             case PROJECTILE: {
                 LivingEntity shooter = ((Projectile) dmgEvent.getDamager()).getShooter();
                 if (!(shooter instanceof Player)) return;
                 FundamentalsPlayer fPlayer = plugin.getPlayerMap().getPlayer((Player) shooter);
                 if (fPlayer.isAFK()) event.setCancelled(true);
+                break;
             }
         }
     }
