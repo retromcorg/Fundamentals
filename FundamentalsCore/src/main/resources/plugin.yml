@@ -14,9 +14,9 @@ commands:
 #  heal:
 #    description: Heals a player
 #    usage: /<command> <player>
-#  afk:
-#    description: Set a plad
-#    usage: /<command> <player>
+  afk:
+    description: Toggles your afk status
+    usage: /<command> <player>
   hat:
     description: Puts the held block on the players head.
     usage: /<command>
