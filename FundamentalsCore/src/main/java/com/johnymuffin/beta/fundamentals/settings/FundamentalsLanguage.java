@@ -51,7 +51,8 @@ public class FundamentalsLanguage extends Configuration {
         map.put("home_empty_player_target", "&6Sorry, the player home teleport target cannot be empty.");
         map.put("home_teleport_successfully", "&6You have been teleported to your home &b%var1%");
         map.put("home_teleport_successfully_others", "&6You have been teleported to &b%var1%&6's home &b%var2%");
-        map.put("home_use_homes", "&6Use &a/homes&6 for a more feature rich home list.");
+        map.put("home_usage", "&6Usage: &a/home <home_name>");
+        map.put("home_usage_staff_extra", "&a/home <player> <home_name>");
         //Homesearch
         map.put("homesearch_invalid_radius", "Please enter a valid number for radius.");
         map.put("homesearch_usage", "Usage: /homesearch <username> <radius>");
