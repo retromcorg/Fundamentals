@@ -21,36 +21,13 @@ public class CommandSetHome implements CommandExecutor {
     private final String PERMISSION_NODE_UNLIMITED_HOMES = "fundamentals.sethome.unlimited";
     private final String PERMISSION_NODE_MULTIPLE_HOMES = "fundamentals.sethome.multiple";
 
-    private boolean canUseCommand(CommandSender sender) {
-        return (
-            sender.hasPermission(PERMISSION_NODE) ||
-            sender.isOp()
-        );
-    }
-
-    private boolean validateCommandSender(CommandSender sender) {
-        if (!canUseCommand(sender)) {
-            sender.sendMessage(getMessage("no_permission"));
-            return false;
-        }
-
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(getMessage("unavailable_to_console"));
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean canSetOtherPlayersHomes(Player sender) {
-        return (
-            sender.hasPermission(PERMISSION_NODE_OTHERS) ||
-            sender.isOp()
-        );
-    }
-
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(
+        CommandSender sender,
+        Command command,
+        String label,
+        String[] args
+    ) {
         if(!validateCommandSender(sender))
             return true;
 
@@ -88,7 +65,36 @@ public class CommandSetHome implements CommandExecutor {
             }
         }
 
+        printUsage(senderPlayer, canSetOtherPlayersHomes);
         return true;
+    }
+
+    private boolean canUseCommand(CommandSender sender) {
+        return (
+            sender.hasPermission(PERMISSION_NODE) ||
+            sender.isOp()
+        );
+    }
+
+    private boolean validateCommandSender(CommandSender sender) {
+        if (!canUseCommand(sender)) {
+            sender.sendMessage(getMessage("no_permission"));
+            return false;
+        }
+
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(getMessage("unavailable_to_console"));
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean canSetOtherPlayersHomes(Player sender) {
+        return (
+            sender.hasPermission(PERMISSION_NODE_OTHERS) ||
+            sender.isOp()
+        );
     }
 
     private void printUsage(Player sender, boolean canSetOtherPlayersHomes) {
