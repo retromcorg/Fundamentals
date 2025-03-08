@@ -40,6 +40,12 @@
     <dependencies>
         <!-- Dependencies for FundamentalsCore module -->
 
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>project-poseidon</artifactId>
+            <version>1.1.10</version>
+        </dependency>
+
         <!-- Project Poseidon CraftBukkit -->
         <dependency>
             <groupId>com.legacyminecraft.poseidon</groupId>
