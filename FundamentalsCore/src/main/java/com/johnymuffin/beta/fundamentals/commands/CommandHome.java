@@ -28,34 +28,6 @@ public class CommandHome implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    private boolean canUseCommand(CommandSender sender) {
-        return (
-            sender.hasPermission(PERMISSION_NODE) ||
-            sender.isOp()
-        );
-    }
-
-    private boolean canSeeOtherPlayerHomes(CommandSender sender) {
-        return (
-            sender.hasPermission(PERMISSION_NODE_OTHERS) ||
-            sender.isOp()
-        );
-    }
-
-    private boolean validateCommandSender(CommandSender sender) {
-        if (!canUseCommand(sender)) {
-            sender.sendMessage(getMessage("no_permission"));
-            return false;
-        }
-
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(getMessage("unavailable_to_console"));
-            return false;
-        }
-
-        return true;
-    }
-
     @Override
     public boolean onCommand(
         CommandSender sender,
@@ -97,11 +69,42 @@ public class CommandHome implements CommandExecutor {
             }
         }
 
-        sender.sendMessage(getMessage("home_usage"));
-        if(canSeeOtherPlayerHomes)
-            sender.sendMessage(getMessage("home_usage_staff_extra"));
+        printUsage(senderPlayer, canSeeOtherPlayerHomes);
+        return true;
+    }
+
+    private boolean canUseCommand(CommandSender sender) {
+        return (
+            sender.hasPermission(PERMISSION_NODE) ||
+            sender.isOp()
+        );
+    }
+
+    private boolean canSeeOtherPlayerHomes(CommandSender sender) {
+        return (
+            sender.hasPermission(PERMISSION_NODE_OTHERS) ||
+            sender.isOp()
+        );
+    }
+
+    private boolean validateCommandSender(CommandSender sender) {
+        if (!canUseCommand(sender)) {
+            sender.sendMessage(getMessage("no_permission"));
+            return false;
+        }
+
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(getMessage("unavailable_to_console"));
+            return false;
+        }
 
         return true;
+    }
+
+    private void printUsage(Player sender, boolean canSeeOtherPlayersHomes) {
+        sender.sendMessage(getMessage("home_usage"));
+        if(canSeeOtherPlayersHomes)
+            sender.sendMessage(getMessage("home_usage_staff_extra"));
     }
 
     private void teleportToSendersHome(Player sender, String homeName) {
