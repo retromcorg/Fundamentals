@@ -75,11 +75,11 @@ public class FundamentalsLanguage extends Configuration {
         map.put("sethome_usage", "&7Usage: &b/sethome <home_name>");
         map.put("sethome_usage_staff_extra", "&b/sethome <player> <home_name>");
         //Delhome
-        map.put("delhome_info", "&6Please specify a home name \"/delhome (home)\". A list of homes can be obtained with /homes.");
-        map.put("delhome_unknown_home", "&6Sorry, we couldn't find a home with that name. Do /homes to get a list of homes.");
-        map.put("delhome_unknown_successful", "&6You have successfully deleted a home");
-        map.put("delhome_unknown_unsuccessful", "&4Sorry, an error was encountered when deleting that home. Please contact staff!");
-        map.put("delhome_empty_player_home_target", "&6Sorry, the player home delete target cannot be empty.");
+        map.put("delhome_unsuccessful", "&cAn error was encountered when deleting that home. Please contact staff!");
+        map.put("delhome_deleted_successfully", "&7Home &b%homeName% &7deleted.");
+        map.put("delhome_deleted_successfully_others", "&b%targetPlayerName%&7's home &b%homeName% &7has been deleted.");
+        map.put("delhome_usage", "&7Usage: &b/delhome <home_name>");
+        map.put("delhome_usage_staff_extra", "&b/delhome <player> <home_name>");
         //Balance
         map.put("balance_successful", "&6Balance: $%var1%");
         //Baltop
