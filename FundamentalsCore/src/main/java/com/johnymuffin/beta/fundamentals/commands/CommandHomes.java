@@ -14,7 +14,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsConfig;
@@ -26,40 +25,6 @@ public class CommandHomes implements CommandExecutor {
 
     private final String MINIMUM_CELL_PADDING = " ";
 
-    private Fundamentals plugin;
-
-    public CommandHomes(Fundamentals plugin) {
-        this.plugin = plugin;
-    }
-
-    private boolean canUseCommand(CommandSender sender) {
-        return (
-            sender.hasPermission(PERMISSION_NODE) ||
-            sender.isOp()
-        );
-    }
-
-    private boolean validateCommandSender(CommandSender sender) {
-        if (!canUseCommand(sender)) {
-            sender.sendMessage(getMessage("no_permission"));
-            return false;
-        }
-
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(getMessage("unavailable_to_console"));
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean canSeeOtherPlayerHomes(Player sender)
-    {
-        return (
-            sender.hasPermission(PERMISSION_NODE_OTHERS) ||
-            sender.isOp()
-        );
-    }
     @Override
     public boolean onCommand(
         CommandSender sender,
@@ -87,12 +52,22 @@ public class CommandHomes implements CommandExecutor {
 
                     listSendersHomes(senderPlayer, pageToView);
                 } catch (NumberFormatException e) {
+                    if(!canSeeOtherPlayerHomes) {
+                        printUsage(senderPlayer, false);
+                        return true;
+                    }
+
                     listOtherPlayersHomes(senderPlayer, arg, 1);
                 }
 
                 return true;
             }
             case 2: {
+                if(!canSeeOtherPlayerHomes) {
+                    printUsage(senderPlayer, false);
+                    return true;
+                }
+
                 String otherPlayer = args[0];
                 String page = args[1];
 
@@ -112,6 +87,34 @@ public class CommandHomes implements CommandExecutor {
         return true;
     }
 
+    private boolean canUseCommand(CommandSender sender) {
+        return (
+            sender.hasPermission(PERMISSION_NODE) ||
+            sender.isOp()
+        );
+    }
+
+    private boolean validateCommandSender(CommandSender sender) {
+        if (!canUseCommand(sender)) {
+            sender.sendMessage(getMessage("no_permission"));
+            return false;
+        }
+
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(getMessage("unavailable_to_console"));
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean canSeeOtherPlayerHomes(Player sender) {
+        return (
+            sender.hasPermission(PERMISSION_NODE_OTHERS) ||
+            sender.isOp()
+        );
+    }
+
     private void printUsage(Player sender, boolean canSeeOtherPlayerHomes) {
         if(canSeeOtherPlayerHomes)
             sender.sendMessage(getMessage("homes_usage_staff"));
@@ -126,8 +129,7 @@ public class CommandHomes implements CommandExecutor {
         listHomes(sender, fundamentalsPlayer, pageToView, noHomesError);
     }
 
-    private void listOtherPlayersHomes(Player sender, String targetPlayerName, int pageToView) 
-    {
+    private void listOtherPlayersHomes(Player sender, String targetPlayerName, int pageToView) {
         UUID targetPlayerUUID = getUUIDFromUsername(targetPlayerName);
         if(targetPlayerUUID == null) {
             String playerNotFoundMessage = getMessage("player_not_found_full");
