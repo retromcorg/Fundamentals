@@ -65,13 +65,15 @@ public class FundamentalsLanguage extends Configuration {
         map.put("homesearch_found_entries", "&b%player% &8- &7%homes%");
         map.put("homesearch_too_many_results", "&cToo many results to display! &7Use a smaller radius.");
         //Sethome
-        map.put("sethome_invalid_name", "&4Only alphanumeric characters can be used in a home name, A-Z,0-9");
-        map.put("sethome_full", "&4Sorry, you are already have a home set");
-        map.put("sethome_limit_reached", "&6Sorry, you are already at your limit of &4%var1% &6homes.");
-        map.put("sethome_already_exists", "&6Sorry, a home with the name &b%var1%&6 already exists. Please delete the existing home before creating another with the same name.");
-        map.put("sethome_set_successfully", "&6Your home &b%var1% &6has been set.");
-        map.put("sethome_set_successfully_others", "&6The home &b%var1% &6has been set to &b%var2%&6's home list.");
-        map.put("sethome_empty_player_home_target", "&6Sorry, the player home set target cannot be empty.");
+        map.put("sethome_invalid_name", "&7Only alphanumeric characters can be used in a home name: &bA-Z&7,&b0-9&7.");
+        map.put("sethome_full", "&7Home already set.");
+        map.put("sethome_limit_reached", "&7Home limit of &b%homeLimit% &7homes reached.");
+        map.put("sethome_already_exists", "&7Home &b%homeName%&7 already exists. Delete it with &b/delhome %homeName%&7.");
+        map.put("sethome_set_successfully", "&7Home &b%homeName% &7set.");
+        map.put("sethome_set_successfully_others", "&b%targetPlayerName%&7's home &b%homeName% &7has been set.");
+        map.put("sethome_empty_player_home_target", "&7The target player can't be empty.");
+        map.put("sethome_usage", "&7Usage: &b/sethome <home_name>");
+        map.put("sethome_usage_staff_extra", "&b/sethome <player> <home_name>");
         //Delhome
         map.put("delhome_info", "&6Please specify a home name \"/delhome (home)\". A list of homes can be obtained with /homes.");
         map.put("delhome_unknown_home", "&6Sorry, we couldn't find a home with that name. Do /homes to get a list of homes.");

@@ -1,118 +1,194 @@
 package com.johnymuffin.beta.fundamentals.commands;
 
-import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
-import com.johnymuffin.beta.fundamentals.playerdata.FundamentalsPlayerFile;
-import com.johnymuffin.beta.fundamentals.settings.FundamentalsConfig;
-import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
+import static com.johnymuffin.beta.fundamentals.util.Utils.getUUIDFromUsername;
+import static com.johnymuffin.beta.fundamentals.util.Utils.verifyHomeName;
+
+import java.util.UUID;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
-import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
-import static com.johnymuffin.beta.fundamentals.util.Utils.getUUIDFromUsername;
-import static com.johnymuffin.beta.fundamentals.util.Utils.verifyHomeName;
+import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
+import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
+import com.johnymuffin.beta.fundamentals.settings.FundamentalsConfig;
+import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 
 public class CommandSetHome implements CommandExecutor {
-    @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (!(commandSender.hasPermission("fundamentals.sethome") || commandSender.isOp())) {
-            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
-            return true;
-        }
-        if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("unavailable_to_console"));
-            return true;
-        }
-        Player player = (Player) commandSender;
-        String targetPlayerUsername = "";
-        FundamentalsPlayerFile fundamentalsPlayerFile = FundamentalsPlayerMap.getInstance().getPlayer(player);
-        boolean viewingHomesFromAnotherPlayer = false;
+    private final String PERMISSION_NODE = "fundamentals.sethome";
+    private final String PERMISSION_NODE_OTHERS = "fundamentals.sethome.others";
+    private final String PERMISSION_NODE_UNLIMITED_HOMES = "fundamentals.sethome.unlimited";
+    private final String PERMISSION_NODE_MULTIPLE_HOMES = "fundamentals.sethome.multiple";
 
-        String homeName = "main";
-        if (strings.length > 0) {
-            if (strings[0].contains(":") && strings[0].length() > 1) {
-                // User is requesting another user
-                if (!isPlayerAuthorized(commandSender, "fundamentals.sethome.others")) {
-                    commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
-                    return true;
-                }
-                viewingHomesFromAnotherPlayer = true;
-                String[] homeNameParts = strings[0].split(":");
-                if (homeNameParts[0].isEmpty()) {
-                    String message = FundamentalsLanguage.getInstance().getMessage("home_empty_player_target");
-                    commandSender.sendMessage(message);
-                    return true;
-                }
-                if (homeNameParts.length > 1) {
-                    // User is requesting to set a specific home
-                    homeName = homeNameParts[1];
-                } else {
-                    String message = FundamentalsLanguage.getInstance().getMessage("sethome_empty_player_home_target");
-                    commandSender.sendMessage(message);
-                    return true;
-                }
-                targetPlayerUsername = homeNameParts[0];
-                UUID targetPlayerUUID = getUUIDFromUsername(targetPlayerUsername);
-                if (!FundamentalsPlayerMap.getInstance().isPlayerKnown(targetPlayerUUID)) {
-                    String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
-                    message = message.replace("%username%", targetPlayerUsername);
-                    commandSender.sendMessage(message);
-                    return true;
-                }
-                fundamentalsPlayerFile = FundamentalsPlayerMap.getInstance().getPlayer(targetPlayerUUID);
-            } else {
-                // User is requesting to set their own homes
-                homeName = strings[0];
-            }
-            if (!verifyHomeName(homeName)) {
-                commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("sethome_invalid_name"));
+    private boolean canUseCommand(CommandSender sender) {
+        return (
+            sender.hasPermission(PERMISSION_NODE) ||
+            sender.isOp()
+        );
+    }
+
+    private boolean validateCommandSender(CommandSender sender) {
+        if (!canUseCommand(sender)) {
+            sender.sendMessage(getMessage("no_permission"));
+            return false;
+        }
+
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(getMessage("unavailable_to_console"));
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean canSetOtherPlayersHomes(Player sender) {
+        return (
+            sender.hasPermission(PERMISSION_NODE_OTHERS) ||
+            sender.isOp()
+        );
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if(!validateCommandSender(sender))
+            return true;
+
+        Player senderPlayer = (Player) sender;
+        boolean canSetOtherPlayersHomes = canSetOtherPlayersHomes(senderPlayer);
+
+        switch(args.length) {
+            case 0: {
+                setSendersHome(senderPlayer, "main");
+
                 return true;
             }
+            case 1: {
+                String homeName = args[0];
+                setSendersHome(senderPlayer, homeName);
 
-        }
-        //Check home limit
-        int limit = Integer.parseInt(String.valueOf(FundamentalsConfig.getInstance().getConfigOption("settings.multiple-homes")));
-        int homeCount = fundamentalsPlayerFile.getPlayerHomes().size();
-
-        if (!(commandSender.hasPermission("fundamentals.sethome.unlimited") || commandSender.isOp())) {
-            if (!(commandSender.hasPermission("fundamentals.sethome.multiple"))) {
-                if (homeCount >= 1) {
-                    commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("sethome_full"));
+                return true;
+            }
+            case 2: {
+                if(!canSetOtherPlayersHomes) {
+                    printUsage(senderPlayer, false);
                     return true;
                 }
-            } else {
-                if (homeCount > limit + 1) {
-                    String msg = FundamentalsLanguage.getInstance().getMessage("sethome_limit_reached");
-                    msg = msg.replaceAll("%var1%", String.valueOf(limit));
-                    commandSender.sendMessage(msg);
+
+                String targetPlayerName = args[0];
+                if(targetPlayerName.isEmpty()) {
+                    sender.sendMessage(getMessage("home_empty_player_target"));
                     return true;
                 }
+
+                String homeName = args[1];
+                setOtherPlayersHome(senderPlayer, targetPlayerName, homeName);
+
+                return true;
             }
         }
-        if (fundamentalsPlayerFile.doesHomeExist(homeName)) {
-            //Home already exists
-            String msg = FundamentalsLanguage.getInstance().getMessage("sethome_already_exists");
-            msg = msg.replaceAll("%var1%", homeName);
-            commandSender.sendMessage(msg);
-            return true;
-        }
-        fundamentalsPlayerFile.setPlayerHome(homeName, player.getLocation());
 
-        String msg;
-        if (!viewingHomesFromAnotherPlayer) {
-            msg = FundamentalsLanguage.getInstance().getMessage("sethome_set_successfully");
-            msg = msg.replaceAll("%var1%", homeName);
-        }
-        else {
-            msg = FundamentalsLanguage.getInstance().getMessage("sethome_set_successfully_others");
-            msg = msg.replaceAll("%var1%", homeName);
-            msg = msg.replaceAll("%var2%", targetPlayerUsername);
-        }
-        commandSender.sendMessage(msg);
         return true;
+    }
 
+    private void printUsage(Player sender, boolean canSetOtherPlayersHomes) {
+        sender.sendMessage(getMessage("sethome_usage"));
+        if(canSetOtherPlayersHomes)
+            sender.sendMessage(getMessage("sethome_usage_staff_extra"));
+    }
+
+    private void setSendersHome(Player sender, String homeName) {
+        FundamentalsPlayer targetPlayer = FundamentalsPlayerMap.getInstance().getPlayer(sender);
+
+        String successMessage = getMessage("sethome_set_successfully");
+        successMessage = successMessage.replaceAll("%homeName%", homeName);
+
+        setHome(sender, targetPlayer, homeName, successMessage);
+    }
+
+    private void setOtherPlayersHome(Player sender, String targetPlayerName, String homeName) {
+        UUID targetPlayerUUID = getUUIDFromUsername(targetPlayerName);
+        if(targetPlayerUUID == null) {
+            String playerNotFoundMessage = getMessage("player_not_found_full");
+            playerNotFoundMessage = playerNotFoundMessage.replace("%username%", targetPlayerName);
+            sender.sendMessage(playerNotFoundMessage);
+
+            return;
+        }
+
+        FundamentalsPlayer targetPlayer = FundamentalsPlayerMap.getInstance().getPlayer(targetPlayerUUID);
+
+        String successMessage = getMessage("sethome_set_successfully_others");
+        successMessage = successMessage.replaceAll("%homeName%", homeName);
+        successMessage = successMessage.replaceAll("%targetPlayerName%", targetPlayerName);
+
+        setHome(sender, targetPlayer, homeName, successMessage);
+    }
+
+    private void setHome(Player sender, FundamentalsPlayer targetPlayer, String homeName, String successMessage) {
+        if(!canSetMoreHomes(sender, targetPlayer))
+            return;
+
+        if(!verifyHomeName(homeName)) {
+            sender.sendMessage(getMessage("sethome_invalid_name"));
+            return;
+        }
+
+        if(targetPlayer.doesHomeExist(homeName)) {
+            String alreadyExistsMessage = getMessage("sethome_already_exists"); 
+            alreadyExistsMessage = alreadyExistsMessage.replaceAll("%homeName%", homeName);
+            sender.sendMessage(alreadyExistsMessage);
+
+            return;
+        }
+
+        sender.sendMessage(successMessage);
+        targetPlayer.setPlayerHome(homeName, sender.getLocation());
+    }
+
+    private boolean canSetInfiniteHomes(Player sender) {
+        return (
+            sender.hasPermission(PERMISSION_NODE_UNLIMITED_HOMES) ||
+            sender.isOp()
+        );
+    }
+
+    private boolean canSetMultipleHomes(Player sender, int homeCount) {
+        // not checking for OP since the unlimited check already tests for that
+        if(!sender.hasPermission(PERMISSION_NODE_MULTIPLE_HOMES))
+            return false;
+
+        int homeLimit = Integer.parseInt(
+            String.valueOf(FundamentalsConfig.getInstance().getConfigOption("settings.multiple-homes"))
+        );
+        if(homeCount < homeLimit)
+            return true;
+
+        String homeLimitMessage = getMessage("sethome_limit_reached");
+        homeLimitMessage = homeLimitMessage.replaceAll("%homeLimit%", String.valueOf(homeLimit));
+        sender.sendMessage(homeLimitMessage);
+
+        return false;
+    }
+
+    private boolean canSetMoreHomes(Player sender, FundamentalsPlayer targetPlayer) {
+        if(canSetInfiniteHomes(sender))
+            return true;
+
+        int homeCount = targetPlayer.getPlayerHomes().size();
+        if(canSetMultipleHomes(sender, homeCount))
+            return true;
+ 
+        // have no perms, so checking if they have their singular allowed home set
+        if(homeCount >= 1) {
+            sender.sendMessage(getMessage("sethome_full"));
+            return false;
+        }
+
+        return true;
+    }
+
+    private String getMessage(String key) {
+        return FundamentalsLanguage.getInstance().getMessage(key);
     }
 }
