@@ -49,7 +49,7 @@ public class CommandHome implements CommandExecutor {
         }
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage("Sorry, console can't run this command.");
+            sender.sendMessage(getMessage("unavailable_to_console"));
             return false;
         }
 
@@ -108,7 +108,7 @@ public class CommandHome implements CommandExecutor {
         FundamentalsPlayer targetPlayer = FundamentalsPlayerMap.getInstance().getPlayer(sender);
 
         String successMessage = getMessage("home_teleport_successfully");
-        successMessage = successMessage.replaceAll("%var1%", homeName);
+        successMessage = successMessage.replaceAll("%homeName%", homeName);
         
         teleportToHome(sender, targetPlayer, homeName, successMessage);
     }
@@ -126,8 +126,8 @@ public class CommandHome implements CommandExecutor {
         FundamentalsPlayer targetPlayer = FundamentalsPlayerMap.getInstance().getPlayer(targetPlayerUUID);
         
         String successMessage = getMessage("home_teleport_successfully_others");
-        successMessage = successMessage.replaceAll("%var1%", targetPlayerName);
-        successMessage = successMessage.replaceAll("%var2%", homeName);
+        successMessage = successMessage.replaceAll("%targetPlayerName%", targetPlayerName);
+        successMessage = successMessage.replaceAll("%homeName%", homeName);
         
         teleportToHome(sender, targetPlayer, homeName, successMessage);
     }
@@ -164,7 +164,10 @@ public class CommandHome implements CommandExecutor {
 
     private boolean validateTeleportToHome(Player sender, FundamentalsPlayer targetPlayer, String homeName) {
         if (!targetPlayer.doesHomeExist(homeName)) {
-            sender.sendMessage(getMessage("home_not_on_record"));
+            String homeNotFoundMessage = getMessage("home_not_on_record");
+            homeNotFoundMessage = homeNotFoundMessage.replace("%homeName%", homeName);
+
+            sender.sendMessage(homeNotFoundMessage);
             return false;
         }
 

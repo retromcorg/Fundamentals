@@ -43,17 +43,17 @@ public class FundamentalsLanguage extends Configuration {
         map.put("hat_success", "Enjoy your new hat!");
         map.put("hat_invalid", "&cYou can't put that item on your head silly!");
         //Home
-        map.put("home_not_on_record", "&6Sorry, we couldn't find a home with that name. Do /homes for a list of homes");
-        map.put("home_in_invalid_world", "&4Sorry, your home is in an invalid world.");
-        map.put("home_is_sleeping", "&6Sorry, you can't teleport to a home while sleeping.");
-        map.put("home_empty_player_target", "&6Sorry, the player home teleport target cannot be empty.");
-        map.put("home_teleport_successfully", "&6You have been teleported to your home &b%var1%");
-        map.put("home_teleport_successfully_others", "&6You have been teleported to &b%var1%&6's home &b%var2%");
-        map.put("home_usage", "&6Usage: &a/home <home_name>");
-        map.put("home_usage_staff_extra", "&a/home <player> <home_name>");
+        map.put("home_not_on_record", "&7Home &b%homeName% &7unknown. Run &b/homes &7for a list of homes");
+        map.put("home_in_invalid_world", "&7Home is in an invalid world.");
+        map.put("home_is_sleeping", "&7Can't teleport to a home while sleeping.");
+        map.put("home_empty_player_target", "&7The target player name cannot be empty.");
+        map.put("home_teleport_successfully", "&7Teleported to home &b%homeName%&7.");
+        map.put("home_teleport_successfully_others", "&7Teleported to &b%targetPlayerName%&7's home &b%homeName%&7.");
+        map.put("home_usage", "&7Usage: &b/home <home_name>");
+        map.put("home_usage_staff_extra", "&b/home <player> <home_name>");
         //Homes
-        map.put("homes_non_recorded", "&7Sorry, you have no homes on record. Please set one with /sethome");
-        map.put("homes_non_recorded_others", "&7Sorry, &b%var1%&7 has no homes on record.");
+        map.put("homes_non_recorded", "&7No homes on record. Please set one with &b/sethome&7.");
+        map.put("homes_non_recorded_others", "&b%targetPlayerName%&7 has no homes on record.");
         map.put("homes_usage", "&7Usage: &b/homes");
         map.put("homes_usage_staff", "&7Usage: &b/homes [player]");
         map.put("homes_page_count", "&7=======================[ &b%pageToView%&3/&b%pageCount% &7]=======================");

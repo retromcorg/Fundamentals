@@ -46,7 +46,7 @@ public class CommandHomes implements CommandExecutor {
         }
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage("Sorry, console can't run this command.");
+            sender.sendMessage(getMessage("unavailable_to_console"));
             return false;
         }
 
