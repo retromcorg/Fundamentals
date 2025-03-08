@@ -46,7 +46,7 @@ public class FundamentalsLanguage extends Configuration {
         map.put("home_not_on_record", "&7Home &b%homeName% &7unknown. Run &b/homes &7for a list of homes");
         map.put("home_in_invalid_world", "&7Home is in an invalid world.");
         map.put("home_is_sleeping", "&7Can't teleport to a home while sleeping.");
-        map.put("home_empty_player_target", "&7The target player name cannot be empty.");
+        map.put("home_empty_player_target", "&7The target players name can't be empty.");
         map.put("home_teleport_successfully", "&7Teleported to home &b%homeName%&7.");
         map.put("home_teleport_successfully_others", "&7Teleported to &b%targetPlayerName%&7's home &b%homeName%&7.");
         map.put("home_usage", "&7Usage: &b/home <home_name>");
@@ -71,7 +71,6 @@ public class FundamentalsLanguage extends Configuration {
         map.put("sethome_already_exists", "&7Home &b%homeName%&7 already exists. Delete it with &b/delhome %homeName%&7.");
         map.put("sethome_set_successfully", "&7Home &b%homeName% &7set.");
         map.put("sethome_set_successfully_others", "&b%targetPlayerName%&7's home &b%homeName% &7has been set.");
-        map.put("sethome_empty_player_home_target", "&7The target player can't be empty.");
         map.put("sethome_usage", "&7Usage: &b/sethome <home_name>");
         map.put("sethome_usage_staff_extra", "&b/sethome <player> <home_name>");
         //Delhome
