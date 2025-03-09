@@ -37,6 +37,10 @@ public class FundamentalsLanguage extends Configuration {
         map.put("afk_cancelled", "&cPending AFK request cancelled.");
         map.put("already_requesting_afk", "&cSlow down, you are already requesting AFK!");
         map.put("moving_while_afk", "&cPlease type /afk to un-AFK!");
+        //Back
+        map.put("back_success", "&7Teleported to last location successfully.");
+        map.put("back_proper_usage", "&cUsage is /back");
+        map.put("no_last_teleport", "&cYou can't /back before teleporting somewhere first!");
         //Hat
         map.put("hat_air", "&cWhy would you want air on your head?");
         map.put("hat_dropping", "Was unable to put the old hat away, dropping it at your feet");

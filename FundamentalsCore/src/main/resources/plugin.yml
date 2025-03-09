@@ -17,6 +17,9 @@ commands:
   afk:
     description: Toggles your afk status
     usage: /<command> <player>
+  back:
+    description: Teleports to the location of your last teleport
+    usage: /<command>
   hat:
     description: Puts the held block on the players head.
     usage: /<command>
