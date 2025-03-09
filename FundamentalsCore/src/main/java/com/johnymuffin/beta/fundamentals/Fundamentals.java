@@ -142,17 +142,17 @@ public class Fundamentals extends JavaPlugin {
 
 
         //Commands
-//        Bukkit.getPluginCommand("heal").setExecutor(new CommandHeal());
         Bukkit.getPluginCommand("home").setExecutor(new CommandHome(plugin));
-        Bukkit.getPluginCommand("homesearch").setExecutor(new CommandHomeSearch(plugin));
-        Bukkit.getPluginCommand("afk").setExecutor(new CommandAFK());
-      
-        Bukkit.getPluginCommand("hat").setExecutor(new CommandHat());
+        Bukkit.getPluginCommand("homes").setExecutor(new CommandHomes());
         Bukkit.getPluginCommand("sethome").setExecutor(new CommandSetHome());
         Bukkit.getPluginCommand("delhome").setExecutor(new CommandDelhome());
-        Bukkit.getPluginCommand("homes").setExecutor(new CommandHomes(plugin));
+        Bukkit.getPluginCommand("homesearch").setExecutor(new CommandHomeSearch(plugin));
+        
+        Bukkit.getPluginCommand("hat").setExecutor(new CommandHat());
+        Bukkit.getPluginCommand("afk").setExecutor(new CommandAFK());
         Bukkit.getPluginCommand("balance").setExecutor(new CommandBalance());
         Bukkit.getPluginCommand("economy").setExecutor(new CommandEconomy());
+//        Bukkit.getPluginCommand("heal").setExecutor(new CommandHeal());
 //        Bukkit.getPluginCommand("pay").setExecutor(new CommandPay());
 //        Bukkit.getPluginCommand("god").setExecutor(new CommandGod());
 //        Bukkit.getPluginCommand("nickname").setExecutor(new CommandNickname());

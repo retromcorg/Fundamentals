@@ -43,15 +43,20 @@ public class FundamentalsLanguage extends Configuration {
         map.put("hat_success", "Enjoy your new hat!");
         map.put("hat_invalid", "&cYou can't put that item on your head silly!");
         //Home
-        map.put("home_non_recorded", "&6Sorry, you have no homes on record. Please set one with /sethome");
-        map.put("home_non_recorded_others", "&6Sorry, &b%var1%&6 has no homes on record.");
-        map.put("home_not_on_record", "&6Sorry, we couldn't find a home with that name. Do /homes for a list of homes");
-        map.put("home_in_invalid_world", "&4Sorry, your home is in an invalid world.");
-        map.put("home_is_sleeping", "&6Sorry, you can't teleport to a home while sleeping.");
-        map.put("home_empty_player_target", "&6Sorry, the player home teleport target cannot be empty.");
-        map.put("home_teleport_successfully", "&6You have been teleported to your home &b%var1%");
-        map.put("home_teleport_successfully_others", "&6You have been teleported to &b%var1%&6's home &b%var2%");
-        map.put("home_use_homes", "&6Use &a/homes&6 for a more feature rich home list.");
+        map.put("home_not_on_record", "&7Home &b%homeName% &7unknown. Run &b/homes &7for a list of homes");
+        map.put("home_in_invalid_world", "&7Home is in an invalid world.");
+        map.put("home_is_sleeping", "&7Can't teleport to a home while sleeping.");
+        map.put("home_empty_player_target", "&7The target players name can't be empty.");
+        map.put("home_teleport_successfully", "&7Teleported to home &b%homeName%&7.");
+        map.put("home_teleport_successfully_others", "&7Teleported to &b%targetPlayerName%&7's home &b%homeName%&7.");
+        map.put("home_usage", "&7Usage: &b/home <home_name>");
+        map.put("home_usage_staff_extra", "&b/home <player> <home_name>");
+        //Homes
+        map.put("homes_non_recorded", "&7No homes on record. Please set one with &b/sethome&7.");
+        map.put("homes_non_recorded_others", "&b%targetPlayerName%&7 has no homes on record.");
+        map.put("homes_usage", "&7Usage: &b/homes");
+        map.put("homes_usage_staff", "&7Usage: &b/homes [player]");
+        map.put("homes_page_count", "&7=======================[ &b%pageToView%&3/&b%pageCount% &7]=======================");
         //Homesearch
         map.put("homesearch_invalid_radius", "Please enter a valid number for radius.");
         map.put("homesearch_usage", "Usage: /homesearch <username> <radius>");
@@ -60,22 +65,20 @@ public class FundamentalsLanguage extends Configuration {
         map.put("homesearch_found_entries", "&b%player% &8- &7%homes%");
         map.put("homesearch_too_many_results", "&cToo many results to display! &7Use a smaller radius.");
         //Sethome
-        map.put("sethome_invalid_name", "&4Only alphanumeric characters can be used in a home name, A-Z,0-9");
-        map.put("sethome_full", "&4Sorry, you are already have a home set");
-        map.put("sethome_limit_reached", "&6Sorry, you are already at your limit of &4%var1% &6homes.");
-        map.put("sethome_already_exists", "&6Sorry, a home with the name &b%var1%&6 already exists. Please delete the existing home before creating another with the same name.");
-        map.put("sethome_set_successfully", "&6Your home &b%var1% &6has been set.");
-        map.put("sethome_set_successfully_others", "&6The home &b%var1% &6has been set to &b%var2%&6's home list.");
-        map.put("sethome_empty_player_home_target", "&6Sorry, the player home set target cannot be empty.");
+        map.put("sethome_invalid_name", "&7Only alphanumeric characters can be used in a home name: &bA-Z&7,&b0-9&7.");
+        map.put("sethome_full", "&7Home already set.");
+        map.put("sethome_limit_reached", "&7Home limit of &b%homeLimit% &7homes reached.");
+        map.put("sethome_already_exists", "&7Home &b%homeName%&7 already exists. Delete it with &b/delhome %homeName%&7.");
+        map.put("sethome_set_successfully", "&7Home &b%homeName% &7set.");
+        map.put("sethome_set_successfully_others", "&b%targetPlayerName%&7's home &b%homeName% &7has been set.");
+        map.put("sethome_usage", "&7Usage: &b/sethome <home_name>");
+        map.put("sethome_usage_staff_extra", "&b/sethome <player> <home_name>");
         //Delhome
-        map.put("delhome_info", "&6Please specify a home name \"/delhome (home)\". A list of homes can be obtained with /homes.");
-        map.put("delhome_unknown_home", "&6Sorry, we couldn't find a home with that name. Do /homes to get a list of homes.");
-        map.put("delhome_unknown_successful", "&6You have successfully deleted a home");
-        map.put("delhome_unknown_unsuccessful", "&4Sorry, an error was encountered when deleting that home. Please contact staff!");
-        map.put("delhome_empty_player_home_target", "&6Sorry, the player home delete target cannot be empty.");
-        //Homes
-        map.put("homes_list", "&6Home List (page &a%var1%&6/&a%var2%&6): ");
-        map.put("homes_invalid_usage", "&6Invalid usage: &a/homes [page number]");
+        map.put("delhome_unsuccessful", "&cAn error was encountered when deleting that home. Please contact staff!");
+        map.put("delhome_deleted_successfully", "&7Home &b%homeName% &7deleted.");
+        map.put("delhome_deleted_successfully_others", "&b%targetPlayerName%&7's home &b%homeName% &7has been deleted.");
+        map.put("delhome_usage", "&7Usage: &b/delhome <home_name>");
+        map.put("delhome_usage_staff_extra", "&b/delhome <player> <home_name>");
         //Balance
         map.put("balance_successful", "&6Balance: $%var1%");
         //Baltop
