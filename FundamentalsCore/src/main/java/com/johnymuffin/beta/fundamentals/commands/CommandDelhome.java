@@ -10,76 +10,138 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
 import static com.johnymuffin.beta.fundamentals.util.Utils.getUUIDFromUsername;
 
 public class CommandDelhome implements CommandExecutor {
-    @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (!isPlayerAuthorized(commandSender,"fundamentals.delhome")) {
-            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
-            return true;
-        }
-        if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("unavailable_to_console"));
-            return true;
-        }
-        Player player = (Player) commandSender;
-        String targetPlayerUsername;
-        FundamentalsPlayer fundamentalsPlayer;
-        String homeName;
+    private final String PERMISSION_NODE = "fundamentals.delhome";
+    private final String PERMISSION_NODE_OTHERS = "fundamentals.delhome.others";
 
-        if (strings.length == 0) {
-            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("delhome_info"));
+    @Override
+    public boolean onCommand(
+        CommandSender sender,
+        Command command,
+        String label,
+        String[] args
+    ) {
+        if(!validateCommandSender(sender))
             return true;
-        }
-        else {
-            if (strings[0].contains(":") && strings[0].length() > 1) {
-                // User is requesting another user
-                if (!isPlayerAuthorized(commandSender, "fundamentals.delhome.others")) {
-                    commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
+
+        Player senderPlayer = (Player) sender;
+        boolean canDeleteOtherPlayersHomes = canDeleteOtherPlayersHomes(senderPlayer);
+
+        switch(args.length) {
+            case 0: {
+                printUsage(senderPlayer, canDeleteOtherPlayersHomes);
+
+                return true;
+            }
+            case 1: {
+                String homeName = args[0];
+
+                deleteSendersHome(senderPlayer, homeName);
+                return true;
+            }
+            case 2: {
+                if(!canDeleteOtherPlayersHomes) {
+                    printUsage(senderPlayer, false);
                     return true;
                 }
-                String[] homeNameParts = strings[0].split(":");
-                if (homeNameParts[0].isEmpty()) {
-                    String message = FundamentalsLanguage.getInstance().getMessage("home_empty_player_target");
-                    commandSender.sendMessage(message);
+
+                String targetPlayerName = args[0];
+                if(targetPlayerName.isEmpty()) {
+                    sender.sendMessage(getMessage("home_empty_player_target"));
                     return true;
                 }
-                if (homeNameParts.length > 1) {
-                    // User is requesting to delete a specific home
-                    homeName = homeNameParts[1];
-                } else {
-                    String message = FundamentalsLanguage.getInstance().getMessage("delhome_empty_player_home_target");
-                    commandSender.sendMessage(message);
-                    return true;
-                }
-                targetPlayerUsername = homeNameParts[0];
-                UUID targetPlayerUUID = getUUIDFromUsername(targetPlayerUsername);
-                if (!FundamentalsPlayerMap.getInstance().isPlayerKnown(targetPlayerUUID)) {
-                    String message = FundamentalsLanguage.getInstance().getMessage("player_not_found_full");
-                    message = message.replace("%username%", targetPlayerUsername);
-                    commandSender.sendMessage(message);
-                    return true;
-                }
-                fundamentalsPlayer = FundamentalsPlayerMap.getInstance().getPlayer(targetPlayerUUID);
-            } else {
-                // User is requesting their own homes
-                fundamentalsPlayer = FundamentalsPlayerMap.getInstance().getPlayer(player);
-                homeName = strings[0];
+
+                String homeName = args[1];
+                deleteOtherPlayersHome(senderPlayer, targetPlayerName, homeName);
+
+                return true;
             }
         }
 
-        if(!fundamentalsPlayer.doesHomeExist(homeName)) {
-            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("delhome_unknown_home"));
-            return true;
-        }
-        if(fundamentalsPlayer.removeHome(homeName)) {
-            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("delhome_unknown_successful"));
-        } else {
-            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("delhome_unknown_unsuccessful"));
-        }
-        
+        printUsage(senderPlayer, canDeleteOtherPlayersHomes);
         return true;
+    }
+
+    private boolean canUseCommand(CommandSender sender) {
+        return (
+            sender.hasPermission(PERMISSION_NODE) ||
+            sender.isOp()
+        );
+    }
+
+    private boolean validateCommandSender(CommandSender sender) {
+        if (!canUseCommand(sender)) {
+            sender.sendMessage(getMessage("no_permission"));
+            return false;
+        }
+
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(getMessage("unavailable_to_console"));
+            return false;
+        }
+
+        return true;
+    }
+
+    private void printUsage(Player sender, boolean canDeleteOtherPlayersHomes) {
+        sender.sendMessage(getMessage("delhome_usage"));
+        if(canDeleteOtherPlayersHomes)
+            sender.sendMessage(getMessage("delhome_usage_staff_extra"));
+    }
+
+    private boolean canDeleteOtherPlayersHomes(Player sender) {
+        return (
+            sender.hasPermission(PERMISSION_NODE_OTHERS) ||
+            sender.isOp()
+        );
+    }
+
+    private void deleteSendersHome(Player sender, String homeName) {
+        FundamentalsPlayer targetPlayer = FundamentalsPlayerMap.getInstance().getPlayer(sender);
+
+        String successMessage = getMessage("delhome_deleted_successfully");
+        successMessage = successMessage.replace("%homeName%", homeName);
+
+        deleteHome(sender, targetPlayer, homeName, successMessage);
+    }
+
+    private void deleteOtherPlayersHome(Player sender, String targetPlayerName, String homeName) {
+        UUID targetPlayerUUID = getUUIDFromUsername(targetPlayerName);
+        if(targetPlayerUUID == null) {
+            String playerNotFoundMessage = getMessage("player_not_found_full");
+            playerNotFoundMessage = playerNotFoundMessage.replace("%username%", targetPlayerName);
+            sender.sendMessage(playerNotFoundMessage);
+
+            return;
+        }
+
+        FundamentalsPlayer targetPlayer = FundamentalsPlayerMap.getInstance().getPlayer(targetPlayerUUID);
+
+        String successMessage = getMessage("delhome_deleted_successfully_others");
+        successMessage = successMessage.replaceAll("%homeName%", homeName);
+        successMessage = successMessage.replaceAll("%targetPlayerName%", targetPlayerName);
+
+        deleteHome(sender, targetPlayer, homeName, successMessage);
+    }
+
+    private void deleteHome(Player sender, FundamentalsPlayer targetPlayer, String homeName, String successMessage) {
+        if(!targetPlayer.doesHomeExist(homeName)) {
+            String homeNotFoundMessage = getMessage("home_not_on_record");
+            homeNotFoundMessage = homeNotFoundMessage.replace("%homeName%", homeName);
+            sender.sendMessage(homeNotFoundMessage);
+
+            return;
+        }
+
+        if(targetPlayer.removeHome(homeName))
+            sender.sendMessage(successMessage);
+        else
+            sender.sendMessage(getMessage("delhome_unsuccessful"));
+    }
+
+    private String getMessage(String key) {
+        return FundamentalsLanguage.getInstance().getMessage(key);
     }
 }
