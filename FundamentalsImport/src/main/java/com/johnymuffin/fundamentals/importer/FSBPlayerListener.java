@@ -1,14 +1,20 @@
 package com.johnymuffin.fundamentals.importer;
 
+import com.earth2me.essentials.Essentials;
+import com.earth2me.essentials.User;
+import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.discordcore.DiscordCore;
 import com.johnymuffin.fundamentals.importer.essentials.EssentialsManager;
 import com.johnymuffin.fundamentals.importer.tasks.LWCTransfer;
 import com.johnymuffin.fundamentals.importer.tasks.TownyTransfer;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.ArrayList;
@@ -23,6 +29,27 @@ public class FSBPlayerListener implements Listener {
         this.essM = new EssentialsManager(plugin.getFundamentals());
     }
 
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
+        String command = event.getMessage();
+        Player player = event.getPlayer();
+        FundamentalsPlayer fPlayer = FundamentalsPlayerMap.getInstance().getPlayer(player);
+
+        if (command.toLowerCase().startsWith("/nick") || command.toLowerCase().startsWith("/nickname")) {
+            // why would anyone run a delayed task in a preprocess event? if it can be used elsewhere it can be used here is what i say
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                //stupid essentials nickname shenanigans
+
+                if (Bukkit.getPluginManager().isPluginEnabled("Essentials")) {
+                    Essentials essentials = plugin.getEssentials();
+                    User user = essentials.getUser(player);
+                    String nickname = user.getNick();
+                    player.setDisplayName(nickname);
+                    fPlayer.updateDisplayName();
+                }
+            }, 10L);
+        }
+    }
     @EventHandler(ignoreCancelled = true, priority = Event.Priority.Monitor)
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (!event.getPlayer().isOnline()) {
