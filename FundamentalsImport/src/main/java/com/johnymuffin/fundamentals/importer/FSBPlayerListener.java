@@ -2,6 +2,7 @@ package com.johnymuffin.fundamentals.importer;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
+import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.discordcore.DiscordCore;
 import com.johnymuffin.fundamentals.importer.essentials.EssentialsManager;
@@ -32,6 +33,7 @@ public class FSBPlayerListener implements Listener {
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
         String command = event.getMessage();
         Player player = event.getPlayer();
+        FundamentalsPlayer fPlayer = FundamentalsPlayerMap.getInstance().getPlayer(player);
 
         if (command.toLowerCase().startsWith("/nick") || command.toLowerCase().startsWith("/nickname")) {
             // why would anyone run a delayed task in a preprocess event? if it can be used elsewhere it can be used here is what i say
@@ -43,6 +45,7 @@ public class FSBPlayerListener implements Listener {
                     User user = essentials.getUser(player);
                     String nickname = user.getNick();
                     player.setDisplayName(nickname);
+                    fPlayer.updateDisplayName();
                 }
             }, 10L);
         }
