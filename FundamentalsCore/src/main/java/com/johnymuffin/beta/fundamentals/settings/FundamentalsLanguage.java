@@ -143,7 +143,7 @@ public class FundamentalsLanguage extends Configuration {
         map.put("bank_delete", "&4You haven't provided enough arguments, /bank delete (name)");
         map.put("bank_edit_access", "&4You haven't provided enough arguments, /bank (name) (add/remove) (username/uuid)");
         map.put("bank_withdraw", "&4You haven't provided enough arguments, /bank (name) (deposit/withdraw) (amount)");
-        map.put("bank_invalid_name", "&4Only alphanumeric characters can be used in a bank name, A-Z,0-9");
+        map.put("bank_invalid_name", "&4Bank names must be no more than 16 characters, and use any of {A-Z,a-z,0-9}");
         map.put("bank_already_exists", "&4A bank with that name already exists. Please try another name.");
         map.put("bank_created_successfully", "&6Your bank account has been created successfully.");
         map.put("bank_deleted_successfully", "&4Your bank account has been deleted successfully.");
