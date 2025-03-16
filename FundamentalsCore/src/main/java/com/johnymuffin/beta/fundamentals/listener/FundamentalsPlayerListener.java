@@ -30,7 +30,7 @@ import java.util.logging.Level;
 import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
 import static com.johnymuffin.beta.fundamentals.util.Utils.*;
 
-public class FundamentalsPlayerListener implements Listener {
+public class FundamentalsPlayerListener extends PlayerListener {
 
     private Fundamentals plugin;
     private Set<UUID> afkMovingPlayers = new HashSet<>();
@@ -332,6 +332,15 @@ public class FundamentalsPlayerListener implements Listener {
         }
 
 
+    }
+
+    @EventHandler
+    @Override
+    public void onPlayerTeleport(PlayerTeleportEvent event) {
+        // hijack teleport flow to add last teleport location to player file
+        FundamentalsPlayer player = FundamentalsPlayerMap.getInstance().getPlayer(event.getPlayer());
+        player.setLastTeleportLocation(event.getFrom());
+        super.onPlayerTeleport(event);
     }
 
     @EventHandler(ignoreCancelled = true)
