@@ -1,12 +1,17 @@
 package com.johnymuffin.beta.fundamentals.commands;
 
-import com.johnymuffin.beta.fundamentals.Fundamentals;
-import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
-import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
-import com.johnymuffin.beta.fundamentals.banks.FundamentalsBank;
-import com.johnymuffin.beta.fundamentals.events.BankCreationEvent;
-import com.johnymuffin.beta.fundamentals.settings.BankManager;
-import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
+import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
+import static com.johnymuffin.beta.fundamentals.util.Utils.getPlayerName;
+import static com.johnymuffin.beta.fundamentals.util.Utils.getUUIDFromUsername;
+import static com.johnymuffin.beta.fundamentals.util.Utils.isInt;
+import static com.johnymuffin.beta.fundamentals.util.Utils.sendLangFileMessage;
+import static com.johnymuffin.beta.fundamentals.util.Utils.sendNewLinedMessage;
+
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.regex.Pattern;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,12 +19,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.logging.Level;
-
-import static com.johnymuffin.beta.fundamentals.FundamentalPermission.isPlayerAuthorized;
-import static com.johnymuffin.beta.fundamentals.util.Utils.*;
+import com.johnymuffin.beta.fundamentals.Fundamentals;
+import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
+import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
+import com.johnymuffin.beta.fundamentals.banks.FundamentalsBank;
+import com.johnymuffin.beta.fundamentals.events.BankCreationEvent;
+import com.johnymuffin.beta.fundamentals.settings.BankManager;
+import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 
 public class CommandBank implements CommandExecutor {
 
@@ -67,9 +73,8 @@ public class CommandBank implements CommandExecutor {
                 }
                 //Actually trying to make an account
                 String name = strings[1];
-                //TODO: Banks should probably have its own function
-                if (!verifyHomeName(name)) {
-                    commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_invalid_nam"));
+                if (!verifyBankName(name)) {
+                    commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("bank_invalid_name"));
                     return true;
                 }
                 //Verify name isn't already in use
@@ -358,5 +363,10 @@ public class CommandBank implements CommandExecutor {
         return username;
     }
 
-
+    public static boolean verifyBankName(String name) {
+        return(
+            Pattern.matches("^[a-zA-Z0-9]+$", name) &&
+            name.length() <= 16
+        );
+    }
 }
