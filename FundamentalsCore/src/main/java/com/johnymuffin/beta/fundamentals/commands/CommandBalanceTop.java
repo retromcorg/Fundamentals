@@ -126,7 +126,6 @@ public class CommandBalanceTop implements CommandExecutor {
         rounded = rounded.round(new MathContext(4, RoundingMode.HALF_UP));
         rounded = rounded.stripTrailingZeros();
 
-        String output = "$" + String.valueOf(rounded) + suffix;
-        return output;
+        return "$" + String.valueOf(rounded) + suffix;
     }
 }
