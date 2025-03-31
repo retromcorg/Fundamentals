@@ -1,7 +1,7 @@
 name: Fundamentals
 description: A Essentials like plugin for Beta 1.7.3 designed for Project Poseidon
 main: com.johnymuffin.beta.fundamentals.Fundamentals
-version: 1.0.7
+version: 1.0.8
 authors:
   - JohnyMuffin
 softdepend:
@@ -17,6 +17,9 @@ commands:
   afk:
     description: Toggles your afk status
     usage: /<command> <player>
+  back:
+    description: Teleports to the location of your last teleport
+    usage: /<command>
   hat:
     description: Puts the held block on the players head.
     usage: /<command>
