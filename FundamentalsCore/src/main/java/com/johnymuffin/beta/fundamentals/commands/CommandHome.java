@@ -44,6 +44,11 @@ public class CommandHome implements CommandExecutor {
         switch(args.length) {
             case 1: {
                 String homeName = args[0];
+                if(canSeeOtherPlayerHomes && homeName.contains(":")) {
+                    oldHomesBackport(senderPlayer, homeName);
+                    return true;
+                }
+
                 teleportToSendersHome(senderPlayer, homeName);
 
                 return true;
@@ -55,22 +60,33 @@ public class CommandHome implements CommandExecutor {
                 }
 
                 String otherPlayer = args[0];
-                if(otherPlayer.isEmpty()) {
-                    String message = getMessage("home_empty_player_target");
-                    sender.sendMessage(message);
-                    
-                    return true;
-                }
-                
                 String homeName = args[1];
-                teleportToOtherPlayerHome(senderPlayer, homeName, otherPlayer);
-                
+                handleOtherPlayerHomeUse(senderPlayer, homeName, otherPlayer);
+
                 return true;
             }
         }
 
         printUsage(senderPlayer, canSeeOtherPlayerHomes);
         return true;
+    }
+
+    private void handleOtherPlayerHomeUse(Player sender, String homeName, String otherPlayer) {
+        if(otherPlayer.isEmpty()) {
+            String message = getMessage("home_empty_player_target");
+            sender.sendMessage(message);
+
+            return;
+        }
+
+        if(homeName.isEmpty()) {
+            CommandHomes commandHomes = new CommandHomes();
+            commandHomes.onCommand(sender, null, "homes", new String[] {otherPlayer});
+
+            return;
+        }
+
+        teleportToOtherPlayerHome(sender, homeName, otherPlayer);
     }
 
     private boolean canUseCommand(CommandSender sender) {
@@ -103,8 +119,26 @@ public class CommandHome implements CommandExecutor {
 
     private void printUsage(Player sender, boolean canSeeOtherPlayersHomes) {
         sender.sendMessage(getMessage("home_usage"));
-        if(canSeeOtherPlayersHomes)
-            sender.sendMessage(getMessage("home_usage_staff_extra"));
+        
+        if(!canSeeOtherPlayersHomes)
+            return;
+
+        sender.sendMessage(getMessage("home_usage_staff_extra"));
+        sender.sendMessage(getMessage("home_usage_staff_extra_backport"));
+    }
+
+    private void oldHomesBackport(Player sender, String input) {
+        String[] args = input.split(":");
+
+        if(args.length == 0) {
+            printUsage(sender, true);
+            return;
+        } 
+
+        String otherPlayer = args[0];
+        String homeName = (args.length > 1)? args[1] : "";
+        
+        handleOtherPlayerHomeUse(sender, homeName, otherPlayer);
     }
 
     private void teleportToSendersHome(Player sender, String homeName) {

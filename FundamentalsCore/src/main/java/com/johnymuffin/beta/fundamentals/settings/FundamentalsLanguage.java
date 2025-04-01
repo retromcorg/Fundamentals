@@ -51,6 +51,7 @@ public class FundamentalsLanguage extends Configuration {
         map.put("home_teleport_successfully_others", "&7Teleported to &b%targetPlayerName%&7's home &b%homeName%&7.");
         map.put("home_usage", "&7Usage: &b/home <home_name>");
         map.put("home_usage_staff_extra", "&b/home <player> <home_name>");
+        map.put("home_usage_staff_extra_backport", "&b/home <player>:[home_name]");
         //Homes
         map.put("homes_non_recorded", "&7No homes on record. Please set one with &b/sethome&7.");
         map.put("homes_non_recorded_others", "&b%targetPlayerName%&7 has no homes on record.");
