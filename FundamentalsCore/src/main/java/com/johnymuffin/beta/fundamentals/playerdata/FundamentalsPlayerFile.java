@@ -337,7 +337,43 @@ public class FundamentalsPlayerFile {
 
 
     //Homes End
+    //Teleport Start
 
+    public boolean setLastTeleportLocation(Location location) {
+        JSONObject lastTeleportLocation;
+        if (jsonData.get("last_teleport_location") == null || !jsonData.containsKey("last_teleport_location")) {
+            lastTeleportLocation = new JSONObject();
+        } else {
+            lastTeleportLocation = (JSONObject) jsonData.get("last_teleport_location");
+        }
+        lastTeleportLocation.put("world", location.getWorld().getName());
+        lastTeleportLocation.put("x", Double.valueOf(String.valueOf(location.getX())));
+        lastTeleportLocation.put("y", Double.valueOf(String.valueOf(location.getY())));
+        lastTeleportLocation.put("z", Double.valueOf(String.valueOf(location.getZ())));
+        lastTeleportLocation.put("yaw", Float.valueOf(String.valueOf(location.getYaw())));
+        lastTeleportLocation.put("pitch", Float.valueOf(String.valueOf(location.getPitch())));
+        
+        jsonData.put("last_teleport_location", lastTeleportLocation);
+        modified = true;
+        return true;
+    }
+
+    public Location getLastTeleportLocation() {
+        if (!jsonData.containsKey("last_teleport_location")) {
+            return null;
+        } else {
+            JSONObject lastTeleportLocation = (JSONObject) jsonData.get("last_teleport_location");
+            return new Location(plugin.getServer().getWorld((String) lastTeleportLocation.get("world")),
+                    (Double) lastTeleportLocation.get("x"),
+                    (Double) lastTeleportLocation.get("y"),
+                    (Double) lastTeleportLocation.get("z"),
+                    (Float) lastTeleportLocation.get("yaw"),
+                    (Float) lastTeleportLocation.get("pitch")
+            );
+        }
+    }
+
+    //Teleport End
     //God Mode Start
     public boolean getFileGodModeStatus() {
         return (boolean) jsonData.getOrDefault("god", false);
