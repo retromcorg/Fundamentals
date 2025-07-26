@@ -24,6 +24,16 @@ commands:
     description: a home command
     usage: /<command>
     aliases: [h]
+  movehome:
+    description: a home command
+    usage: /<command>
+    aliases: [mhome]
+    permission: fundamentals.sethome
+  renamehome:
+    description: a home command
+    usage: /<command>
+    aliases: [renhome, rhome]
+    permission: fundamentals.renamehome
   homesearch:
     description: searches through player homes
     usage: /<command> <player> <radius>
