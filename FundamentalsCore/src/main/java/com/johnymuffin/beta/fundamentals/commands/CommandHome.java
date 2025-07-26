@@ -145,8 +145,8 @@ public class CommandHome implements CommandExecutor {
         FundamentalsPlayer targetPlayer = FundamentalsPlayerMap.getInstance().getPlayer(sender);
 
         String successMessage = getMessage("home_teleport_successfully");
-        successMessage = successMessage.replaceAll("%homeName%", homeName);
-        
+        successMessage = successMessage.replace("%homeName%", homeName);
+
         teleportToHome(sender, targetPlayer, homeName, successMessage);
     }
     
@@ -163,8 +163,8 @@ public class CommandHome implements CommandExecutor {
         FundamentalsPlayer targetPlayer = FundamentalsPlayerMap.getInstance().getPlayer(targetPlayerUUID);
         
         String successMessage = getMessage("home_teleport_successfully_others");
-        successMessage = successMessage.replaceAll("%targetPlayerName%", targetPlayerName);
-        successMessage = successMessage.replaceAll("%homeName%", homeName);
+        successMessage = successMessage.replace("%targetPlayerName%", targetPlayerName);
+        successMessage = successMessage.replace("%homeName%", homeName);
         
         teleportToHome(sender, targetPlayer, homeName, successMessage);
     }
@@ -192,7 +192,7 @@ public class CommandHome implements CommandExecutor {
             return getSafeDestination(destination);
         } catch (Exception e) {
             String errorMessage = getMessage("generic_error_player");
-            errorMessage = errorMessage.replaceAll("%var1%", e.getMessage());
+            errorMessage = errorMessage.replace("%var1%", e.getMessage());
 
             sender.sendMessage(errorMessage);
             return null;
