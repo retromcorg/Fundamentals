@@ -80,6 +80,11 @@ public class FundamentalsLanguage extends Configuration {
         map.put("delhome_deleted_successfully_others", "&b%targetPlayerName%&7's home &b%homeName% &7has been deleted.");
         map.put("delhome_usage", "&7Usage: &b/delhome <home_name>");
         map.put("delhome_usage_staff_extra", "&b/delhome <player> <home_name>");
+        //MoveHome
+        map.put("movehome_set_successfully", "&aMoved home &e%homeName% &ato your current location.");
+        //Renamehome
+        map.put("renamehome_success", "&aRenamed home &e%oldName% &ato &e%newName%&a successfully.");
+        map.put("renamehome_usage", "&cUsage: /renamehome <oldName> <newName>");
         //Balance
         map.put("balance_successful", "&6Balance: $%var1%");
         //Baltop
