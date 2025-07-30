@@ -5,6 +5,7 @@ import com.johnymuffin.beta.fundamentals.banks.FundamentalsBank;
 import com.johnymuffin.beta.fundamentals.playerdata.FundamentalsPlayerFile;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -263,6 +264,16 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
 
     public void setFakeQuit(boolean fakeQuit) {
         this.fakeQuit = fakeQuit;
+    }
+
+    public boolean renameHome(String oldName, String newName) {
+        if (!doesHomeExist(oldName))
+            return false;
+
+        Location location = getPlayerHome(oldName);
+        setPlayerHome(newName, location);
+        removeHome(oldName);
+        return true;
     }
 }
 
