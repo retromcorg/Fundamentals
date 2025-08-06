@@ -7,8 +7,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>./FundamentalsCore</module>
-        <module>./FundamentalsImport</module>
+        <module>FundamentalsCore</module>
+        <module>FundamentalsImport</module>
     </modules>
 
     <repositories>
