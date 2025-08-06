@@ -33,6 +33,7 @@ jobs:
         shell: bash
         run: |
           mvn clean install
+          working-directory: Fundamentals
 
       - name: Upload JAR files from all modules
         uses: actions/upload-artifact@v4
