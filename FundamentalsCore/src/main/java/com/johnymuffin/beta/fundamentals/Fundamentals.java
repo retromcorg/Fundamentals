@@ -103,11 +103,12 @@ public class Fundamentals extends JavaPlugin {
         this.logger(Level.INFO, "Initializing Player Cache");
         playerCache = new PlayerCache(plugin);
 
+        this.logger(Level.INFO, "Loading Fundamentals Banks");
+        bankManager = new BankManager(plugin);
+
         this.logger(Level.INFO, "Initializing Economy Cache");
         economyCache = new EconomyCache(plugin);
 
-        this.logger(Level.INFO, "Loading Fundamentals Banks");
-        bankManager = new BankManager(plugin);
         int i = 0;
         for (FundamentalsBank bank : bankManager.getBanks()) {
             this.banks.put(bank.getBankName().toLowerCase(), bank);
@@ -466,14 +467,9 @@ public class Fundamentals extends JavaPlugin {
 
         double economySize = 0;
 
-        //Add all player balances to the economy size.
+        //Add all player balances to the economy size. This also includes bank balances as they are now included in the economy cache.
         for (UUID uuid : getPlayerMap().getKnownPlayers()) {
             economySize = economySize + economyCache.getPlayerBalance(uuid);
-        }
-
-        //Add all bank balances to the economy size.
-        for (FundamentalsBank bank : banks.values()) {
-            economySize = economySize + bank.getBalance();
         }
 
         this.economySize = economySize;

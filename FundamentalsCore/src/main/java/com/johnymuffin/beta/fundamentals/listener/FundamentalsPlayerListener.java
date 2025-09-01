@@ -68,9 +68,7 @@ public class FundamentalsPlayerListener implements Listener {
         fPlayer.setFirstJoin(fistJoin);
 
         //Store balance in economy cache
-        if (fPlayer.getBalance() > 1) {
-            plugin.getEconomyCache().saveRecord(event.getPlayer().getUniqueId(), fPlayer.getBalance());
-        }
+        plugin.getEconomyCache().updatePlayerBalance(event.getPlayer().getUniqueId());
 
         //Vanish Information
         updateVanishedPlayers();

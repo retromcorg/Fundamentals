@@ -1,6 +1,8 @@
 package com.johnymuffin.beta.fundamentals.settings;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
+import com.johnymuffin.beta.fundamentals.banks.FundamentalsBank;
+import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -66,7 +68,8 @@ public class EconomyCache {
                 if(plugin.getPlayerCache().getUsernameFromUUID(uuid) == null) {
                     continue;
                 }
-                saveRecord(uuid, plugin.getPlayerMap().getPlayer(uuid).getBalance());
+
+                updatePlayerBalance(uuid); //Fetches the players balance and saves it to the economy cache.
                 //Print progress so people don't think the server has hanged
                 if ((System.currentTimeMillis() / 1000L) > nextPrintStatus) {
                     plugin.debugLogger(Level.INFO, players + "/" + totalPlayers + " loaded into the economy cache.", 1);
@@ -81,12 +84,26 @@ public class EconomyCache {
 
     }
 
-    public void saveRecord(UUID uuid, Double amount) {
+    private void saveRecord(UUID uuid, Double amount) {
         //Don't save records players with basically no money as it just clogs shit up.
         if (amount <= lowerLimit) {
             return;
         }
         economyCache.put(uuid.toString(), (int) Math.round(amount));
+    }
+
+    public void updatePlayerBalance(UUID uuid) {
+        FundamentalsPlayer fundamentalsPlayer = plugin.getPlayerMap().getPlayer(uuid);
+
+        Double balance = fundamentalsPlayer.getBalance();
+
+        for(FundamentalsBank bank : plugin.getBankManager().getBanks()) {
+            if(bank.getBankOwner().equals(uuid)) {
+                balance = balance + bank.getBalance();
+            }
+        }
+
+        saveRecord(uuid, balance);
     }
 
     public TreeMap<Integer, UUID> getEconomyCache() {
