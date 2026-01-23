@@ -11,3 +11,4 @@ Please note, these plugins are primarily designed for RetroMC and may not work o
 -  Dependencies that are not available on Maven Central are downloaded to ./lib
 -  You may need to add this folder as a library in your IDE as it is not automatically added
 4. The compiled jars will be located in /target of the respective plugin
+   
