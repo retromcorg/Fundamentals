@@ -307,6 +307,10 @@ public class CommandBank implements CommandExecutor {
 
         }
 
+        if (!isPlayerAuthorized(commandSender, "fundamentals.economy")) {
+            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
+            return true;
+        }
 
         if (strings.length != 3) {
             commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("economy_info"));
