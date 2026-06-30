@@ -124,7 +124,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
             String displayName = player.getDisplayName();
 
             if (player.hasPermission("fundamentals.nickname.color") || player.isOp()) {
-                displayName = displayName.replace('&', '§');
+                displayName = displayName.replace('&', '\u00A7');
                 displayName = displayName + "§f";
             }
             player.setDisplayName(displayName);
