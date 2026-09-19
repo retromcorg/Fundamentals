@@ -5,8 +5,8 @@ import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
 import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
-import com.projectposeidon.api.PoseidonUUID;
-import com.projectposeidon.api.UUIDType;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -41,11 +41,9 @@ public class CommandPay implements CommandExecutor {
         if (giveTo != null) {
             uuid = giveTo.getUniqueId();
         } else {
-            UUIDType uuidType = PoseidonUUID.getPlayerUUIDCacheStatus(username);
-            if (uuidType == UUIDType.ONLINE) {
-                uuid = PoseidonUUID.getPlayerUUIDFromCache(username, true);
-            } else if (uuidType == UUIDType.OFFLINE) {
-                uuid = PoseidonUUID.getPlayerUUIDFromCache(username, false);
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
+            if (offlinePlayer != null) {
+                uuid = offlinePlayer.getUniqueId();
             }
         }
         if (uuid == null) {

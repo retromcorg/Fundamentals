@@ -4,18 +4,18 @@ import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
-import com.johnymuffin.discordcore.DiscordCore;
 import com.johnymuffin.fundamentals.importer.essentials.EssentialsManager;
 import com.johnymuffin.fundamentals.importer.tasks.LWCTransfer;
 import com.johnymuffin.fundamentals.importer.tasks.TownyTransfer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.retromc.discordcore.api.DiscordCoreAPI;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -50,7 +50,7 @@ public class FSBPlayerListener implements Listener {
             }, 10L);
         }
     }
-    @EventHandler(ignoreCancelled = true, priority = Event.Priority.Monitor)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (!event.getPlayer().isOnline()) {
             return;
@@ -122,14 +122,13 @@ public class FSBPlayerListener implements Listener {
 
             //TODO: fix this lazy shit
             try {
-                if (Bukkit.getServer().getPluginManager().isPluginEnabled("DiscordCore") && plugin.getFundamentals().getFundamentalConfig().getConfigBoolean("settings.fundamentals-importer.discordDebugEnabled")) {
-                    DiscordCore discordCore = (DiscordCore) Bukkit.getServer().getPluginManager().getPlugin("DiscordCore");
+                if (Bukkit.getServer().getPluginManager().isPluginEnabled("DiscordCore-6") && plugin.getFundamentals().getFundamentalConfig().getConfigBoolean("settings.fundamentals-importer.discordDebugEnabled")) {
                     String channelID = plugin.getFundamentals().getFundamentalConfig().getConfigString("settings.fundamentals-importer.discordChannelID");
-                    discordCore.getDiscordBot().discordSendToChannel(channelID, "**Automatic Account Transfer Task**");
-                    discordCore.getDiscordBot().discordSendToChannel(channelID, "**Old Username: **" + oldUsername + " **New Username: **" + newUsername);
-                    discordCore.getDiscordBot().discordSendToChannel(channelID, "**UUID: **" + event.getPlayer().getUniqueId());
+                    DiscordCoreAPI.sendMessage(channelID, "**Automatic Account Transfer Task**");
+                    DiscordCoreAPI.sendMessage(channelID, "**Old Username: **" + oldUsername + " **New Username: **" + newUsername);
+                    DiscordCoreAPI.sendMessage(channelID, "**UUID: **" + event.getPlayer().getUniqueId());
                     for (String debug : debugTransfer) {
-                        discordCore.getDiscordBot().discordSendToChannel(channelID, "- " + debug);
+                        DiscordCoreAPI.sendMessage(channelID, "- " + debug);
                     }
 
                 }

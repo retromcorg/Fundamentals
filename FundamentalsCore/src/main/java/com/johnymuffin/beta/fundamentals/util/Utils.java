@@ -4,9 +4,8 @@ import com.earth2me.essentials.Essentials;
 import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
-import com.projectposeidon.api.PoseidonUUID;
-import com.projectposeidon.api.UUIDType;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -73,12 +72,9 @@ public class Utils {
             return player.getUniqueId();
         }
         //Search Poseidon Cache
-        UUIDType uuidType = PoseidonUUID.getPlayerUUIDCacheStatus(name);
-        switch (uuidType) {
-            case ONLINE:
-                return PoseidonUUID.getPlayerUUIDFromCache(name, true);
-            case OFFLINE:
-                return PoseidonUUID.getPlayerUUIDFromCache(name, false);
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(name);
+        if (offlinePlayer != null) {
+            return offlinePlayer.getUniqueId();
         }
         return null;
 
@@ -90,7 +86,7 @@ public class Utils {
                 return player.getName();
             }
         }
-        return PoseidonUUID.getPlayerUsernameFromUUID(uuid);
+        return Bukkit.getOfflinePlayer(uuid).getName();
 
     }
 

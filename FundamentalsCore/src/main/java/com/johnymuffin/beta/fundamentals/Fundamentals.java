@@ -128,7 +128,7 @@ public class Fundamentals extends JavaPlugin {
             essentialsHook = true;
             debugLogger(Level.INFO, "Essentials has been detected.", 1);
         }
-        if (Bukkit.getPluginManager().isPluginEnabled("DiscordCore")) {
+        if (Bukkit.getPluginManager().isPluginEnabled("DiscordCore-6")) {
             discordCoreHook = true;
             debugLogger(Level.INFO, "Discord Core has been detected.", 1);
         }

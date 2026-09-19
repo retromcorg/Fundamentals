@@ -5,7 +5,6 @@ import com.johnymuffin.beta.fundamentals.FundamentalsPlayerMap;
 import com.johnymuffin.beta.fundamentals.events.FEconomyUpdateEvent;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
-import com.projectposeidon.api.PoseidonUUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -14,9 +13,10 @@ import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.CraftChunk;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.block.CraftBlock;
+import com.legacyminecraft.poseidon.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -39,7 +39,7 @@ public class FundamentalsPlayerListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = Event.Priority.Lowest)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerLogin(final PlayerLoginEvent event) {
         //Check if player is actually allowed to join
         if (event.getResult() != PlayerLoginEvent.Result.ALLOWED) {
@@ -52,7 +52,7 @@ public class FundamentalsPlayerListener implements Listener {
 
     }
 
-    @EventHandler(ignoreCancelled = true, priority = Event.Priority.Highest)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerJoin(final PlayerJoinEvent event) {
         if (event == null) {
             return;
@@ -151,7 +151,7 @@ public class FundamentalsPlayerListener implements Listener {
 
     }
 
-    @EventHandler(ignoreCancelled = true, priority = Event.Priority.Low)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void onPlayerChat(final PlayerChatEvent event) {
         Player player = event.getPlayer();
         FundamentalsPlayer fundamentalsPlayer = plugin.getPlayerMap().getPlayer(player);
@@ -241,9 +241,9 @@ public class FundamentalsPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
-    public void onPlayerPreLogin(PlayerPreLoginEvent event) {
-        UUID uuid = PoseidonUUID.getPlayerGracefulUUID(event.getName());
+    @EventHandler
+    public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
+        UUID uuid = event.getUniqueId();
         //Ensure validity of player data before letting players join
         if (FundamentalsPlayerMap.getInstance().isPlayerKnown(uuid)) {
             try {
@@ -251,7 +251,7 @@ public class FundamentalsPlayerListener implements Listener {
             } catch (Exception exception) {
                 plugin.logger(Level.WARNING, "Error loading player data for " + uuid + ", disconnecting player. \n" + exception.getMessage());
                 FundamentalsPlayerMap.getInstance().removePlayerFromMap(uuid);
-                event.cancelPlayerLogin(ChatColor.RED + "Sorry, an error occurred reading your data. Please contact staff!");
+                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, ChatColor.RED + "Sorry, an error occurred reading your data. Please contact staff!");
             }
         }
 

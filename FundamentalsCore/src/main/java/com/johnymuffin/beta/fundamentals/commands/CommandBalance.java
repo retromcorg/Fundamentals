@@ -4,8 +4,8 @@ import com.johnymuffin.beta.fundamentals.api.EconomyAPI;
 import com.johnymuffin.beta.fundamentals.api.FundamentalsAPI;
 import com.johnymuffin.beta.fundamentals.settings.FundamentalsLanguage;
 import com.johnymuffin.beta.fundamentals.util.Utils;
-import com.projectposeidon.api.PoseidonUUID;
-import com.projectposeidon.api.UUIDType;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -40,11 +40,9 @@ public class CommandBalance implements CommandExecutor {
             if (player != null) {
                 playerUUID = player.getUniqueId();
             } else {
-                UUIDType uuidType = PoseidonUUID.getPlayerUUIDCacheStatus(strings[0]);
-                if (uuidType == UUIDType.ONLINE) {
-                    playerUUID = PoseidonUUID.getPlayerUUIDFromCache(strings[0], true);
-                } else if (uuidType == UUIDType.OFFLINE) {
-                    playerUUID = PoseidonUUID.getPlayerUUIDFromCache(strings[0], false);
+                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(strings[0]);
+                if (offlinePlayer != null) {
+                    playerUUID = offlinePlayer.getUniqueId();
                 }
             }
             //Did we get a UUID?

@@ -3,29 +3,35 @@
 
     <groupId>com.johnymuffin.beta.fundamentals</groupId>
     <artifactId>fundamentals-import</artifactId>
-    <version>1.0.8</version>
+    <version>1.1.0</version>
 
     <parent>
         <groupId>com.johnymuffin.beta.fundamentals</groupId>
         <artifactId>fundamentals-parent</artifactId>
-        <version>1.0.8</version>
+        <version>1.1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <dependencies>
-        <!-- Dependencies for FundamentalsCore module -->
 
-        <!-- Project Poseidon CraftBukkit -->
         <dependency>
-            <groupId>com.legacyminecraft.poseidon</groupId>
-            <artifactId>poseidon-craftbukkit</artifactId>
-            <version>1.1.8</version>
+            <groupId>com.legacyminecraft</groupId>
+            <artifactId>poseidon-api</artifactId>
+            <version>2.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.legacyminecraft.poseidoncompat</groupId>
+            <artifactId>PoseidonCompat</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.johnymuffin.beta.fundamentals</groupId>
             <artifactId>fundamentals-core</artifactId>
-            <version>1.0.8</version>
+            <version>1.1.0</version>
         </dependency>
 
         <dependency>
@@ -47,15 +53,10 @@
         </dependency>
 
         <dependency>
-            <groupId>com.johnymuffin</groupId>
-            <artifactId>discordcore</artifactId>
-            <version>1.1.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.dv8tion</groupId>
-            <artifactId>JDA</artifactId>
-            <version>4.4.0_350</version>
+            <groupId>org.retromc.discordcore.v6</groupId>
+            <artifactId>DiscordCore-6</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
@@ -71,10 +72,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.11.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <release>25</release>
                 </configuration>
             </plugin>
         </plugins>

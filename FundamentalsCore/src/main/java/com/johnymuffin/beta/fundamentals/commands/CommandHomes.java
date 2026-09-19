@@ -2,8 +2,8 @@ package com.johnymuffin.beta.fundamentals.commands;
 
 import static com.johnymuffin.beta.fundamentals.util.Utils.formatColor;
 import static com.johnymuffin.beta.fundamentals.util.Utils.getUUIDFromUsername;
-import static org.bukkit.craftbukkit.TextWrapper.CHAT_WINDOW_WIDTH;
-import static org.bukkit.craftbukkit.TextWrapper.widthInPixels;
+import static org.bukkit.util.TextWrapper.CHAT_WINDOW_WIDTH;
+import static org.bukkit.util.TextWrapper.widthInPixels;
 
 import java.util.ArrayList;
 import java.util.Collections;
