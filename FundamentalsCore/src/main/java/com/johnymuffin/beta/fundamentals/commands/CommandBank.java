@@ -306,7 +306,11 @@ public class CommandBank implements CommandExecutor {
             }
 
         }
-
+        // Make sure Player is authorized to set / add / subtract balance from bank
+        if (!isPlayerAuthorized(commandSender, "fundamentals.economy")) {
+            commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("no_permission"));
+            return true;
+        }
 
         if (strings.length != 3) {
             commandSender.sendMessage(FundamentalsLanguage.getInstance().getMessage("economy_info"));
