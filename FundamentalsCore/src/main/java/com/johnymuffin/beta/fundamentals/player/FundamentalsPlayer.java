@@ -122,7 +122,7 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
 
     public void updateDisplayName(Player player) {
         if (player != null) {
-            Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials);
+            Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
             player.setDisplayName(essentials.getUser(player).getNick());
         }
     }
