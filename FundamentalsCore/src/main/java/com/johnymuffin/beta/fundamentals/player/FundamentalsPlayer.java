@@ -1,5 +1,6 @@
 package com.johnymuffin.beta.fundamentals.player;
 
+import com.earth2me.essentials.Essentials;
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.banks.FundamentalsBank;
 import com.johnymuffin.beta.fundamentals.playerdata.FundamentalsPlayerFile;
@@ -121,14 +122,8 @@ public class FundamentalsPlayer extends FundamentalsPlayerFile {
 
     public void updateDisplayName(Player player) {
         if (player != null) {
-            String displayName = player.getDisplayName();
-
-            if (player.hasPermission("fundamentals.nickname.color") || player.isOp()) {
-                displayName = displayName.replace('&', '\u00A7');
-                displayName = displayName + "§f";
-            }
-            player.setDisplayName(displayName);
-//            System.out.println("Updating display name for " + player.getName() + " to " + displayName + ". (" + player.getUniqueId() + ")");
+            Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials);
+            player.setDisplayName(essentials.getUser(player).getNick());
         }
     }
 
